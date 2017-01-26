@@ -15,12 +15,12 @@ import io.pleo.prop.guice.internal.PropMappingVisitor;
 public class AutoPropModule implements Module {
 
   private final String packagePrefix;
-  private final Iterable<Module> modulesToScan;
+  private final Iterable<? extends Module> modulesToScan;
   private final PropFactory propFactory;
   private final ParserFactory parserFactory;
 
   public AutoPropModule(String packagePrefix,
-                        Iterable<Module> modulesToScan,
+                        Iterable<? extends Module> modulesToScan,
                         PropFactory propFactory,
                         ParserFactory parserFactory) {
     this.packagePrefix = packagePrefix;
