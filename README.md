@@ -89,7 +89,7 @@ The Jackson integration. Allows using serialized JSON as `Prop<X>` values so you
 
 ## Extending
 
-You can easily customize the behavior of prop. The three main extension points are `PropFactory` and `ParserFactory`.
+You can easily customize the behavior of prop. The two main extension points are `PropFactory` and `ParserFactory`.
 
 ### PropFactory
 
@@ -97,4 +97,9 @@ You can easily customize the behavior of prop. The three main extension points a
 
 ### ParserFactory
 
-`ParserFactory` takes a `java.reflect.Type` and returns a `java.util.Function` that can transform a `String` into an instace of the right Type. The default implementation is `JacksonParserFactory`. 
+`ParserFactory` takes a `java.reflect.Type` and returns a `java.util.Function` that can transform a `String` into an instace of the right Type. The default implementation is `JacksonParserFactory`.
+
+### Other
+
+You could easily create a `prop-spring` module that would dynamically add `Prop<X>` beans depending on what is required. Pull requests are welcome!
+ 
