@@ -23,7 +23,7 @@ All you need is to initialize the `AutoPropModule` by passing it all of the Guic
     AutoPropModule autoPropModule = new AutoPropModule("io.pleo", // Package prefix
                                                        modules,
                                                        new ArchaiusPropFactory(),
-                                                       new JacksonParserFactory(new ObjectMapper()));
+                                                       new JacksonParserFactory());
     modules.add(autoPropModule);
     Guice.createInjector(modules);
 ```
@@ -62,7 +62,11 @@ As well as all types that can be deserialized by Jackson.
 ## How does it work
 
 `AutoPropModule` will scan all of the modules that you provide and will find all InjectionPoints that require a `Prop<X>` instance. 
-It will determine the type parameter of the `Prop<X>` and dynamically generate a parser for this `Prop<X>`. It will then initialize a Archaius property based on the `@Named` annotation and the parser.
+
+It will determine the type parameter of the `Prop<X>` and dynamically generate a parser for this `Prop<X>`.
+
+It will then initialize a Archaius property based on the `@Named` annotation and the parser.
+
 Finally it dynamically binds this new `Prop<X>` in Guice. Guice does the rest of the magic. 
 
 # The Modules
@@ -85,4 +89,12 @@ The Jackson integration. Allows using serialized JSON as `Prop<X>` values so you
 
 # Extending
 
-You can easily customize the behavior of prop.
+You can easily customize the behavior of prop. The three main extension points are `PropFactory` and `ParserFactory`.
+
+## PropFactory
+
+`PropFactory` takes a property name and a parse function and must return a `Prop<X>`. The default implementation is `ArchaiusPropFactory`.
+
+## ParserFactory
+
+`ParserFactory` takes a `java.reflect.Type` and returns a `java.util.Function` that can transform a `String` into an instace of the right Type. The default implementation is `JacksonParserFactory`. 
