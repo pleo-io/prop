@@ -1,0 +1,7 @@
+target/
+.idea/
+*.iml
+*.patch
+.resourceCache/
+*.versionsBackup
+
