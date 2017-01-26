@@ -21,6 +21,10 @@ public class JacksonParserFactory implements ParserFactory {
 
   private final ObjectMapper objectMapper;
 
+  public JacksonParserFactory() {
+    this(new ObjectMapper());
+  }
+
   public JacksonParserFactory(ObjectMapper objectMapper) {
     this.objectMapper = objectMapper;
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Binder;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -162,7 +161,7 @@ public class PropTest {
     AutoPropModule autoPropModule = new AutoPropModule("io.pleo",
                                                        Arrays.asList(modules),
                                                        new ArchaiusPropFactory(),
-                                                       new JacksonParserFactory(new ObjectMapper()));
+                                                       new JacksonParserFactory());
     List<Module> allModules = new ArrayList<>();
     allModules.add(autoPropModule);
     allModules.addAll(Arrays.asList(modules));
