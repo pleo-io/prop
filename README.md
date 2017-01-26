@@ -4,7 +4,7 @@ Pleo prop is a dynamic property library. It allows you to configure your applica
 
 It is made of 4 modules that when combined give you a full, flexible and powerful solution.
 
-# Usage
+## Usage
 
 If you're okay with using Guice, Archaius and Jackson, add a dependency on `prop-all`.
 
@@ -59,7 +59,7 @@ You can use many type parameters for your `Prop<X>`. Out of the box, the followi
 
 As well as all types that can be deserialized by Jackson.
 
-## How does it work
+### How does it work
 
 `AutoPropModule` will scan all of the modules that you provide and will find all InjectionPoints that require a `Prop<X>` instance. 
 
@@ -69,32 +69,32 @@ It will then initialize a Archaius property based on the `@Named` annotation and
 
 Finally it dynamically binds this new `Prop<X>` in Guice. Guice does the rest of the magic. 
 
-# The Modules
+## The Modules
 
-## prop-core
+### prop-core
 
 The classes that your application will use. It has no dependencies and is extremely lightweight.
 
-## prop-guice
+### prop-guice
 
 The Google Guice integration. Will automatically detect all `Prop<X>` that are required by your application and bind these to the right `Prop<X>` instance.
 
-## prop-archaius
+### prop-archaius
 
 The Netflix Archaius integration. Will fetch `Prop<X>` values using Archaius which can be configured to read properties from many many configuration repositories.
 
-## prop-jackson
+### prop-jackson
 
 The Jackson integration. Allows using serialized JSON as `Prop<X>` values so you can use `Prop<MyComplexObject>` as long as `MyComplexObject` can be desrialized from a JSON String.
 
-# Extending
+## Extending
 
 You can easily customize the behavior of prop. The three main extension points are `PropFactory` and `ParserFactory`.
 
-## PropFactory
+### PropFactory
 
 `PropFactory` takes a property name and a parse function and must return a `Prop<X>`. The default implementation is `ArchaiusPropFactory`.
 
-## ParserFactory
+### ParserFactory
 
 `ParserFactory` takes a `java.reflect.Type` and returns a `java.util.Function` that can transform a `String` into an instace of the right Type. The default implementation is `JacksonParserFactory`. 
