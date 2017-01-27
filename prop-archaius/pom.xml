@@ -12,6 +12,9 @@
 
     <artifactId>prop-archaius</artifactId>
 
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Archaius implementation of PropFactory</description>
+
     <dependencies>
         <dependency>
             <groupId>io.pleo</groupId>

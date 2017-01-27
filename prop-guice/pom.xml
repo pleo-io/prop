@@ -12,6 +12,9 @@
 
     <artifactId>prop-guice</artifactId>
 
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Guice integration for Pleo Prop</description>
+
     <dependencies>
         <dependency>
             <groupId>io.pleo</groupId>

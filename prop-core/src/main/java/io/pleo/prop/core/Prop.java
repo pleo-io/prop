@@ -8,6 +8,8 @@ import java.util.function.Supplier;
  * It is often dynamic and its value should not be cached.
  * <p>
  * Use .get() to get the value of the Prop
+ *
+ * @param <T> The type of the property.
  */
 public interface Prop<T> extends Supplier<T> {
   /**
@@ -19,6 +21,8 @@ public interface Prop<T> extends Supplier<T> {
 
   /**
    * Gets the time when the property was last set/changed.
+   *
+   * @return the time when the property was last set/changed.
    */
   Instant getChangedTimestamp();
 
@@ -26,12 +30,12 @@ public interface Prop<T> extends Supplier<T> {
    * Add the callback to be triggered when the value of the property is
    * changed
    *
-   * @param callback
+   * @param callback The callback that will be called when the property changes.
    */
   void addCallback(Runnable callback);
 
   /**
-   * remove all callbacks registered through the instance of property
+   * Remove all callbacks registered through the instance of property
    */
   void removeAllCallbacks();
 }

@@ -12,6 +12,9 @@
 
     <artifactId>prop-all</artifactId>
 
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Dynamic properties for you Java app</description>
+
     <dependencies>
         <dependency>
             <groupId>io.pleo</groupId>

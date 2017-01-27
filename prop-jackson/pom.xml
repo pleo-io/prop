@@ -12,6 +12,9 @@
 
     <artifactId>prop-jackson</artifactId>
 
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Jackson implementation of ParserFactory</description>
+
     <dependencies>
         <dependency>
             <groupId>io.pleo</groupId>
