@@ -9,7 +9,7 @@ It is made of 4 modules that when combined give you a full, flexible and powerfu
 If you're okay with using Guice, Archaius and Jackson, add a dependency on `prop-all`.
 
 ```
-<!-- Coming to Maven Central Soon! For now this will not work -->
+<!-- Coming to Maven Central soon! For now this will not work -->
 <dependency>
     <groupId>io.pleo</groupId>
     <artifactId>prop-all</artifactId>
