@@ -10,4 +10,7 @@ env:
 before_install:
 - openssl aes-256-cbc -K $encrypted_df24bc0dc67c_key -iv $encrypted_df24bc0dc67c_iv
   -in secretkey.asc.enc -out secretkey.asc -d
-- gpg --import secretkey.asc
+- gpg --fast-import secretkey.asc
+cache:
+  directories:
+  - "~/.m2/repository"
