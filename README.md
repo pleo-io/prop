@@ -8,7 +8,7 @@ It is made of 4 modules that when combined give you a full, flexible and powerfu
 
 If you're okay with using Guice, Archaius and Jackson, add a dependency on `prop-all`.
 
-```
+```xml
 <dependency>
     <groupId>io.pleo</groupId>
     <artifactId>prop-all</artifactId>
@@ -18,7 +18,7 @@ If you're okay with using Guice, Archaius and Jackson, add a dependency on `prop
 
 All you need is to initialize the `AutoPropModule` by passing it all of the Guice Modules you'd like it to scan for `Prop<X>` dependencies.
 
-```
+```java
     List<Module> modules = ...
     AutoPropModule autoPropModule = new AutoPropModule("io.pleo", // Package prefix
                                                        modules,
@@ -30,7 +30,7 @@ All you need is to initialize the `AutoPropModule` by passing it all of the Guic
 
 And then you can simply add a `@Named("myPropName") Prop<X>` to your class, like this
 
-```
+```java
 public class MyServiceClient {
     private Prop<String> serviceUrl;
     
