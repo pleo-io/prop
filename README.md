@@ -1,4 +1,6 @@
+<!--
 [![Build Status](https://travis-ci.org/pleo-io/prop.svg?branch=master)](https://travis-ci.org/pleo-io/prop)
+-->
 
 # Prop
 
