@@ -40,6 +40,7 @@ public class MyServiceClient {
     
     // The @Named annotation is required. A detailed exception will be thrown when 
     // bootstrapping the Guice injector if it is missing.
+    @Inject
     public MyServiceClient(@Named("service.url") Prop<String> serviceUrl) {
         this.serviceUrl = serviceUrl;
     }
