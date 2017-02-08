@@ -70,9 +70,9 @@ As well as all types that can be deserialized by Jackson.
 
 It will determine the type parameter of the `Prop<X>` and dynamically generate a parser for this `Prop<X>`.
 
-It will then initialize a Archaius property based on the `@Named` annotation and the parser.
+It will then initialize an Archaius property based on the `@Named` annotation and the parser.
 
-Finally it dynamically binds this new `Prop<X>` in Guice. Guice does the rest of the magic. 
+Finally it dynamically binds this new `Prop<X>` instance in Guice. Guice does the rest of the magic. 
 
 ## The Modules
 
