@@ -17,8 +17,6 @@ import com.google.inject.spi.Element;
 import com.google.inject.spi.InjectionPoint;
 import com.google.inject.spi.PrivateElements;
 import com.google.inject.spi.ProviderLookup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.pleo.prop.core.Prop;
 import io.pleo.prop.core.internal.ParserFactory;
@@ -29,8 +27,6 @@ import io.pleo.prop.core.internal.PropFactory;
  * Pleo Prop instances.
  */
 public class PropMappingVisitor extends DefaultElementVisitor<Map<Key<Prop<?>>, PropResult>> {
-  private static final Logger logger = LoggerFactory.getLogger(PropMappingVisitor.class);
-
   private final InjectionPointExtractor injectionPointExtractor;
   private final PropFactory propFactory;
   private final ParserFactory parserFactory;
