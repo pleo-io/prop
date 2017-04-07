@@ -10,8 +10,11 @@ import com.google.inject.spi.InjectionPoint;
 import com.google.inject.spi.LinkedKeyBinding;
 import com.google.inject.spi.ProviderKeyBinding;
 import com.google.inject.spi.UntargettedBinding;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class InjectionPointExtractor extends DefaultBindingTargetVisitor<Object, InjectionPoint> {
+  private static final Logger logger = LoggerFactory.getLogger(InjectionPointExtractor.class);
   private final Predicate<TypeLiteral<?>> filter;
 
   public InjectionPointExtractor(Predicate<TypeLiteral<?>> filter) {
@@ -38,6 +41,7 @@ public class InjectionPointExtractor extends DefaultBindingTargetVisitor<Object,
       try {
         return InjectionPoint.forConstructorOf(key.getTypeLiteral());
       } catch (ConfigurationException e) {
+        logger.info("Skipping key {}: {}", key, e.getMessage());
         return null;
       }
     }
