@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import com.google.common.base.Strings;
 import com.google.inject.Binding;
@@ -27,22 +26,24 @@ import io.pleo.prop.core.internal.PropFactory;
  * Goes over every binding and produces a Map associating Guice binding keys to
  * Pleo Prop instances.
  */
-public class PropMappingVisitor extends DefaultElementVisitor<Map<Key<Prop<?>>, Prop<?>>> {
+public class PropMappingVisitor extends DefaultElementVisitor<Map<Key<Prop<?>>, PropResult>> {
   private final InjectionPointExtractor injectionPointExtractor;
   private final PropFactory propFactory;
   private final ParserFactory parserFactory;
 
-  public PropMappingVisitor(Predicate<TypeLiteral<?>> filter, PropFactory propFactory, ParserFactory parserFactory) {
+  public PropMappingVisitor(Predicate<TypeLiteral<?>> filter,
+                            PropFactory propFactory,
+                            ParserFactory parserFactory) {
     this.injectionPointExtractor = new InjectionPointExtractor(filter);
     this.propFactory = propFactory;
     this.parserFactory = parserFactory;
   }
 
-  public Map<Key<Prop<?>>, Prop<?>> visit(Iterable<? extends Element> elements) {
-    Map<Key<Prop<?>>, Prop<?>> mappings = new HashMap<>();
+  public Map<Key<Prop<?>>, PropResult> visit(Iterable<? extends Element> elements) {
+    Map<Key<Prop<?>>, PropResult> mappings = new HashMap<>();
 
     for (Element element : elements) {
-      Map<Key<Prop<?>>, Prop<?>> visitResult = element.acceptVisitor(this);
+      Map<Key<Prop<?>>, PropResult> visitResult = element.acceptVisitor(this);
       // acceptVisitor returns null if the visitor is never called
       if (visitResult != null) {
         // We might encounter duplicates (multiple classes using the same property) but they will be overwritten.
@@ -54,33 +55,42 @@ public class PropMappingVisitor extends DefaultElementVisitor<Map<Key<Prop<?>>, 
   }
 
   @Override
-  public Map<Key<Prop<?>>, Prop<?>> visit(PrivateElements privateElements) {
+  public Map<Key<Prop<?>>, PropResult> visit(PrivateElements privateElements) {
     return visit(privateElements.getElements());
   }
 
   @Override
-  public <T> Map<Key<Prop<?>>, Prop<?>> visit(Binding<T> binding) {
+  public <T> Map<Key<Prop<?>>, PropResult> visit(Binding<T> binding) {
     return extractProps(binding.acceptTargetVisitor(injectionPointExtractor));
   }
 
   @Override
-  public <T> Map<Key<Prop<?>>, Prop<?>> visit(ProviderLookup<T> providerLookup) {
+  public <T> Map<Key<Prop<?>>, PropResult> visit(ProviderLookup<T> providerLookup) {
     return extractProps(providerLookup.getDependency().getInjectionPoint());
   }
 
-  private Map<Key<Prop<?>>, Prop<?>> extractProps(InjectionPoint injectionPoint) {
+  private Map<Key<Prop<?>>, PropResult> extractProps(InjectionPoint injectionPoint) {
     if (injectionPoint == null) {
       return new HashMap<>();
     }
 
-    return injectionPoint
+    Map<Key<Prop<?>>, PropResult> extractedProps = new HashMap<>();
+    injectionPoint
       .getDependencies()
       .stream()
       .map(Dependency::getKey)
       .filter(key -> key.getTypeLiteral().getRawType().equals(Prop.class) &&
                      key.getTypeLiteral().getType() instanceof ParameterizedType)
       .map(key -> (Key<Prop<?>>) key)
-      .collect(Collectors.toMap(Function.identity(), this::keyToProp));
+      .forEach(key -> {
+        try {
+          Prop<?> value = keyToProp(key);
+          extractedProps.put(key, new PropResult(value));
+        } catch (RuntimeException ex) {
+          extractedProps.put(key, new PropResult(ex));
+        }
+      });
+    return extractedProps;
   }
 
   private Prop<?> keyToProp(Key<Prop<?>> key) {

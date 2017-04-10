@@ -10,7 +10,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.PrivateModule;
-import org.junit.Before;
 import org.junit.Test;
 
 import io.pleo.prop.archaius.ArchaiusPropFactory;
@@ -34,10 +33,6 @@ import io.pleo.prop.objects.UsesTwiceSameProp;
 import static com.google.common.truth.Truth.*;
 
 public class PropTest {
-
-  @Before
-  public void setup() {
-  }
 
   @Test
   public void can_read_complex_properties() {
@@ -88,11 +83,13 @@ public class PropTest {
     assertThat(complexObjects.getMyComplexObjectProp()).isSameAs(samePropertyAsComplexObjects.getMyComplexObjectProp());
   }
 
-  @Test(expected = IllegalStateException.class)
-  public void cannot_use_twice_same_prop_in_same_object() {
+  @Test
+  public void can_use_twice_same_prop_in_same_object() {
     Injector injector = createInjector(binder -> binder.bind(UsesTwiceSameProp.class));
 
-    injector.getInstance(UsesTwiceSameProp.class);
+    UsesTwiceSameProp samePropTwice = injector.getInstance(UsesTwiceSameProp.class);
+
+    assertThat(samePropTwice.getStringProp1().get()).isEqualTo(samePropTwice.getStringProp2().get());
   }
 
   @Test
@@ -168,7 +165,10 @@ public class PropTest {
     try {
       return Guice.createInjector(allModules);
     } catch (CreationException ex) {
-      throw (RuntimeException) ex.getCause();
+      if (ex.getCause() != null) {
+        throw (RuntimeException) ex.getCause();
+      }
+      throw ex;
     }
   }
 }

@@ -6,7 +6,7 @@
 
     <groupId>io.pleo</groupId>
     <artifactId>prop-parent</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -72,6 +72,12 @@
             <groupId>com.google.truth</groupId>
             <artifactId>truth</artifactId>
             <version>0.31</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

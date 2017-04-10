@@ -11,6 +11,7 @@ import io.pleo.prop.core.Prop;
 import io.pleo.prop.core.internal.ParserFactory;
 import io.pleo.prop.core.internal.PropFactory;
 import io.pleo.prop.guice.internal.PropMappingVisitor;
+import io.pleo.prop.guice.internal.PropResult;
 
 public class AutoPropModule implements Module {
 
@@ -37,7 +38,13 @@ public class AutoPropModule implements Module {
       .getName()
       .startsWith(packagePrefix), propFactory, parserFactory);
 
-    Map<Key<Prop<?>>, Prop<?>> keyToPropMappings = visitor.visit(Elements.getElements(modulesToScan));
-    keyToPropMappings.entrySet().forEach(kvp -> binder.bind(kvp.getKey()).toInstance(kvp.getValue()));
+    Map<Key<Prop<?>>, PropResult> keyToPropMappings = visitor.visit(Elements.getElements(modulesToScan));
+    keyToPropMappings.entrySet().stream().forEach(kvp -> {
+      if (kvp.getValue().isError()) {
+        binder.addError(kvp.getValue().getError());
+      } else {
+        binder.bind(kvp.getKey()).toInstance(kvp.getValue().getProp());
+      }
+    });
   }
 }
