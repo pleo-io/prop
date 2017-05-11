@@ -5,6 +5,18 @@ import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.MonthDay;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.Period;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -35,8 +47,21 @@ public class JacksonParserFactory implements ParserFactory {
     knownParsers.put(Float.class, Float::valueOf);
     knownParsers.put(Double.class, Double::valueOf);
     knownParsers.put(BigDecimal.class, BigDecimal::new);
-    knownParsers.put(Duration.class, Duration::parse);
+
     knownParsers.put(Instant.class, Instant::parse);
+    knownParsers.put(OffsetDateTime.class, OffsetDateTime::parse);
+    knownParsers.put(ZonedDateTime.class, ZonedDateTime::parse);
+    knownParsers.put(Duration.class, Duration::parse);
+    knownParsers.put(LocalDateTime.class, LocalDateTime::parse);
+    knownParsers.put(LocalDate.class, LocalDate::parse);
+    knownParsers.put(LocalTime.class, LocalTime::parse);
+    knownParsers.put(MonthDay.class, MonthDay::parse);
+    knownParsers.put(OffsetTime.class, OffsetTime::parse);
+    knownParsers.put(Period.class, Period::parse);
+    knownParsers.put(Year.class, Year::parse);
+    knownParsers.put(YearMonth.class, YearMonth::parse);
+    knownParsers.put(ZoneId.class, ZoneId::of);
+    knownParsers.put(ZoneOffset.class, ZoneOffset::of);
   }
 
   /**
