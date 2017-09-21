@@ -7,7 +7,7 @@
     <parent>
         <groupId>io.pleo</groupId>
         <artifactId>prop-parent</artifactId>
-        <version>1.1.0</version>
+        <version>1.1.1</version>
     </parent>
 
     <artifactId>prop-jackson</artifactId>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.8.6</version>
+            <version>2.8.10</version>
         </dependency>
     </dependencies>
 </project>
