@@ -7,7 +7,7 @@
     <parent>
         <groupId>io.pleo</groupId>
         <artifactId>prop-parent</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.0</version>
     </parent>
 
     <artifactId>prop-core</artifactId>
