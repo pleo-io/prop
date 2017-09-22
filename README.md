@@ -14,7 +14,7 @@ If you're okay with using Guice, Archaius and Jackson, add a dependency on `prop
 <dependency>
     <groupId>io.pleo</groupId>
     <artifactId>prop-all</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.1</version>
 </dependency>
 ```
 
