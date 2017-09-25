@@ -7,4 +7,4 @@ build/
 *.iml
 *.patch
 .resourceCache/
-secretkey.asc
+secring.gpg
