@@ -1,0 +1,6 @@
+rootProject.name = 'prop-parent'
+include ':prop-core'
+include ':prop-archaius'
+include ':prop-guice'
+include ':prop-jackson'
+include ':prop-all'

@@ -1,7 +1,8 @@
 language: java
 jdk:
 - oraclejdk8
-script: mvn deploy -Prelease --settings settings.xml
+script:
+- ./gradlew -Prelease -Psigning.keyId=3A7308BC -Psigning.password=$GPG_PASSPHRASE -Psigning.secretKeyRingFile=$(pwd)/secring.gpg clean build uploadArchives closeAndPromoteRepository
 env:
   global:
   - secure: qbeLB5BZHR89cfmc+mvGFTnViATpsYq5QoQyNi7BRAbgLh4G0C0hml8DXXcuBRItN96xTrGQ0DbHhG+DTQhzhuc6VrBrlTTqwHIUy99MIakukC+qWYjwxMdT1YIEzXdsA//kI6ZPld5jnPhcIPAK152qywH2bCxmTl/XOjEA+dB0n0FKZ2nEp5xawOJ0lbSFIHAgJIBwVscE87eW16QI00SzvzT0T+dS9AyeW5k6qQttaS3njB3aLF3ixa5nC/0md9ezPzekKubN9JS0R3Fkgp3jGACMWG/tUPQYkUXirviLnMy1Fg+m7RV8ATMPg+O3LjLJZ05euG5z6TP+XEKB7k9lcEXaOoKUiKJrWG56X0dIEhEoFYP9gb8c/E0WP/zba7JFQ8SCl+5HRjmaZAjVe7VTrbob4Cq/PM9p+LlOLWRscH4FinliWZBlJ05ZgFao4aLMbGov6rDAesZBDLId2V2Kjd/eIGjnVy0N4io4An3YqBcjWrCVNisbwiR00ze5rfWsmZsUFJxrahmakBBYMAU/zdEpc0TtJTiudsWCaWbhPCiEJYiW1k8ScNTK7vJdwGmv2o/mNGsWy2oUoCQ8XQn+nDNvU82//j6wYdpnIgtO/2O3qh1knPFQYUHFsPkQesk9yf8DuIT6gyEubyXtzClWISuXiNkr8ueCY3JEZhU=
@@ -9,9 +10,7 @@ env:
   - secure: iQQst09s+V2bv+UAxDLhx2LkebN4TjIPEdaWUKdQDfzx13nrha47JAMQfsSdviv7FH8Aj+/XFgxJPGECpHbETdXhjwu6GpAOu2V0daRP8RFtU7jf47hCnuPynVvThDwdS25Z6OOrffW7OjOJd8iLu/2nUBSV7N7yRbSyX2yWFUntVPKQoow+4VDqlxydyteXsnoIlI6jCl3EMMV/CqZ8sj58/y0280d22Q31ywO/3FKJUxsergKz+BRUDUb8mjOnvsJCT5dd1NUoU9McoCWb7DJuOSizSHmEXFEgvkbGIZghTr0qTY90k/WQmKsZM0Bi5xACW0Gs+BTSV4jr2GzJBQK2ln5sJzMg+NQv2VMEi8RvADnGMtKMiJ28eMx3AHdKagdfAsHjRe21pCKk1kqVgEfLpttR4oAAW1OWZv0FXVa8Ocf82mdgHhmjEhUd2BRV/VdsGNR+VqD9MYHWJqQQIrl/Z18VRVy7ewKhjCv8av85N3WTsPUl6JmDF7WJKJbEnnE+NLUSVV7NMbAmaYhUzyvHWZjAGZiraGoU6OytvD6lMjvt4i6O1v41Oig6b1ijPSCn81i3YxWgsXYFaMidmSHhgkDJkkJH+ZMhb9jVEYrEmRRBUtPg2iZodWLksDwfeeOgzPFtV8QvlKcNeHre1hFGhQgcq/cdNoVS+ISa6O4=
 before_install:
 - openssl aes-256-cbc -K $encrypted_df24bc0dc67c_key -iv $encrypted_df24bc0dc67c_iv
-  -in secretkey.asc.enc -out secretkey.asc -d
-- gpg --fast-import secretkey.asc
-- gpg --list-keys
+  -in secring.gpg.enc -out secring.gpg -d
 cache:
   directories:
-  - "~/.m2/repository"
+  - ".gradle"
