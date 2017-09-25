@@ -21,6 +21,8 @@ deploy:
 cache:
   directories:
   - .gradle
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
 
 notifications:
   email: false
