@@ -1,5 +1,6 @@
 
-description = 'Dynamic properties for you Java app'
+description = 'Dynamic properties for your Java app'
+
 dependencies {
   compile project(':prop-core')
   compile project(':prop-guice')

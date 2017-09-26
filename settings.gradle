@@ -1,4 +1,4 @@
-rootProject.name = 'prop-parent'
+rootProject.name = 'prop'
 include ':prop-core'
 include ':prop-archaius'
 include ':prop-guice'
