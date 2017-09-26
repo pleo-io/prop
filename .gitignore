@@ -1,7 +1,10 @@
+.DS_Store
+
+.gradle/
 target/
+build/
 .idea/
 *.iml
 *.patch
 .resourceCache/
-*.versionsBackup
-secretkey.asc
+secring.gpg
