@@ -19,6 +19,7 @@ import io.pleo.prop.guice.internal.JacksonParserFactory;
 import io.pleo.prop.guice.internal.RequiredNamedAnnotationException;
 import io.pleo.prop.objects.BothNamedAnnotations;
 import io.pleo.prop.objects.ComplexObjects;
+import io.pleo.prop.objects.DefaultValue;
 import io.pleo.prop.objects.EmptyNamedAnnotation;
 import io.pleo.prop.objects.InjectedObject;
 import io.pleo.prop.objects.InlineProviderModule;
@@ -62,8 +63,17 @@ public class PropTest {
     injector.getInstance(NullValue.class);
   }
 
+  @Test
+  public void uses_default_value_on_missing_value() {
+    Injector injector = createInjector(binder -> binder.bind(DefaultValue.class));
+
+    DefaultValue defaultValue = injector.getInstance(DefaultValue.class);
+
+    assertThat(defaultValue.getUsesDefaultValue().get()).isEqualTo(DefaultValue.DEFAULT_VALUE);
+  }
+
   @Test(expected = RequiredNamedAnnotationException.class)
-  public void throws_un_unnamed_prop() {
+  public void throws_on_unnamed_prop() {
     Injector injector = createInjector(binder -> binder.bind(UnnamedProp.class));
 
     injector.getInstance(UnnamedProp.class);

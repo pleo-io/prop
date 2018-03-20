@@ -1,5 +1,5 @@
 .DS_Store
-
+out/
 .gradle/
 target/
 build/
@@ -8,3 +8,4 @@ build/
 *.patch
 .resourceCache/
 secring.gpg
+*.versionsBackup

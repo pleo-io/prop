@@ -28,7 +28,7 @@ public class ParsingPropertyTest {
 
   @Test(expected = UndefinedPropertyException.class)
   public void undefined_property_throws() {
-    new ParsingProperty<>(PROPERTY_KEY, Function.identity());
+    new ParsingProperty<>(PROPERTY_KEY, Function.identity(), null);
   }
 
   @Test
@@ -37,7 +37,7 @@ public class ParsingPropertyTest {
     DynamicConfiguration configuration = new DynamicConfiguration(new TestConfigurationSource(),
                                                                   new FixedDelayPollingScheduler(0, 1, false));
     ((ConcurrentCompositeConfiguration) ConfigurationManager.getConfigInstance()).addConfiguration(configuration);
-    ParsingProperty<String> property = new ParsingProperty(PROPERTY_KEY, Function.identity());
+    ParsingProperty<String> property = new ParsingProperty(PROPERTY_KEY, Function.identity(), null);
 
     assertThat(property.getValue()).isEqualTo("value1");
 

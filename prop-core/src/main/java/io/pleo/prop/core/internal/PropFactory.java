@@ -6,5 +6,5 @@ import io.pleo.prop.core.Prop;
 
 @FunctionalInterface
 public interface PropFactory {
-  <T> Prop<T> createProp(String propName, Function<String, T> parse);
+  <T> Prop<T> createProp(String propName, Function<String, T> parse, T defaultValue);
 }
