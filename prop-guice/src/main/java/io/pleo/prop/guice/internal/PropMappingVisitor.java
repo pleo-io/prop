@@ -100,22 +100,6 @@ public class PropMappingVisitor extends DefaultElementVisitor<Map<Key<Prop<?>>, 
       }
     }
 
-    // TODO - GSIMARD: Remove commented code
-    //    injectionPoint
-    //      .getDependencies()
-    //      .stream()
-    //      .map(Dependency::getKey)
-    //      .filter(key -> key.getTypeLiteral().getRawType().equals(Prop.class) &&
-    //                     key.getTypeLiteral().getType() instanceof ParameterizedType)
-    //      .map(key -> (Key<Prop<?>>) key)
-    //      .forEach(key -> {
-    //        try {
-    //          Prop<?> value = keyToProp(key);
-    //          extractedProps.put(key, new PropResult(value));
-    //        } catch (RuntimeException ex) {
-    //          extractedProps.put(key, new PropResult(ex));
-    //        }
-    //      });
     return extractedProps;
   }
 
@@ -137,63 +121,20 @@ public class PropMappingVisitor extends DefaultElementVisitor<Map<Key<Prop<?>>, 
     }
   }
 
-  //  private Prop<?> keyToProp(Key<Prop<?>> key) {
-  //    String propertyName = getNamedAnnotationValue(key);
-  //
-  //    Type type = ((ParameterizedType) key.getTypeLiteral().getType()).getActualTypeArguments()[0];
-  //    Function<String, Object> parser = parserFactory.createParserForType(type);
-  //
-  //    String rawDefaultValue = getDefaultAnnotationValue(key);
-  //    try {
-  //      Object defaultValue = rawDefaultValue == null ? null : parser.apply(rawDefaultValue);
-  //      return propFactory.createProp(propertyName, parser, defaultValue);
-  //    } catch (RuntimeException ex) {
-  //      throw new FailedToCreatePropException(propertyName, ex);
-  //    }
-  //  }
-  //
-  //  private static String getNamedAnnotationValue(Key<Prop<?>> key) {
-  //    String propName = null;
-  //
-  //    // Both javax.inject.Named and com.google.inject.name.Named can be used with Guice.
-  //    if (key.getAnnotation() instanceof javax.inject.Named) {
-  //      propName = ((javax.inject.Named) key.getAnnotation()).value();
-  //    } else if (key.getAnnotation() instanceof com.google.inject.name.Named) {
-  //      propName = ((com.google.inject.name.Named) key.getAnnotation()).value();
-  //    }
-  //
-  //    if (Strings.isNullOrEmpty(propName)) {
-  //      throw new RequiredNamedAnnotationException(key);
-  //    }
-  //
-  //    return propName;
-  //  }
-
   private static String getNamedAnnotationValue(List<Annotation> annotations, Key key) {
-    String propName = null;
+    Optional<String> propName = Optional.empty();
 
-    // TODO - GSIMARD: Rework with filter and findFirst
     for (Annotation annotation : annotations) {
       // Both javax.inject.Named and com.google.inject.name.Named can be used with Guice.
       if (annotation instanceof javax.inject.Named) {
-        propName = ((javax.inject.Named) annotation).value();
+        propName = Optional.of(((javax.inject.Named) annotation).value());
       } else if (annotation instanceof com.google.inject.name.Named) {
-        propName = ((com.google.inject.name.Named) annotation).value();
+        propName = Optional.of(((com.google.inject.name.Named) annotation).value());
       }
     }
 
-    if (Strings.isNullOrEmpty(propName)) {
-      throw new RequiredNamedAnnotationException(key);
-    }
-    return propName;
-  }
-
-  private static String getDefaultAnnotationValue(List<Annotation> annotations) {
-    for (Annotation annotation : annotations) {
-      if (annotations instanceof Default) {
-        return Strings.emptyToNull(((Default) annotation).value());
-      }
-    }
-    return null;
+    return propName
+      .filter(name -> !Strings.isNullOrEmpty(name))
+      .orElseThrow(() -> new RequiredNamedAnnotationException(key));
   }
 }

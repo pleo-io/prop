@@ -25,6 +25,8 @@ import io.pleo.prop.objects.DefaultValue;
 import io.pleo.prop.objects.EmptyNamedAnnotation;
 import io.pleo.prop.objects.InjectedObject;
 import io.pleo.prop.objects.InlineProviderModule;
+import io.pleo.prop.objects.InvalidDefaultValue;
+import io.pleo.prop.objects.InvalidDefaultValueButValidValue;
 import io.pleo.prop.objects.InvalidJSON;
 import io.pleo.prop.objects.MyInterface;
 import io.pleo.prop.objects.MyInterfaceProvider;
@@ -92,6 +94,20 @@ public class PropTest {
     Injector injector = createInjector(binder -> binder.bind(UnnamedProp.class));
 
     injector.getInstance(UnnamedProp.class);
+  }
+
+  @Test(expected = FailedToCreatePropException.class)
+  public void throws_on_invalid_default_value() {
+    Injector injector = createInjector(binder -> binder.bind(InvalidDefaultValue.class));
+
+    injector.getInstance(InvalidDefaultValue.class);
+  }
+
+  @Test(expected = FailedToCreatePropException.class)
+  public void throws_on_invalid_default_value_even_if_there_is_a_valid_value_in_config() {
+    Injector injector = createInjector(binder -> binder.bind(InvalidDefaultValueButValidValue.class));
+
+    injector.getInstance(InvalidDefaultValueButValidValue.class);
   }
 
   @Test
