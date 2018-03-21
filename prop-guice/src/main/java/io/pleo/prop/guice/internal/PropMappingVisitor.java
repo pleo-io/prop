@@ -85,14 +85,18 @@ public class PropMappingVisitor extends DefaultElementVisitor<Map<Key<Prop<?>>, 
     if (injectionPointMember instanceof Executable) {
       List<Parameter> parameters = Arrays.asList(((Executable) injectionPointMember).getParameters());
       for (Dependency<?> dependency : injectionPoint.getDependencies()) {
-        Parameter parameter = parameters.get(dependency.getParameterIndex());
-        PropResult result;
-        try {
-          result = new PropResult(parameterToProp(parameter, dependency.getKey()));
-        } catch (RuntimeException ex) {
-          result = new PropResult(ex);
+        Key<?> key = dependency.getKey();
+        if (key.getTypeLiteral().getRawType().equals(Prop.class) &&
+            key.getTypeLiteral().getType() instanceof ParameterizedType) {
+          Parameter parameter = parameters.get(dependency.getParameterIndex());
+          PropResult result;
+          try {
+            result = new PropResult(parameterToProp(parameter, key));
+          } catch (RuntimeException ex) {
+            result = new PropResult(ex);
+          }
+          extractedProps.put(((Key<Prop<?>>) dependency.getKey()), result);
         }
-        extractedProps.put(((Key<Prop<?>>) dependency.getKey()), result);
       }
     }
 

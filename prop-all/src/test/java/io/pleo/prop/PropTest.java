@@ -1,5 +1,6 @@
 package io.pleo.prop;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +12,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.PrivateModule;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import io.pleo.prop.archaius.ArchaiusPropFactory;
 import io.pleo.prop.guice.AutoPropModule;
@@ -26,6 +28,7 @@ import io.pleo.prop.objects.InlineProviderModule;
 import io.pleo.prop.objects.InvalidJSON;
 import io.pleo.prop.objects.MyInterface;
 import io.pleo.prop.objects.MyInterfaceProvider;
+import io.pleo.prop.objects.NoPropObject;
 import io.pleo.prop.objects.NullValue;
 import io.pleo.prop.objects.SamePropertyAsComplexObjects;
 import io.pleo.prop.objects.UnnamedProp;
@@ -54,6 +57,18 @@ public class PropTest {
 
     String stringPropValue = complexObjects.getMyStringProp().get();
     assertThat(stringPropValue).isEqualTo("awp");
+  }
+
+  @Test
+  public void can_bind_non_prop_objects() {
+    DataSource dataSource = Mockito.mock(DataSource.class);
+    Injector injector = createInjector(binder -> {
+      binder.bind(DataSource.class).toInstance(dataSource);
+      binder.bind(NoPropObject.class);
+    });
+
+    NoPropObject object = injector.getInstance(NoPropObject.class);
+    assertThat(object.getDataSource()).isEqualTo(dataSource);
   }
 
   @Test(expected = FailedToCreatePropException.class)
