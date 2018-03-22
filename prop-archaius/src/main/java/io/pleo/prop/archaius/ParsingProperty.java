@@ -12,8 +12,8 @@ public class ParsingProperty<T> extends PropertyWrapper<T> {
   protected final Function<String, T> parser;
   private volatile T value;
 
-  public ParsingProperty(String propName, Function<String, T> parser) {
-    super(propName, null);
+  public ParsingProperty(String propName, Function<String, T> parser, T defaultValue) {
+    super(propName, defaultValue);
     this.parser = parser;
     value = parseProperty();
   }
@@ -22,7 +22,10 @@ public class ParsingProperty<T> extends PropertyWrapper<T> {
     String stringValue = prop.getString();
 
     if (stringValue == null) {
-      throw new UndefinedPropertyException(this);
+      if (defaultValue == null) {
+        throw new UndefinedPropertyException(this);
+      }
+      return defaultValue;
     }
 
     T parsedValue = parser.apply(stringValue);

@@ -1,5 +1,6 @@
 package io.pleo.prop;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +12,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.PrivateModule;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import io.pleo.prop.archaius.ArchaiusPropFactory;
 import io.pleo.prop.guice.AutoPropModule;
@@ -19,12 +21,16 @@ import io.pleo.prop.guice.internal.JacksonParserFactory;
 import io.pleo.prop.guice.internal.RequiredNamedAnnotationException;
 import io.pleo.prop.objects.BothNamedAnnotations;
 import io.pleo.prop.objects.ComplexObjects;
+import io.pleo.prop.objects.DefaultValue;
 import io.pleo.prop.objects.EmptyNamedAnnotation;
 import io.pleo.prop.objects.InjectedObject;
 import io.pleo.prop.objects.InlineProviderModule;
+import io.pleo.prop.objects.InvalidDefaultValue;
+import io.pleo.prop.objects.InvalidDefaultValueButValidValue;
 import io.pleo.prop.objects.InvalidJSON;
 import io.pleo.prop.objects.MyInterface;
 import io.pleo.prop.objects.MyInterfaceProvider;
+import io.pleo.prop.objects.NoPropObject;
 import io.pleo.prop.objects.NullValue;
 import io.pleo.prop.objects.SamePropertyAsComplexObjects;
 import io.pleo.prop.objects.UnnamedProp;
@@ -55,6 +61,18 @@ public class PropTest {
     assertThat(stringPropValue).isEqualTo("awp");
   }
 
+  @Test
+  public void can_bind_non_prop_objects() {
+    DataSource dataSource = Mockito.mock(DataSource.class);
+    Injector injector = createInjector(binder -> {
+      binder.bind(DataSource.class).toInstance(dataSource);
+      binder.bind(NoPropObject.class);
+    });
+
+    NoPropObject object = injector.getInstance(NoPropObject.class);
+    assertThat(object.getDataSource()).isEqualTo(dataSource);
+  }
+
   @Test(expected = FailedToCreatePropException.class)
   public void throws_on_null_values() {
     Injector injector = createInjector(binder -> binder.bind(NullValue.class));
@@ -62,11 +80,34 @@ public class PropTest {
     injector.getInstance(NullValue.class);
   }
 
+  @Test
+  public void uses_default_value_on_missing_value() {
+    Injector injector = createInjector(binder -> binder.bind(DefaultValue.class));
+
+    DefaultValue defaultValue = injector.getInstance(DefaultValue.class);
+
+    assertThat(defaultValue.getUsesDefaultValue().get()).isEqualTo(DefaultValue.DEFAULT_VALUE);
+  }
+
   @Test(expected = RequiredNamedAnnotationException.class)
-  public void throws_un_unnamed_prop() {
+  public void throws_on_unnamed_prop() {
     Injector injector = createInjector(binder -> binder.bind(UnnamedProp.class));
 
     injector.getInstance(UnnamedProp.class);
+  }
+
+  @Test(expected = FailedToCreatePropException.class)
+  public void throws_on_invalid_default_value() {
+    Injector injector = createInjector(binder -> binder.bind(InvalidDefaultValue.class));
+
+    injector.getInstance(InvalidDefaultValue.class);
+  }
+
+  @Test(expected = FailedToCreatePropException.class)
+  public void throws_on_invalid_default_value_even_if_there_is_a_valid_value_in_config() {
+    Injector injector = createInjector(binder -> binder.bind(InvalidDefaultValueButValidValue.class));
+
+    injector.getInstance(InvalidDefaultValueButValidValue.class);
   }
 
   @Test
