@@ -48,7 +48,18 @@ public class MyServiceClient {
         return Unirest.get(serviceUrl.get() + "/rest/health").asObject(Health.class).getBody();
     }
 }
-```  
+```
+
+You can also use default values using the `@Default` annotation
+
+```java
+public class MyThing {
+    @Inject
+    public MyThing(@Default("localhost") @Named("service.host") Prop<String> serviceHost) {
+    ...
+    }
+}
+```
 
 You can use many type parameters for your `Prop<X>`. Out of the box, the following types are supported:
 
