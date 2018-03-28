@@ -2,5 +2,5 @@
 description = 'Jackson implementation of ParserFactory'
 dependencies {
   compile project(':prop-core')
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.8.10'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.9.5'
 }
