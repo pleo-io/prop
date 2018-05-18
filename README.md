@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/pleo-io/prop.svg?branch=master)](https://travis-ci.org/pleo-io/prop)
-
-# Prop
+# Prop [![Build Status](https://travis-ci.com/pleo-io/prop.svg?branch=master)](https://travis-ci.com/pleo-io/prop)
 
 Pleo prop is a dynamic property library. It allows you to configure your application using properties that are not hardcoded and can be easily modified at runtime.
 
@@ -21,13 +19,13 @@ If you're okay with using Guice, Archaius and Jackson, add a dependency on `prop
 All you need is to initialize the `AutoPropModule` by passing it all of the Guice Modules you'd like it to scan for `Prop<X>` dependencies.
 
 ```java
-    List<Module> modules = ...
-    AutoPropModule autoPropModule = new AutoPropModule("io.pleo", // Package prefix
-                                                       modules,
-                                                       new ArchaiusPropFactory(),
-                                                       new JacksonParserFactory());
-    modules.add(autoPropModule);
-    Guice.createInjector(modules);
+List<Module> modules = ...
+AutoPropModule autoPropModule = new AutoPropModule("io.pleo", // Package prefix
+                                                   modules,
+                                                   new ArchaiusPropFactory(),
+                                                   new JacksonParserFactory());
+modules.add(autoPropModule);
+Guice.createInjector(modules);
 ```
 
 And then you can simply add a `@Named("myPropName") Prop<X>` to your class, like this
