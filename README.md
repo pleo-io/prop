@@ -1,4 +1,4 @@
-# Prop [![Build Status](https://travis-ci.org/pleo-io/prop.svg?branch=master)](https://travis-ci.org/pleo-io/prop)
+# Prop [![Build Status](https://travis-ci.com/pleo-io/prop.svg?branch=master)](https://travis-ci.com/pleo-io/prop)
 
 Pleo prop is a dynamic property library. It allows you to configure your application using properties that are not hardcoded and can be easily modified at runtime.
 
