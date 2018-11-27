@@ -2,7 +2,7 @@
 
 Pleo prop is a dynamic property library. It allows you to configure your application using properties that are not hardcoded and can be easily modified at runtime.
 
-It is made of 4 modules that when combined give you a full, flexible and powerful solution.
+It is made of 5 modules that when combined give you a full, flexible and powerful solution.
 
 ## Usage
 
