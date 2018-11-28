@@ -18,7 +18,9 @@ public class InlineProviderModule extends AbstractModule {
   @Provides
   @Singleton
   @Named("tiesto")
-  public InjectedObject tiesto(@Named("io.pleo.test.prop4") Prop<String> w_w, @Named("io.pleo.test.prop3") Prop<String> u_u) {
+  public InjectedObject tiesto(InjectedObject io,
+                               @Named("io.pleo.test.prop4") Prop<String> w_w,
+                               @Named("io.pleo.test.prop3") Prop<String> u_u) {
     return new InjectedObject();
   }
 

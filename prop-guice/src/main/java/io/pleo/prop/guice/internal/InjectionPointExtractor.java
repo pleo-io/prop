@@ -1,20 +1,14 @@
 package io.pleo.prop.guice.internal;
 
+import java.lang.reflect.Method;
 import java.util.function.Predicate;
 
-import com.google.inject.Binding;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
-import com.google.inject.spi.ConstructorBinding;
-import com.google.inject.spi.ConvertedConstantBinding;
 import com.google.inject.spi.DefaultBindingTargetVisitor;
-import com.google.inject.spi.ExposedBinding;
 import com.google.inject.spi.InjectionPoint;
-import com.google.inject.spi.InstanceBinding;
 import com.google.inject.spi.LinkedKeyBinding;
-import com.google.inject.spi.ProviderBinding;
-import com.google.inject.spi.ProviderInstanceBinding;
 import com.google.inject.spi.ProviderKeyBinding;
 import com.google.inject.spi.ProvidesMethodBinding;
 import com.google.inject.spi.ProvidesMethodTargetVisitor;
@@ -48,8 +42,16 @@ public class InjectionPointExtractor extends DefaultBindingTargetVisitor<Object,
 
   @Override
   public InjectionPoint visit(ProvidesMethodBinding<?> providesMethodBinding) {
-    return providesMethodBinding.getDependencies().iterator().next().getInjectionPoint();
-   // return getInjectionPointForKey(providesMethodBinding.getKey());
+    TypeLiteral<?> type = TypeLiteral.get(providesMethodBinding.getEnclosingInstance().getClass());
+    if(filter.test(type)){
+      try {
+        return InjectionPoint.forMethod(providesMethodBinding.getMethod(),type);
+      } catch (ConfigurationException e) {
+        logger.info("Skipping key {}: {}", providesMethodBinding, e.getMessage());
+        return null;
+      }
+    }
+    return null;
   }
 
   private InjectionPoint getInjectionPointForKey(Key<?> key) {
@@ -63,5 +65,4 @@ public class InjectionPointExtractor extends DefaultBindingTargetVisitor<Object,
     }
     return null;
   }
-
 }
