@@ -14,7 +14,7 @@ script:
 deploy:
   skip_cleanup: true
   provider: script
-  script: ./gradlew -Prelease -Psigning.keyId=3A7308BC -Psigning.password=$GPG_PASSPHRASE -Psigning.secretKeyRingFile=$(pwd)/secring.gpg uploadArchives closeAndPromoteRepository
+  script: ./gradlew -Prelease -Psigning.keyId=3A7308BC -Psigning.password=$GPG_PASSPHRASE -Psigning.secretKeyRingFile=$(pwd)/secring.gpg uploadArchives closeAndReleaseRepository
   on:
     tags: true
 cache:
