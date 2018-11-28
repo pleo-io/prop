@@ -1,5 +1,6 @@
 package io.pleo.prop.guice.internal;
 
+import java.lang.reflect.Method;
 import java.util.function.Predicate;
 
 import com.google.inject.ConfigurationException;
@@ -9,11 +10,14 @@ import com.google.inject.spi.DefaultBindingTargetVisitor;
 import com.google.inject.spi.InjectionPoint;
 import com.google.inject.spi.LinkedKeyBinding;
 import com.google.inject.spi.ProviderKeyBinding;
+import com.google.inject.spi.ProvidesMethodBinding;
+import com.google.inject.spi.ProvidesMethodTargetVisitor;
 import com.google.inject.spi.UntargettedBinding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class InjectionPointExtractor extends DefaultBindingTargetVisitor<Object, InjectionPoint> {
+public class InjectionPointExtractor extends DefaultBindingTargetVisitor<Object, InjectionPoint> implements
+                                                                                                 ProvidesMethodTargetVisitor<Object, InjectionPoint>  {
   private static final Logger logger = LoggerFactory.getLogger(InjectionPointExtractor.class);
   private final Predicate<TypeLiteral<?>> filter;
 
@@ -36,6 +40,20 @@ public class InjectionPointExtractor extends DefaultBindingTargetVisitor<Object,
     return getInjectionPointForKey(providerKeyBinding.getProviderKey());
   }
 
+  @Override
+  public InjectionPoint visit(ProvidesMethodBinding<?> providesMethodBinding) {
+    TypeLiteral<?> type = TypeLiteral.get(providesMethodBinding.getEnclosingInstance().getClass());
+    if(filter.test(type)){
+      try {
+        return InjectionPoint.forMethod(providesMethodBinding.getMethod(),type);
+      } catch (ConfigurationException e) {
+        logger.info("Skipping key {}: {}", providesMethodBinding, e.getMessage());
+        return null;
+      }
+    }
+    return null;
+  }
+
   private InjectionPoint getInjectionPointForKey(Key<?> key) {
     if (filter.test(key.getTypeLiteral())) {
       try {
@@ -45,7 +63,6 @@ public class InjectionPointExtractor extends DefaultBindingTargetVisitor<Object,
         return null;
       }
     }
-
     return null;
   }
 }
