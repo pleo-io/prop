@@ -2,6 +2,7 @@
 description = 'Archaius implementation of PropFactory'
 dependencies {
   compile project(':prop-core')
-    compile group: 'com.netflix.archaius', name: 'archaius-core', version:'0.7.5'
-    testCompile group: 'com.google.guava', name: 'guava', version:'21.0'
+  compile group: 'com.netflix.archaius', name: 'archaius-core', version:'0.7.5'
+  compile 'commons-configuration:commons-configuration:1.8'
+  testCompile group: 'com.google.guava', name: 'guava', version:'21.0'
 }
