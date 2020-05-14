@@ -42,13 +42,11 @@ public class ParsingProperty<T> extends PropertyWrapper<T> {
     try {
       T newValue = parseProperty();
       propertyChanged(getValue());
-      logger.info("Property '{}' changed from '{}' to '{}'.", getName(), value, newValue);
+      logger.info("Property '{}' changed.", getName());
       value = newValue;
     } catch (RuntimeException ex) {
-      logger.warn("Failed to parse property '{}' with value '{}'. Keeping last valid value of '{}'.",
+      logger.warn("Failed to parse property '{}'. Keeping last valid value.",
                   getName(),
-                  prop.getString(),
-                  value,
                   ex);
     }
   }
