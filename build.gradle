@@ -20,8 +20,6 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-
-//        maven { url "http://repo.maven.apache.org/maven2" }
     }
 
     dependencies {
@@ -75,7 +73,9 @@ subprojects {
         publications {
             mavenJava(MavenPublication) {
                 from components.java
-
+                artifact sourcesJar
+                artifact javadocJar
+                
                 pom {
                     name = project.name
                     description = "Dynamic properties for your Java app"
