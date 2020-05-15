@@ -17,11 +17,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Gradle Setup
-        run: |
-          echo "
-          mavenUser=${{secrets.GRADLE_USER}}
-          mavenPassword=${{secrets.GRADLE_PASSWORD}}" >> gradle.properties
       - name: Gradle Build
         run: "./gradlew build"
         env:

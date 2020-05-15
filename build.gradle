@@ -50,14 +50,6 @@ subprojects {
         mavenLocal()
 
         maven {
-            credentials {
-                username "$mavenUser"
-                password "$mavenPassword"
-            }
-            url "https://maven.pleo.io/artifactory/libs-release"
-        }
-
-        maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/pleo-io/prop")
             credentials {
@@ -75,7 +67,7 @@ subprojects {
                 from components.java
                 artifact sourcesJar
                 artifact javadocJar
-                
+
                 pom {
                     name = project.name
                     description = "Dynamic properties for your Java app"
