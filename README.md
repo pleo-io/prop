@@ -8,14 +8,10 @@ It is made of 4 modules that when combined give you a full, flexible and powerfu
 
 ## Usage
 
-If you're okay with using Guice, Archaius and Jackson, add a dependency on `prop-all`.
+If you're okay with using Guice, Archaius and Jackson, add a dependency on `prop-all` (Gradle):
 
-```xml
-<dependency>
-    <groupId>io.pleo</groupId>
-    <artifactId>prop-all</artifactId>
-    <version>1.2.0</version>
-</dependency>
+```groovy
+implementation "io.pleo:prop-all:2.0.0"
 ```
 
 All you need is to initialize the `AutoPropModule` by passing it all of the Guice Modules you'd like it to scan for `Prop<X>` dependencies.
