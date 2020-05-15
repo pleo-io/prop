@@ -1,7 +1,6 @@
 # Prop 
 
-[![Build Status](https://travis-ci.com/pleo-io/prop.svg?branch=master)](https://travis-ci.com/pleo-io/prop)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.pleo/prop-all/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.pleo/prop-all)
+[![build-n-deploy](https://github.com/pleo-io/prop/workflows/build-n-deploy/badge.svg?branch=master)](https://github.com/pleo-io/prop/actions)
 
 Pleo prop is a dynamic property library. It allows you to configure your application using properties that are not hardcoded and can be easily modified at runtime.
 
