@@ -1,7 +1,6 @@
 # Prop 
 
-[![Build Status](https://travis-ci.com/pleo-io/prop.svg?branch=master)](https://travis-ci.com/pleo-io/prop)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.pleo/prop-all/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.pleo/prop-all)
+[![build-n-deploy](https://github.com/pleo-io/prop/workflows/build-n-deploy/badge.svg?branch=master)](https://github.com/pleo-io/prop/actions)
 
 Pleo prop is a dynamic property library. It allows you to configure your application using properties that are not hardcoded and can be easily modified at runtime.
 
@@ -9,14 +8,10 @@ It is made of 4 modules that when combined give you a full, flexible and powerfu
 
 ## Usage
 
-If you're okay with using Guice, Archaius and Jackson, add a dependency on `prop-all`.
+If you're okay with using Guice, Archaius and Jackson, add a dependency on `prop-all` (Gradle):
 
-```xml
-<dependency>
-    <groupId>io.pleo</groupId>
-    <artifactId>prop-all</artifactId>
-    <version>1.2.0</version>
-</dependency>
+```groovy
+implementation "io.pleo:prop-all:2.0.0"
 ```
 
 All you need is to initialize the `AutoPropModule` by passing it all of the Guice Modules you'd like it to scan for `Prop<X>` dependencies.
