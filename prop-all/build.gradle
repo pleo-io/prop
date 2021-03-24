@@ -2,8 +2,8 @@
 description = 'Dynamic properties for your Java app'
 
 dependencies {
-  compile project(':prop-core')
-  compile project(':prop-guice')
-  compile project(':prop-jackson')
-  compile project(':prop-archaius')
+  api project(':prop-core')
+  api project(':prop-guice')
+  api project(':prop-jackson')
+  api project(':prop-archaius')
 }
