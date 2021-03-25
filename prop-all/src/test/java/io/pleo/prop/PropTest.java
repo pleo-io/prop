@@ -121,7 +121,7 @@ public class PropTest {
     SamePropertyAsComplexObjects samePropertyAsComplexObjects = injector.getInstance(SamePropertyAsComplexObjects
                                                                                        .class);
 
-    assertThat(complexObjects.getMyComplexObjectProp()).isSameAs(samePropertyAsComplexObjects.getMyComplexObjectProp());
+    assertThat(complexObjects.getMyComplexObjectProp()).isSameInstanceAs(samePropertyAsComplexObjects.getMyComplexObjectProp());
   }
 
   @Test
