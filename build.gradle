@@ -6,7 +6,6 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'java'
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
 
@@ -49,16 +48,6 @@ subprojects {
 
     repositories {
         mavenLocal()
-
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/pleo-io/prop")
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
-            }
-        }
-
         mavenCentral()
     }
 
@@ -71,7 +60,7 @@ subprojects {
 
                 pom {
                     name = project.name
-                    description = "Dynamic properties for your Java app"
+                    description = "Dynamic properties for your Java/Kotlin app"
                     url = 'http://github.com/pleo-io/prop'
                     licenses {
                         license {
@@ -100,8 +89,8 @@ subprojects {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/pleo-io/prop")
                 credentials {
-                    username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-                    password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GITHUB_TOKEN")
                 }
             }
         }
