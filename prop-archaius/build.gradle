@@ -5,5 +5,5 @@ dependencies {
   api group: 'com.netflix.archaius', name: 'archaius-core', version:'0.7.5'
   api 'commons-configuration:commons-configuration:1.8'
 
-  testImplementation group: 'com.google.guava', name: 'guava', version:'21.0'
+  testImplementation group: 'com.google.guava', name: 'guava', version:'23.0'
 }
