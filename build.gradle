@@ -2,7 +2,6 @@ allprojects {
     apply plugin: 'maven'
 
     group = 'io.pleo'
-    version = '2.1.0'
 }
 
 subprojects {

@@ -1,0 +1,21 @@
+{
+  "branches": [
+    "master"
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    "@semantic-release/github",
+    "gradle-semantic-release-plugin",
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "gradle.properties",
+          "CHANGELOG.md"
+        ]
+      }
+    ]
+  ]
+}
