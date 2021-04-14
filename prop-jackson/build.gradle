@@ -2,5 +2,5 @@ description = 'Jackson implementation of ParserFactory'
 
 dependencies {
   api project(':prop-core')
-  api 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
+  api 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
 }
