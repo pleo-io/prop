@@ -8,7 +8,7 @@ jobs:
     steps:
 
       - name: Checkout code
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
 
       - name: Cache Gradle
         uses: actions/cache@v2.1.5
@@ -34,21 +34,10 @@ jobs:
           save-local-build-cache: ${{github.ref == 'refs/heads/master'}}
           save-generated-gradle-jars: ${{github.ref == 'refs/heads/master'}}
 
-      # - name: Publish library
-      #   if: github.ref == 'refs/heads/master'
-      #   uses: burrunan/gradle-cache-action@v1.10
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     arguments: publish
-      #     gradle-version: wrapper
-      #     save-local-build-cache: ${{github.ref == 'refs/heads/master'}}
-      #     save-generated-gradle-jars: ${{github.ref == 'refs/heads/master'}}
-
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
         with:
           extra_plugins: |
             @semantic-release/changelog
