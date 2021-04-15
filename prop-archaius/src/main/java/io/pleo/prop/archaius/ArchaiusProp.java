@@ -22,6 +22,11 @@ public class ArchaiusProp<T> implements Prop<T> {
   }
 
   @Override
+  public T invoke() {
+    return get();
+  }
+
+  @Override
   public String getName() {
     return archaiusProperty.getName();
   }

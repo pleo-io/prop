@@ -20,6 +20,12 @@ public interface Prop<T> extends Supplier<T> {
   String getName();
 
   /**
+   * Kotlin convenience method to implement invocation
+   * @return the property value
+   */
+  T invoke();
+
+  /**
    * Gets the time when the property was last set/changed.
    *
    * @return the time when the property was last set/changed.
