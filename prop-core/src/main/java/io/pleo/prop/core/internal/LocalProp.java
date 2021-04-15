@@ -25,6 +25,11 @@ public class LocalProp<T> implements Prop<T> {
   }
 
   @Override
+  public T invoke() {
+    return get();
+  }
+
+  @Override
   public String getName() {
     return toString();
   }
