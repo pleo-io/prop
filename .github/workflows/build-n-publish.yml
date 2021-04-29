@@ -45,7 +45,7 @@ jobs:
           arguments: build
           gradle-version: wrapper
           save-local-build-cache: ${{github.ref == 'refs/heads/master'}}
-          save-generated-gradle-jars: ${{github.ref == 'refs/heads/master'
+          save-generated-gradle-jars: ${{github.ref == 'refs/heads/master'}}
 
       # Sets up SSH (Deploy) key which allows authoring commits directly on main branch
       - name: Setup SSH Key
