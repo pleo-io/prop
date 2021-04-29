@@ -1,9 +1,21 @@
 name: Build and Publish
+
 on: push
 
 jobs:
   build-n-publish:
     runs-on: ubuntu-latest
+    
+    permissions:
+      # Allows cloning repo and creating releases in the release page
+      contents: write
+      # Allows publishing packages in NPM registry
+      packages: write
+      # Allows searching through PRs and issues
+      issues: read
+      # Allows search through PRs and issues as well as commenting on PRs
+      pull-requests: write
+    
     steps:
 
       - name: Checkout code
@@ -33,12 +45,18 @@ jobs:
           arguments: build
           gradle-version: wrapper
           save-local-build-cache: ${{github.ref == 'refs/heads/master'}}
-          save-generated-gradle-jars: ${{github.ref == 'refs/heads/master'}}
+          save-generated-gradle-jars: ${{github.ref == 'refs/heads/master'
+
+      # Sets up SSH (Deploy) key which allows authoring commits directly on main branch
+      - name: Setup SSH Key
+        uses: webfactory/ssh-agent@v0.5.2
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           extra_plugins: |
             @semantic-release/changelog
