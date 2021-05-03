@@ -1,6 +1,6 @@
 # Prop 
 
-[![build-n-deploy](https://github.com/pleo-io/prop/workflows/build-n-publish/badge.svg?branch=master)](https://github.com/pleo-io/prop/actions)
+[![Build and Publish](https://github.com/pleo-io/prop/actions/workflows/build-n-publish.yml/badge.svg?branch=master)](https://github.com/pleo-io/prop/actions/workflows/build-n-publish.yml)
 
 Pleo prop is a dynamic property library. It allows you to configure your application using properties that are not hardcoded and can be easily modified at runtime.
 
