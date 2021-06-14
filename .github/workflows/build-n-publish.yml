@@ -49,7 +49,7 @@ jobs:
 
       # Sets up SSH (Deploy) key which allows authoring commits directly on main branch
       - name: Setup SSH Key
-        uses: webfactory/ssh-agent@v0.5.2
+        uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
