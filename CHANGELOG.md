@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/pleo-io/prop/compare/v2.3.0...v2.4.0) (2021-08-31)
+
+
+### Features
+
+* bump several dependencies (minor version bumps only) ([e3ae49e](https://github.com/pleo-io/prop/commit/e3ae49e50857e503cfe76e6bc26866b4fb7c423d)), closes [#57](https://github.com/pleo-io/prop/issues/57)
+
 # [2.3.0](https://github.com/pleo-io/prop/compare/v2.2.0...v2.3.0) (2021-04-15)
 
 
