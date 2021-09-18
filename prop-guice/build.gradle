@@ -3,4 +3,5 @@ description = 'Guice integration for Pleo Prop'
 dependencies {
   api project(':prop-core')
   api 'com.google.inject:guice:5.0.1'
+  api "com.google.inject.extensions:guice-assistedinject:5.0.1"
 }
