@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/pleo-io/prop/compare/v2.4.0...v3.0.0) (2021-09-17)
+
+### Features
+
+* add support for google guice assistedInject bindings and the use of `FactoryModuleBuilder`
+see [the official documentation](https://github.com/google/guice/wiki/AssistedInject#inspecting-assistedinject-bindings-new-in-guice-30) for more context.
+
+### Breaking
+
+* `InjectionPointExtractor` now returns `Iterable<InjectionPoint>` to allow injecting props for multiple factory functions
+anyone using the `InjectionPointExtractor` on its own will need to adjust to handle this change.
+
 # [2.4.0](https://github.com/pleo-io/prop/compare/v2.3.0...v2.4.0) (2021-08-31)
 
 
