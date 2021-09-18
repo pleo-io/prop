@@ -1,5 +1,7 @@
 package io.pleo.prop.guice.internal;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -19,8 +21,11 @@ import com.google.inject.spi.UntargettedBinding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class InjectionPointExtractor extends DefaultBindingTargetVisitor<Object, InjectionPoint> implements
-                                                                                                 ProvidesMethodTargetVisitor<Object, InjectionPoint>, AssistedInjectTargetVisitor<Object, InjectionPoint> {
+public class InjectionPointExtractor extends DefaultBindingTargetVisitor<Object, Iterable<InjectionPoint>> implements
+  ProvidesMethodTargetVisitor<Object, Iterable<InjectionPoint>>,
+  AssistedInjectTargetVisitor<Object, Iterable<InjectionPoint>>
+{
+
   private static final Logger logger = LoggerFactory.getLogger(InjectionPointExtractor.class);
   private final Predicate<TypeLiteral<?>> filter;
 
@@ -29,43 +34,39 @@ public class InjectionPointExtractor extends DefaultBindingTargetVisitor<Object,
   }
 
   @Override
-  public InjectionPoint visit(UntargettedBinding<?> untargettedBinding) {
-    return getInjectionPointForKey(untargettedBinding.getKey());
+  public Iterable<InjectionPoint> visit(UntargettedBinding<?> untargettedBinding) {
+    return Arrays.asList(getInjectionPointForKey(untargettedBinding.getKey()));
   }
 
   @Override
-  public InjectionPoint visit(AssistedInjectBinding<?> assistedInjectBinding) {
-    Collection<AssistedMethod> assistedMethods = assistedInjectBinding.getAssistedMethods();
-
-    Optional<AssistedMethod> assistedMethod = assistedMethods.stream().findFirst();
-
-    if (assistedMethod.isPresent() && filter.test(assistedMethod.get().getImplementationType())) {
+  public Iterable<InjectionPoint> visit(AssistedInjectBinding<?> assistedInjectBinding) {
+    Collection<InjectionPoint> injectionPoints = new ArrayList<>();
+    for (AssistedMethod assistedMethod : assistedInjectBinding.getAssistedMethods()) {
       try {
-        return InjectionPoint.forConstructorOf(assistedMethod.get().getImplementationType());
+        injectionPoints.add(InjectionPoint.forConstructorOf(assistedMethod.getImplementationType()));
       } catch (ConfigurationException e) {
-//              logger.info("Skipping key {}: {}", key, e.getMessage());
-        return null;
+        logger.info("Skipping assistedMethod type {}: {}", assistedMethod.getImplementationType(), e.getMessage());
       }
     }
-    return null;
+    return injectionPoints;
   }
 
   @Override
-  public InjectionPoint visit(LinkedKeyBinding<?> linkedKeyBinding) {
-    return getInjectionPointForKey(linkedKeyBinding.getLinkedKey());
+  public Iterable<InjectionPoint> visit(LinkedKeyBinding<?> linkedKeyBinding) {
+    return  Arrays.asList(getInjectionPointForKey(linkedKeyBinding.getLinkedKey()));
   }
 
   @Override
-  public InjectionPoint visit(ProviderKeyBinding<?> providerKeyBinding) {
-    return getInjectionPointForKey(providerKeyBinding.getProviderKey());
+  public Iterable<InjectionPoint> visit(ProviderKeyBinding<?> providerKeyBinding) {
+    return  Arrays.asList(getInjectionPointForKey(providerKeyBinding.getProviderKey()));
   }
 
   @Override
-  public InjectionPoint visit(ProvidesMethodBinding<?> providesMethodBinding) {
+  public Iterable<InjectionPoint> visit(ProvidesMethodBinding<?> providesMethodBinding) {
     TypeLiteral<?> type = TypeLiteral.get(providesMethodBinding.getEnclosingInstance().getClass());
     if(filter.test(type)){
       try {
-        return InjectionPoint.forMethod(providesMethodBinding.getMethod(),type);
+        return  Arrays.asList(InjectionPoint.forMethod(providesMethodBinding.getMethod(),type));
       } catch (ConfigurationException e) {
         logger.info("Skipping key {}: {}", providesMethodBinding, e.getMessage());
         return null;
