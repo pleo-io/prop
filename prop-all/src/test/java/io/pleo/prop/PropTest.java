@@ -11,6 +11,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.PrivateModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import io.pleo.prop.objects.MyFactoryModule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -193,6 +195,15 @@ public class PropTest {
     Injector injector = createInjector(new InlineProviderModule());
 
     injector.getInstance(InjectedObject.class);
+  }
+
+  @Test
+  public void assisted_inject_support() {
+    Injector injector = createInjector(binder -> {
+      binder.install(new FactoryModuleBuilder().build(MyFactoryModule.class));
+    });
+
+    injector.getInstance(MyFactoryModule.class);
   }
 
   private Injector createInjector(Module... modules) {
