@@ -41,6 +41,7 @@ public class InjectionPointExtractor extends DefaultBindingTargetVisitor<Object,
   @Override
   public Iterable<InjectionPoint> visit(AssistedInjectBinding<?> assistedInjectBinding) {
     Collection<InjectionPoint> injectionPoints = new ArrayList<>();
+
     for (AssistedMethod assistedMethod : assistedInjectBinding.getAssistedMethods()) {
       try {
         injectionPoints.add(InjectionPoint.forConstructorOf(assistedMethod.getImplementationType()));
@@ -48,6 +49,7 @@ public class InjectionPointExtractor extends DefaultBindingTargetVisitor<Object,
         logger.info("Skipping assistedMethod type {}: {}", assistedMethod.getImplementationType(), e.getMessage());
       }
     }
+
     return injectionPoints;
   }
 
