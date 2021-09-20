@@ -3,7 +3,6 @@ package io.pleo.prop.guice.internal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.function.Predicate;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Key;

@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
 import com.google.common.base.Strings;
 import com.google.inject.Binding;
 import com.google.inject.Key;
@@ -24,7 +23,6 @@ import com.google.inject.spi.Element;
 import com.google.inject.spi.InjectionPoint;
 import com.google.inject.spi.PrivateElements;
 import com.google.inject.spi.ProviderLookup;
-
 import io.pleo.prop.core.Default;
 import io.pleo.prop.core.Prop;
 import io.pleo.prop.core.internal.ParserFactory;
