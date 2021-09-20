@@ -7,8 +7,8 @@ see [the official documentation](https://github.com/google/guice/wiki/AssistedIn
 
 ### Breaking
 
-* `InjectionPointExtractor` now returns `Iterable<InjectionPoint>` to allow injecting props for multiple factory functions
-anyone using the `InjectionPointExtractor` on its own will need to adjust to handle this change.
+* `InjectionPointExtractor` now returns `Iterable<InjectionPoint>` to allow injecting props for multiple factory functions.
+Anyone using the `InjectionPointExtractor` on its own will need to adjust to handle this change.
 
 # [2.4.0](https://github.com/pleo-io/prop/compare/v2.3.0...v2.4.0) (2021-08-31)
 
