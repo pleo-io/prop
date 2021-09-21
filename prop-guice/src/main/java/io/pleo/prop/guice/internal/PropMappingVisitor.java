@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
 import com.google.common.base.Strings;
 import com.google.inject.Binding;
 import com.google.inject.Key;
@@ -24,7 +23,6 @@ import com.google.inject.spi.Element;
 import com.google.inject.spi.InjectionPoint;
 import com.google.inject.spi.PrivateElements;
 import com.google.inject.spi.ProviderLookup;
-
 import io.pleo.prop.core.Default;
 import io.pleo.prop.core.Prop;
 import io.pleo.prop.core.internal.ParserFactory;
@@ -73,6 +71,20 @@ public class PropMappingVisitor extends DefaultElementVisitor<Map<Key<Prop<?>>, 
   @Override
   public <T> Map<Key<Prop<?>>, PropResult> visit(ProviderLookup<T> providerLookup) {
     return extractProps(providerLookup.getDependency().getInjectionPoint());
+  }
+
+  private Map<Key<Prop<?>>, PropResult> extractProps(Iterable<InjectionPoint> injectionPoints) {
+    if (injectionPoints == null) {
+      return new HashMap<>();
+    }
+
+    Map<Key<Prop<?>>, PropResult> mappings = new HashMap<>();
+
+    for (InjectionPoint injectionPoint : injectionPoints) {
+      mappings.putAll(extractProps(injectionPoint));
+    }
+
+    return mappings;
   }
 
   private Map<Key<Prop<?>>, PropResult> extractProps(InjectionPoint injectionPoint) {
