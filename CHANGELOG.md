@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/pleo-io/prop/compare/v2.4.0...v3.0.0) (2021-09-21)
+
+
+* add support for assisted inject (#59) ([4c5681d](https://github.com/pleo-io/prop/commit/4c5681da6f0ed107622c917b14693aecb9818d3c)), closes [#59](https://github.com/pleo-io/prop/issues/59)
+
+
+### BREAKING CHANGES
+
+* InjectionPointExtractor will now return Iterable<InjectionPoint>
+
+Co-authored-by: Harry <85480431+harrylevick@users.noreply.github.com>
+
 # [2.4.0](https://github.com/pleo-io/prop/compare/v2.3.0...v2.4.0) (2021-08-31)
 
 
