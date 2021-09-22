@@ -112,4 +112,11 @@ You can easily customize the behavior of prop. The two main extension points are
 ### Other
 
 You could easily create a `prop-spring` module that would dynamically add `Prop<X>` beans depending on what is required. Pull requests are welcome!
+
+### Contributing
+
+To submit a change request, fork this repo and open a pull request with a detailed description of the changes made.
+
+This lib uses [semantic-release](https://github.com/semantic-release/semantic-release). Follow the `semantic-release` commit conventions, and the lib will be automatically published with a new version based on the content of the commit messages. 
+The `CHANGELOG` will also be automatically updated with a list of all commits.   
  
