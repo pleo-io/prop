@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/pleo-io/prop/compare/v3.0.0...v3.0.1) (2021-09-22)
+
+
+### Bug Fixes
+
+* update readme with directions on how to contribute to this repo ([#60](https://github.com/pleo-io/prop/issues/60)) ([77a7284](https://github.com/pleo-io/prop/commit/77a7284e425237cdd181feccf88b0bb9db5d02e6))
+
 # [3.0.0](https://github.com/pleo-io/prop/compare/v2.4.0...v3.0.0) (2021-09-21)
 
 
