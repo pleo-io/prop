@@ -1,3 +1,9 @@
+## [3.0.2](https://github.com/pleo-io/prop/compare/v3.0.0...v3.0.1) (2022-01-17)
+
+### Chore
+
+* Gradle has been updated to v7.3.2.
+
 ## [3.0.1](https://github.com/pleo-io/prop/compare/v3.0.0...v3.0.1) (2021-09-22)
 
 
