@@ -16,13 +16,11 @@ class ArchaiusProp<T>(private val archaiusProperty: Property<T>) : Prop<T> {
         return get()
     }
 
-    override fun getName(): String {
-        return archaiusProperty.name
-    }
+    override val name: String
+        get() = archaiusProperty.name
 
-    override fun getChangedTimestamp(): Instant {
-        return Instant.ofEpochMilli(archaiusProperty.changedTimestamp)
-    }
+    override val changedTimestamp: Instant
+        get() = Instant.ofEpochMilli(archaiusProperty.changedTimestamp)
 
     override fun addCallback(callback: Runnable) {
         archaiusProperty.addCallback(callback)
