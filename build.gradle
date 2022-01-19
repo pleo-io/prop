@@ -45,8 +45,6 @@ subprojects {
             jvmTarget = "11"
             javaParameters = true
             languageVersion = "1.6"
-            // See https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
-            useIR = true
         }
     }
 
