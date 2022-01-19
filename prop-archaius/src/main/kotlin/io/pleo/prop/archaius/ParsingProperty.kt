@@ -12,11 +12,7 @@ class ParsingProperty<T>(
     defaultValue: T?,
 ) : PropertyWrapper<T>(propName, defaultValue) {
     @Volatile
-    private var value: T
-
-    init {
-        value = parseProperty()
-    }
+    private var value: T = parseProperty()
 
     private fun parseProperty(): T {
         val stringValue = prop.string

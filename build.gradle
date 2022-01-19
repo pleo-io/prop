@@ -28,6 +28,11 @@ allprojects {
 }
 
 subprojects {
+    ext {
+        junitVersion = "5.8.2"
+        mockkVersion = "1.12.2"
+    }
+
     apply plugin: 'java-library'
     apply plugin: "kotlin"
     apply plugin: 'maven-publish'
@@ -51,10 +56,13 @@ subprojects {
     dependencies {
         implementation 'org.slf4j:slf4j-api:1.7.33'
 
-        testImplementation 'junit:junit:4.13.2'
-        testImplementation 'org.mockito:mockito-core:4.2.0'
         testImplementation 'com.google.truth:truth:1.1.3'
         testImplementation 'ch.qos.logback:logback-classic:1.2.10'
+        testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
+        testImplementation "io.mockk:mockk:$mockkVersion"
+
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+
     }
 
     task sourcesJar(type: Jar) {
@@ -76,6 +84,10 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+    }
+
+    test {
+        useJUnitPlatform()
     }
 
     publishing {

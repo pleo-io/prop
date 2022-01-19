@@ -8,6 +8,7 @@ import com.google.inject.Injector
 import com.google.inject.Module
 import com.google.inject.PrivateModule
 import com.google.inject.assistedinject.FactoryModuleBuilder
+import io.mockk.mockk
 import io.pleo.prop.archaius.ArchaiusPropFactory
 import io.pleo.prop.guice.AutoPropModule
 import io.pleo.prop.guice.internal.FailedToCreatePropException
@@ -31,13 +32,13 @@ import io.pleo.prop.objects.NullValue
 import io.pleo.prop.objects.SamePropertyAsComplexObjects
 import io.pleo.prop.objects.UnnamedProp
 import io.pleo.prop.objects.UsesTwiceSameProp
-import org.junit.Test
-import org.mockito.Mockito
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import javax.sql.DataSource
 
 class PropTest {
     @Test
-    fun can_read_complex_properties() {
+    fun `can read complex properties`() {
         val injector = createInjector(
             Module { binder: Binder ->
                 binder.bind(ComplexObjects::class.java)
@@ -61,8 +62,8 @@ class PropTest {
     }
 
     @Test
-    fun can_bind_non_prop_objects() {
-        val dataSource = Mockito.mock(DataSource::class.java)
+    fun `can bind non prop objects`() {
+        val dataSource = mockk<DataSource>()
         val injector = createInjector(
             Module { binder: Binder ->
                 binder.bind(DataSource::class.java).toInstance(dataSource)
@@ -75,21 +76,23 @@ class PropTest {
         assertThat(actual.dataSource).isEqualTo(dataSource)
     }
 
-    @Test(expected = FailedToCreatePropException::class)
-    fun throws_on_null_values() {
-        val injector = createInjector(
-            Module { binder: Binder ->
-                binder.bind(
-                    NullValue::class.java
-                )
-            }
-        )
+    @Test
+    fun `throws on null values`() {
+        assertThrows<FailedToCreatePropException> {
+            val injector = createInjector(
+                Module { binder: Binder ->
+                    binder.bind(
+                        NullValue::class.java
+                    )
+                }
+            )
 
-        injector.getInstance(NullValue::class.java)
+            injector.getInstance(NullValue::class.java)
+        }
     }
 
     @Test
-    fun uses_default_value_on_missing_value() {
+    fun `uses default value on missing value`() {
         val injector = createInjector(
             Module { binder: Binder ->
                 binder.bind(
@@ -103,41 +106,47 @@ class PropTest {
         assertThat(defaultValue.usesDefaultValue()).isEqualTo(DefaultValue.DEFAULT_VALUE)
     }
 
-    @Test(expected = RequiredNamedAnnotationException::class)
-    fun throws_on_unnamed_prop() {
-        val injector = createInjector(
-            Module { binder: Binder ->
-                binder.bind(UnnamedProp::class.java)
-            }
-        )
+    @Test
+    fun `throws on unnamed prop`() {
+        assertThrows<RequiredNamedAnnotationException> {
+            val injector = createInjector(
+                Module { binder: Binder ->
+                    binder.bind(UnnamedProp::class.java)
+                }
+            )
 
-        injector.getInstance(UnnamedProp::class.java)
-    }
-
-    @Test(expected = FailedToCreatePropException::class)
-    fun throws_on_invalid_default_value() {
-        val injector = createInjector(
-            Module { binder: Binder ->
-                binder.bind(InvalidDefaultValue::class.java)
-            }
-        )
-
-        injector.getInstance(InvalidDefaultValue::class.java)
-    }
-
-    @Test(expected = FailedToCreatePropException::class)
-    fun throws_on_invalid_default_value_even_if_there_is_a_valid_value_in_config() {
-        val injector = createInjector(
-            Module { binder: Binder ->
-                binder.bind(InvalidDefaultValueButValidValue::class.java)
-            }
-        )
-
-        injector.getInstance(InvalidDefaultValueButValidValue::class.java)
+            injector.getInstance(UnnamedProp::class.java)
+        }
     }
 
     @Test
-    fun can_have_multiple_objects_using_the_same_prop() {
+    fun `throws on invalid default value`() {
+        assertThrows<FailedToCreatePropException> {
+            val injector = createInjector(
+                Module { binder: Binder ->
+                    binder.bind(InvalidDefaultValue::class.java)
+                }
+            )
+
+            injector.getInstance(InvalidDefaultValue::class.java)
+        }
+    }
+
+    @Test
+    fun `throws on invalid default value even if there is a valid value in config`() {
+        assertThrows<FailedToCreatePropException> {
+            val injector = createInjector(
+                Module { binder: Binder ->
+                    binder.bind(InvalidDefaultValueButValidValue::class.java)
+                }
+            )
+
+            injector.getInstance(InvalidDefaultValueButValidValue::class.java)
+        }
+    }
+
+    @Test
+    fun `can have multiple objects using the same prop`() {
         val injector = createInjector(
             Module { binder: Binder ->
                 binder.bind(ComplexObjects::class.java)
@@ -153,7 +162,7 @@ class PropTest {
     }
 
     @Test
-    fun can_use_twice_same_prop_in_same_object() {
+    fun `can use twice same prop in same object`() {
         val injector = createInjector(
             Module { binder: Binder ->
                 binder.bind(
@@ -168,7 +177,7 @@ class PropTest {
     }
 
     @Test
-    fun can_use_both_named_annotations() {
+    fun `can use both named annotations`() {
         val injector = createInjector(
             Module { binder: Binder ->
                 binder.bind(
@@ -183,29 +192,31 @@ class PropTest {
         assertThat(bothNamedAnnotations.stringProp2()).isEqualTo("usp")
     }
 
-    @Test(expected = FailedToCreatePropException::class)
-    fun throws_if_deserialization_fails() {
-        val injector = createInjector(
-            Module { binder: Binder ->
-                binder.bind(InvalidJSON::class.java)
-            }
-        )
+    @Test
+    fun `throws if deserialization fails`() {
+        assertThrows<FailedToCreatePropException> {
+            val injector = createInjector(
+                Module { binder: Binder ->
+                    binder.bind(InvalidJSON::class.java)
+                }
+            )
 
-        injector.getInstance(InvalidJSON::class.java)
+            injector.getInstance(InvalidJSON::class.java)
+        }
     }
 
     @Test
-    fun module_with_no_element_does_not_throw() {
+    fun `module with no element does not throw`() {
         createInjector(Module { })
     }
 
     @Test
-    fun module_with_no_binding_does_not_throw() {
+    fun `module with no binding does not throw`() {
         createInjector(Module { obj: Binder -> obj.requireExplicitBindings() })
     }
 
     @Test
-    fun module_with_provider() {
+    fun `module with provider`() {
         val injector = createInjector(
             Module { binder: Binder ->
                 binder.bind(MyInterface::class.java).toProvider(MyInterfaceProvider::class.java)
@@ -217,17 +228,19 @@ class PropTest {
         assertThat(myInterface.propValue).isEqualTo("awp")
     }
 
-    @Test(expected = RequiredNamedAnnotationException::class)
-    fun module_with_empty_named_annotation() {
-        createInjector(
-            Module { binder: Binder ->
-                binder.bind(EmptyNamedAnnotation::class.java)
-            }
-        )
+    @Test
+    fun `module with empty named annotation`() {
+        assertThrows<RequiredNamedAnnotationException> {
+            createInjector(
+                Module { binder: Binder ->
+                    binder.bind(EmptyNamedAnnotation::class.java)
+                }
+            )
+        }
     }
 
     @Test
-    fun private_module_support() {
+    fun `private module support`() {
         val injector = createInjector(object : PrivateModule() {
             override fun configure() {
                 bind(ComplexObjects::class.java)
@@ -239,12 +252,12 @@ class PropTest {
     }
 
     @Test
-    fun inline_provider_support() {
+    fun `inline provider support`() {
         createInjector(InlineProviderModule()).getInstance(InjectedObject::class.java)
     }
 
     @Test
-    fun assisted_inject_support() {
+    fun `assisted inject support`() {
         val injector = createInjector(
             Module { binder: Binder ->
                 binder.install(
@@ -259,7 +272,7 @@ class PropTest {
     }
 
     @Test
-    fun assisted_inject_support_multiple_factory_functions() {
+    fun `assisted inject support multiple factory functions`() {
         val injector = createInjector(
             Module { binder: Binder ->
                 binder.install(FactoryModuleBuilder().build(MyAssistedInjectFactoryModuleMultiple::class.java))
