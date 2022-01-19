@@ -17,7 +17,7 @@ class LocalProp<T>(
     override val name get() = toString()
     override val changedTimestamp get() = created
 
-    // Static properties can't change. No callbacks.
+    /** Static properties can't change. No callbacks.*/
     override fun addCallback(callback: Runnable) {}
     override fun removeAllCallbacks() {}
 
