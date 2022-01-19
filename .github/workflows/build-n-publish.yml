@@ -58,6 +58,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          # Pin https://github.com/semantic-release/semantic-release to v17.4.7
+          # because https://github.com/cycjimmy/semantic-release-action currently runs on Node.js v12
+          # (see https://github.com/semantic-release/semantic-release/blob/master/docs/support/node-version.md)
+          # which is not supported by v18+
+          semantic_version: v17.4.7
           extra_plugins: |
             @semantic-release/changelog
             gradle-semantic-release-plugin
