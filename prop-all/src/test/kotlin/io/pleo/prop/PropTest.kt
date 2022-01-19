@@ -51,10 +51,10 @@ class PropTest {
 
         val listOfComplexObjectPropValue = complexObjects.myListOfComplexObjectProp()
         assertThat(listOfComplexObjectPropValue).hasSize(2)
-        assertThat(listOfComplexObjectPropValue[0]!!.name).isEqualTo("dustII")
-        assertThat(listOfComplexObjectPropValue[0]!!.age).isEqualTo(3)
-        assertThat(listOfComplexObjectPropValue[1]!!.name).isEqualTo("inferno")
-        assertThat(listOfComplexObjectPropValue[1]!!.age).isEqualTo(16)
+        assertThat(listOfComplexObjectPropValue[0].name).isEqualTo("dustII")
+        assertThat(listOfComplexObjectPropValue[0].age).isEqualTo(3)
+        assertThat(listOfComplexObjectPropValue[1].name).isEqualTo("inferno")
+        assertThat(listOfComplexObjectPropValue[1].age).isEqualTo(16)
 
         val stringPropValue = complexObjects.myStringProp()
         assertThat(stringPropValue).isEqualTo("awp")
