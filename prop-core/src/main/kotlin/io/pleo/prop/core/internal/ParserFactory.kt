@@ -5,5 +5,5 @@ import java.util.function.Function
 
 @FunctionalInterface
 interface ParserFactory {
-    fun <T> createParserForType(type: Type): Function<String, T>
+    fun createParserForType(type: Type): Function<String, Any>
 }

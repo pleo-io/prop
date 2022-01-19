@@ -9,7 +9,7 @@ private val logger = LoggerFactory.getLogger(ParsingProperty::class.java)
 class ParsingProperty<T>(
     propName: String?,
     private val parser: Function<String, T>,
-    defaultValue: T,
+    defaultValue: T?,
 ) : PropertyWrapper<T>(propName, defaultValue) {
     @Volatile
     private var value: T

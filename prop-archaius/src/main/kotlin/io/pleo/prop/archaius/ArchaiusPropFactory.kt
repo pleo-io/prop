@@ -5,6 +5,10 @@ import io.pleo.prop.core.internal.PropFactory
 import java.util.function.Function
 
 class ArchaiusPropFactory : PropFactory {
-    override fun <T> createProp(propName: String, parse: Function<String, T>, defaultValue: T): Prop<T> =
+    override fun <T> createProp(
+        propName: String,
+        parse: Function<String, T>,
+        defaultValue: T?,
+    ): Prop<T> =
         ArchaiusProp(ParsingProperty(propName, parse, defaultValue))
 }

@@ -5,5 +5,9 @@ import java.util.function.Function
 
 @FunctionalInterface
 interface PropFactory {
-    fun <T> createProp(propName: String, parse: Function<String, T>, defaultValue: T): Prop<T>
+    fun <T> createProp(
+        propName: String,
+        parse: Function<String, T>,
+        defaultValue: T?,
+    ): Prop<T>
 }
