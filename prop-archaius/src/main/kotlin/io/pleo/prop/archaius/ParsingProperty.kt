@@ -7,7 +7,7 @@ import java.util.function.Function
 private val logger = LoggerFactory.getLogger(ParsingProperty::class.java)
 
 class ParsingProperty<T>(
-    propName: String?,
+    propName: String,
     private val parser: Function<String, T>,
     defaultValue: T?,
 ) : PropertyWrapper<T>(propName, defaultValue) {
