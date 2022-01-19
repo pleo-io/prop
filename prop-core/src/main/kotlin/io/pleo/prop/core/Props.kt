@@ -3,6 +3,7 @@ package io.pleo.prop.core
 import io.pleo.prop.core.internal.LocalProp
 import java.util.function.Supplier
 
+@Suppress("unused")
 object Props {
     /**
      * Creates a static Prop that will always have the provided value.
@@ -11,6 +12,7 @@ object Props {
      * @param <T>   The type of the Prop
      * @return A Prop instance that will always return the provided value.
      */
+    @JvmStatic
     fun <T> of(value: T) = LocalProp(value)
 
     /**
@@ -20,5 +22,6 @@ object Props {
      * @param <T>      The type of the Prop
      * @return A Prop instance that will always return the value returned by the provided supplier.
      */
+    @JvmStatic
     fun <T> of(supplier: Supplier<T>) = LocalProp(supplier)
 }
