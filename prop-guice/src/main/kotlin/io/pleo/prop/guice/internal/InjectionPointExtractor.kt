@@ -24,17 +24,15 @@ class InjectionPointExtractor(private val filter: Predicate<TypeLiteral<*>>) :
     override fun visit(untargettedBinding: UntargettedBinding<*>): Iterable<InjectionPoint> =
         listOfNotNull(getInjectionPointForKey(untargettedBinding.key))
 
-    override fun visit(assistedInjectBinding: AssistedInjectBinding<*>): Iterable<InjectionPoint> {
-        val injectionPoints: MutableCollection<InjectionPoint> = ArrayList()
-        for (assistedMethod in assistedInjectBinding.assistedMethods) {
+    override fun visit(assistedInjectBinding: AssistedInjectBinding<*>): Iterable<InjectionPoint> =
+        assistedInjectBinding.assistedMethods.mapNotNull { assistedMethod ->
             try {
-                injectionPoints.add(InjectionPoint.forConstructorOf(assistedMethod.implementationType))
+                InjectionPoint.forConstructorOf(assistedMethod.implementationType)
             } catch (e: ConfigurationException) {
                 logger.info("Skipping assistedMethod type {}: {}", assistedMethod.implementationType, e.message)
+                null
             }
         }
-        return injectionPoints
-    }
 
     override fun visit(linkedKeyBinding: LinkedKeyBinding<*>): Iterable<InjectionPoint> =
         listOfNotNull(getInjectionPointForKey(linkedKeyBinding.linkedKey))

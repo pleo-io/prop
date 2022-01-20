@@ -10,7 +10,6 @@ import com.netflix.config.PollResult
 import com.netflix.config.PolledConfigurationSource
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.util.function.Function
 
 private const val PROPERTY_KEY = "ParsingPropertyTest_01"
 
@@ -25,7 +24,7 @@ class ParsingPropertyTest {
     @Test
     fun `undefined property throws`() {
         assertThrows<UndefinedPropertyException> {
-            ParsingProperty(PROPERTY_KEY, Function.identity(), null)
+            ParsingProperty(PROPERTY_KEY, { it }, null)
         }
     }
 
@@ -40,7 +39,7 @@ class ParsingPropertyTest {
             )
         )
 
-        val property: ParsingProperty<String?> = ParsingProperty(PROPERTY_KEY, Function.identity(), null)
+        val property: ParsingProperty<String?> = ParsingProperty(PROPERTY_KEY, { it }, null)
         assertThat(property.value).isEqualTo("value1")
 
         propertyValue = "value2"

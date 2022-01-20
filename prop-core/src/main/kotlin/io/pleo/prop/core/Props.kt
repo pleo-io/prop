@@ -1,7 +1,6 @@
 package io.pleo.prop.core
 
 import io.pleo.prop.core.internal.LocalProp
-import java.util.function.Supplier
 
 @Suppress("unused")
 object Props {
