@@ -98,12 +98,10 @@ class PropMappingVisitor(
         val parser = parserFactory.createParserForType(type)
         try {
             val annotation = parameter.getAnnotation(Default::class.java)
-            println("ANNOTATION: $annotation")
             val defaultValue = ofNullable<Default>(annotation)
                 .map(Default::value)
                 .map(parser::apply)
                 .orElse(null)
-            println("DEF: $defaultValue")
 
             return propFactory.createProp(propertyName, parser, defaultValue)
         } catch (ex: RuntimeException) {
@@ -112,9 +110,7 @@ class PropMappingVisitor(
     }
 
     private fun getNamedAnnotationValue(annotations: List<Annotation>, key: Key<*>): String =
-        annotations.mapNotNull(::annotationValueIfNamed).lastOrNull().also {
-            println("?? $it")
-        }
+        annotations.mapNotNull(::annotationValueIfNamed).lastOrNull()
             ?: throw RequiredNamedAnnotationException(key)
 
     private fun annotationValueIfNamed(annotation: Annotation): String? =
@@ -122,7 +118,5 @@ class PropMappingVisitor(
             is Named -> annotation.value
             is com.google.inject.name.Named -> annotation.value
             else -> null
-        }?.ifEmpty { null }.also {
-            println(">> $it")
-        }
+        }?.ifEmpty { null }
 }
