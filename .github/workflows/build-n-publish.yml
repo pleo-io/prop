@@ -4,9 +4,9 @@ on: push
 
 jobs:
   build-n-publish:
-    runs-on: [self-hosted, universal]
+    runs-on: ubuntu-20.04
     timeout-minutes: 90
-    
+
     permissions:
       # Allows cloning repo and creating releases in the release page
       contents: write
@@ -16,9 +16,8 @@ jobs:
       issues: read
       # Allows search through PRs and issues as well as commenting on PRs
       pull-requests: write
-    
-    steps:
 
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -38,7 +37,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 17
-          distribution: 'adopt'
+          distribution: "adopt"
 
       - name: Gradle Build
         uses: burrunan/gradle-cache-action@v1.10
@@ -51,7 +50,7 @@ jobs:
       - name: Setup Node.js, latest LTS
         uses: actions/setup-node@v2
         with:
-          node-version: 'lts/*'
+          node-version: "lts/*"
 
       - name: Setup Semantic Release dependencies
         run: >
