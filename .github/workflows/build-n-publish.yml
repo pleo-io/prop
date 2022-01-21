@@ -57,7 +57,7 @@ jobs:
           npm install --no-save
           @semantic-release/changelog 
           @semantic-release/git 
-          semantic-release-commit-filter
+          gradle-semantic-release-plugin
 
       # Sets up SSH (Deploy) key which allows authoring commits directly on main branch
       - name: Setup SSH Key
