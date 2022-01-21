@@ -1,22 +1,18 @@
 package io.pleo.prop.archaius
 
 import com.netflix.config.PropertyWrapper
+import io.pleo.prop.core.Parser
 import org.slf4j.LoggerFactory
-import java.util.function.Function
 
 private val logger = LoggerFactory.getLogger(ParsingProperty::class.java)
 
 class ParsingProperty<T>(
     propName: String,
-    private val parser: Function<String, T>,
+    private val parser: Parser<T>,
     defaultValue: T?,
 ) : PropertyWrapper<T>(propName, defaultValue) {
     @Volatile
-    private var value: T
-
-    init {
-        value = parseProperty()
-    }
+    private var value: T = parseProperty()
 
     private fun parseProperty(): T {
         val stringValue = prop.string
@@ -26,7 +22,7 @@ class ParsingProperty<T>(
             }
             return defaultValue
         }
-        return parser.apply(stringValue) ?: throw UndefinedPropertyException(this)
+        return parser(stringValue) ?: throw UndefinedPropertyException(this)
     }
 
     override fun propertyChanged() =
