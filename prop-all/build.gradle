@@ -5,5 +5,5 @@ dependencies {
   api project(':prop-core')
   api project(':prop-guice')
   api project(':prop-jackson')
-  api project(':prop-archaius')
+  api project(':prop-commons-config')
 }

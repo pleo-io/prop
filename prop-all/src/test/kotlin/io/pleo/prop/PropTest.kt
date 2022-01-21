@@ -9,7 +9,7 @@ import com.google.inject.Module
 import com.google.inject.PrivateModule
 import com.google.inject.assistedinject.FactoryModuleBuilder
 import io.mockk.mockk
-import io.pleo.prop.archaius.ArchaiusPropFactory
+import io.pleo.prop.commonsconfig.CommonsConfigPropFactory
 import io.pleo.prop.guice.AutoPropModule
 import io.pleo.prop.guice.internal.FailedToCreatePropException
 import io.pleo.prop.guice.internal.RequiredNamedAnnotationException
@@ -286,7 +286,7 @@ class PropTest {
         val autoPropModule = AutoPropModule(
             "io.pleo",
             modules.toList(),
-            ArchaiusPropFactory(),
+            CommonsConfigPropFactory(),
             JacksonParserFactory(),
         )
 

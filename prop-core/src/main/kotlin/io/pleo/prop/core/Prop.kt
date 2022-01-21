@@ -13,7 +13,7 @@ interface Prop<T> {
     /** Get the name of the property */
     val name: String
 
-    operator fun invoke(): T
+    operator fun invoke(): T = get()
     fun get(): T
 
     /** Gets the time when the property was last set/changed. */
