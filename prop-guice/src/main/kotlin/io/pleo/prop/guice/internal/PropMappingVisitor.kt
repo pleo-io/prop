@@ -4,20 +4,25 @@ import com.google.inject.Binding
 import com.google.inject.Key
 import com.google.inject.TypeLiteral
 import com.google.inject.spi.DefaultElementVisitor
+import com.google.inject.spi.Dependency
 import com.google.inject.spi.Element
 import com.google.inject.spi.InjectionPoint
 import com.google.inject.spi.PrivateElements
 import com.google.inject.spi.ProviderLookup
 import io.pleo.prop.core.Default
+import io.pleo.prop.core.Parser
 import io.pleo.prop.core.Prop
 import io.pleo.prop.core.internal.ParserFactory
 import io.pleo.prop.core.internal.PropFactory
 import java.lang.reflect.Executable
 import java.lang.reflect.Parameter
 import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
 import java.util.Optional.ofNullable
 import java.util.function.Predicate
 import javax.inject.Named
+
+typealias PropResult = Result<Prop<*>>
 
 /**
  * Goes over every binding and produces a Map associating Guice binding keys to
@@ -69,44 +74,46 @@ class PropMappingVisitor(
                 ?.toList()
                 ?: return@buildMap
 
-            injectionPoint.dependencies.forEach { dependency ->
-                @Suppress("unchecked_cast")
-                val key = dependency.key
-                    .takeIf {
-                        it.typeLiteral.rawType == Prop::class.java &&
-                            it.typeLiteral.type is ParameterizedType
-                    } as Key<Prop<*>>?
-                    ?: return@forEach
-
-                val value =
-                    try {
-                        val parameter = parameters[dependency.parameterIndex]
-                        PropResult(parameterToProp(parameter, key))
-                    } catch (ex: RuntimeException) {
-                        PropResult(ex)
+            injectionPoint.dependencies
+                .filterIsPropDependency()
+                .forEach { dependency ->
+                    buildAndSet(dependency.key) {
+                        parameters[dependency.parameterIndex].toProp(dependency.key)
                     }
-
-                set(key, value)
-            }
+                }
         }
 
-    private fun parameterToProp(parameter: Parameter, key: Key<*>): Prop<*> {
-        val propertyName: String = getNamedAnnotationValue(parameter.annotations.toList(), key)
+    @Suppress("unchecked_cast")
+    private fun List<Dependency<*>>.filterIsPropDependency(): List<Dependency<Prop<*>>> =
+        filter {
+            it.key.typeLiteral.rawType == Prop::class.java &&
+                it.key.typeLiteral.type is ParameterizedType
+        } as List<Dependency<Prop<*>>>
 
-        val parameterizedType = parameter.parameterizedType as ParameterizedType
-        val type = parameterizedType.actualTypeArguments.first()
-        val parser = parserFactory.createParserForType(type)
+    private fun <K, V> MutableMap<K, Result<V>>.buildAndSet(key: K, builder: () -> V) =
+        set(key, runCatching(builder))
+
+    private fun Parameter.toProp(key: Key<*>): Prop<*> {
+        val propertyName: String = getNamedAnnotationValue(annotations.toList(), key)
+        val parser = createParameterParser(this)
+
         try {
-            val annotation = parameter.getAnnotation(Default::class.java)
+            val annotation = getAnnotation(Default::class.java)
             val defaultValue = ofNullable<Default>(annotation)
                 .map(Default::value)
-                .map(parser::apply)
+                .map(parser)
                 .orElse(null)
 
             return propFactory.createProp(propertyName, parser, defaultValue)
         } catch (ex: RuntimeException) {
             throw FailedToCreatePropException(propertyName, ex)
         }
+    }
+
+    private fun createParameterParser(parameter: Parameter): Parser<*> {
+        val parameterizedType = parameter.parameterizedType as ParameterizedType
+        val type: Type = parameterizedType.actualTypeArguments.first()
+        return parserFactory.createParserForType(type)
     }
 
     private fun getNamedAnnotationValue(annotations: List<Annotation>, key: Key<*>): String =
