@@ -4,7 +4,8 @@ on: push
 
 jobs:
   build-n-publish:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, universal]
+    timeout-minutes: 90
     
     permissions:
       # Allows cloning repo and creating releases in the release page
@@ -47,16 +48,16 @@ jobs:
           save-local-build-cache: ${{github.ref == 'refs/heads/master'}}
           save-generated-gradle-jars: ${{github.ref == 'refs/heads/master'}}
 
-      - name: Setup Node 17
+      - name: Setup Node.js, latest LTS
         uses: actions/setup-node@v2
         with:
-          node-version: 17
+          node-version: 'lts/*'
 
       - name: Setup Semantic Release dependencies
         run: >
           npm install --no-save
-          @semantic-release/changelog 
-          @semantic-release/git 
+          @semantic-release/changelog
+          @semantic-release/git
           gradle-semantic-release-plugin
 
       # Sets up SSH (Deploy) key which allows authoring commits directly on main branch
