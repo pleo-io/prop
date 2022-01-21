@@ -47,11 +47,10 @@ jobs:
           save-local-build-cache: ${{github.ref == 'refs/heads/master'}}
           save-generated-gradle-jars: ${{github.ref == 'refs/heads/master'}}
 
-      - name: Setup Node 14
+      - name: Setup Node 16
         uses: actions/setup-node@v2
         with:
-          node-version: 14
-          cache: 'npm'
+          node-version: 16
 
       - name: Setup Semantic Release dependencies
         run: >
