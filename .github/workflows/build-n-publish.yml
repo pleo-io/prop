@@ -47,10 +47,18 @@ jobs:
           save-local-build-cache: ${{github.ref == 'refs/heads/master'}}
           save-generated-gradle-jars: ${{github.ref == 'refs/heads/master'}}
 
-      - uses: actions/setup-node@v2
+      - name: Setup Node 14
+        uses: actions/setup-node@v2
         with:
           node-version: 14
-      - run: npm install -g npm@6
+          cache: 'npm'
+
+      - name: Setup Semantic Release dependencies
+        run: >
+          npm install --no-save
+          @semantic-release/changelog 
+          @semantic-release/git 
+          semantic-release-commit-filter
 
       # Sets up SSH (Deploy) key which allows authoring commits directly on main branch
       - name: Setup SSH Key
@@ -59,12 +67,8 @@ jobs:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v2.7.0
+        run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          semantic_version: 19
-          extra_plugins: |
-            @semantic-release/changelog
-            gradle-semantic-release-plugin
-            @semantic-release/git
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
