@@ -1,10 +1,12 @@
 name: Build and Publish
 
-on: push
+on:
+  push:
+    branches: [master]
 
 jobs:
   build-n-publish:
-    runs-on: ubuntu-20.04
+    runs-on: [self-hosted, universal]
     timeout-minutes: 90
 
     permissions:
