@@ -24,13 +24,16 @@ class ParsingProperty<T>(
         private set
 
     private fun parseProperty(): T {
-        val stringValue = builder.configuration.getString(name)
-        if (stringValue == null) {
-            if (defaultValue == null) {
-                throw UndefinedPropertyException(this)
+        val stringValue =
+            try {
+                builder.configuration.getString(name)
+            } catch (ex: Exception) {
+                logger.error("Failed to load string property $name", ex)
+                throw ex
             }
-            return defaultValue
-        }
+                ?: return defaultValue
+                    ?: throw UndefinedPropertyException(this)
+
         return parser(stringValue) ?: throw UndefinedPropertyException(this)
     }
 

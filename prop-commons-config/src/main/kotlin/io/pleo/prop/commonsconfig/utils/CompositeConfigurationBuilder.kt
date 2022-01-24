@@ -63,13 +63,9 @@ class CompositeConfigurationBuilder : ConfigurationBuilder<CompositeConfiguratio
     fun remove(item: Configuration): Boolean = synchronized(items) { items.remove(item) }
 
     override fun <T : Event> addEventListener(eventType: EventType<T>, listener: EventListener<in T>) {
-        println("addEvent listener builder")
         eventListeners.addEventListener(eventType, listener)
         if (isResultInitialised) {
-            println("addEvent listener configuration $result")
             result.addEventListener(eventType, listener)
-        } else {
-            println("addEvent NOT")
         }
     }
 
