@@ -47,6 +47,11 @@ jobs:
           save-local-build-cache: ${{github.ref == 'refs/heads/master'}}
           save-generated-gradle-jars: ${{github.ref == 'refs/heads/master'}}
 
+      - name: Setup Node.js, latest LTS
+        uses: actions/setup-node@v2
+        with:
+          node-version: "lts/*"
+
         # Sets up SSH (Deploy) key which allows authoring commits directly on main branch
       - name: Setup SSH Key
         uses: webfactory/ssh-agent@v0.5.4
