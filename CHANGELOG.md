@@ -1,3 +1,43 @@
+# [4.0.0](https://github.com/pleo-io/prop/compare/v3.0.1...v4.0.0) (2022-01-24)
+
+
+### Bug Fixes
+
+* **ci:** refactor workflow ([#83](https://github.com/pleo-io/prop/issues/83)) ([956c39c](https://github.com/pleo-io/prop/commit/956c39ca332a5d64f3f09ebbd3c7da0a0ee3e0cb))
+* **ci:** use self-hosted but only release on master ([#84](https://github.com/pleo-io/prop/issues/84)) ([798278f](https://github.com/pleo-io/prop/commit/798278f50906b4b704cba564895efa080406534b))
+
+
+* Move to Kotlin ([f506e74](https://github.com/pleo-io/prop/commit/f506e7407f77d9cdbbeb8ca7a64a464a47f1bb30))
+
+
+### Features
+
+* **core:** More idiomatic Kotlin ([f82dc35](https://github.com/pleo-io/prop/commit/f82dc3541a1744a99cceda8b123255462bd1da1f))
+* **core:** More idiomatic Kotlin ([0dc60a8](https://github.com/pleo-io/prop/commit/0dc60a87edb404dae852ef424c7b3ee2c2438605))
+* **core:** More idiomatic Kotlin ([d8d1c63](https://github.com/pleo-io/prop/commit/d8d1c63ef714ba011b6b3d0e3d17c4453e625521))
+* **core:** More idiomatic Kotlin ([#78](https://github.com/pleo-io/prop/issues/78)) ([ad1005f](https://github.com/pleo-io/prop/commit/ad1005f2da7a1b0be652fb7c013c1643087fc9e2))
+* **core:** More idiomatic Kotlin ([#80](https://github.com/pleo-io/prop/issues/80)) ([35b120f](https://github.com/pleo-io/prop/commit/35b120f3e1acfb9c22d8782e76a54b1998107e47))
+
+
+### BREAKING CHANGES
+
+* **core:** use Kotlin lambda instead of Runnable, Function
+
+Use Kotlin lambda instead of Runnable for Prop.addCallback, and instead of Function for PropFactory.parse.
+* **core:** use Kotlin lambda instead of Runnable, Function
+
+Use Kotlin lambda instead of Runnable for Prop.addCallback, and instead of Function for PropFactory.parse.
+* **core:** use Kotlin lambda instead of Runnable, Function
+
+Use Kotlin lambda instead of Runnable for Prop.addCallback, and instead of Function for PropFactory.parse.
+* **core:** use Kotlin lambda instead of Runnable, Function
+
+Use Kotlin lambda instead of Runnable for Prop.addCallback, and instead of Function for PropFactory.parse.
+* **core:** use Kotlin lambda instead of Runnable, Function
+
+Use Kotlin lambda instead of Runnable for Prop.addCallback, and instead of Function for PropFactory.parse.
+* `JacksonParserFactory` had mistakenly been given the class `io.pleo.prop.guice`; it has been corrected to `io.pleo.prop.jackson`; minimum JDK version has been bumped to JDK11.
+
 ## [3.0.1](https://github.com/pleo-io/prop/compare/v3.0.0...v3.0.1) (2021-09-22)
 
 
