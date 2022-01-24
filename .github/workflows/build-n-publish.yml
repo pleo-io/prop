@@ -13,7 +13,7 @@ jobs:
       # Allows publishing packages in NPM registry
       packages: write
       # Allows searching through PRs and issues
-      issues: read
+      issues: write
       # Allows search through PRs and issues as well as commenting on PRs
       pull-requests: write
 
@@ -47,27 +47,17 @@ jobs:
           save-local-build-cache: ${{github.ref == 'refs/heads/master'}}
           save-generated-gradle-jars: ${{github.ref == 'refs/heads/master'}}
 
-      - name: Setup Node.js, latest LTS
-        uses: actions/setup-node@v2
-        with:
-          node-version: "lts/*"
-
-      - name: Setup Semantic Release dependencies
-        run: >
-          npm install --no-save
-          @semantic-release/changelog
-          @semantic-release/git
-          gradle-semantic-release-plugin
-
-      # Sets up SSH (Deploy) key which allows authoring commits directly on main branch
+        # Sets up SSH (Deploy) key which allows authoring commits directly on main branch
       - name: Setup SSH Key
-        uses: webfactory/ssh-agent@v0.5.4
+        uses: webfactory/ssh-agent@v0.5.2
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Semantic Release
-        run: npx semantic-release
+        uses: cycjimmy/semantic-release-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/git
