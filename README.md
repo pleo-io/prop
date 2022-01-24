@@ -14,7 +14,7 @@ If you're okay with using Guice, Archaius and Jackson, add a dependency on `prop
 implementation "io.pleo:prop-all:2.0.0"
 ```
 
-All you need is to initialize the `AutoPropModule` by passing it all of the Guice Modules you'd like it to scan for `Prop<X>` dependencies.
+All you need is to initialize the `AutoPropModule` by passing it all of the Guice Modules you would like it to scan for `Prop<X>` dependencies.
 
 ```java
 List<Module> modules = ...
