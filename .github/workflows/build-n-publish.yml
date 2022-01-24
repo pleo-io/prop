@@ -39,9 +39,6 @@ jobs:
         with:
           java-version: 17
           distribution: "adopt"
-          
-      - name: My cool open source contribution
-        run: printenv
 
       - name: Gradle Build
         uses: burrunan/gradle-cache-action@v1.10
