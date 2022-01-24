@@ -67,7 +67,7 @@ You can use many type parameters for your `Prop<X>`. Out of the box, the followi
 * java.time.Duration
 * java.time.Instant
 
-As well as all types that can be deserialized by Jackson.
+as well as all types that can be deserialized by Jackson.
 
 ### How does it work
 
