@@ -95,7 +95,7 @@ class PropMappingVisitor(
 
     private fun Parameter.toProp(key: Key<*>): Prop<*> {
         val propertyName: String = getNamedAnnotationValue(annotations.toList(), key)
-        val parser = createParameterParser(this)
+        val parser: Parser<*> = createParameterParser(this)
 
         try {
             val annotation = getAnnotation(Default::class.java)
@@ -104,7 +104,12 @@ class PropMappingVisitor(
                 .map(parser)
                 .orElse(null)
 
-            return propFactory.createProp(propertyName, parser, defaultValue)
+            @Suppress("UNCHECKED_CAST")
+            return propFactory.createProp(
+                propertyName,
+                parser as Parser<Any>,
+                defaultValue,
+            )
         } catch (ex: RuntimeException) {
             throw FailedToCreatePropException(propertyName, ex)
         }

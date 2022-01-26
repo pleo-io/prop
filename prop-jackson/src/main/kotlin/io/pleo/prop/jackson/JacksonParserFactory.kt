@@ -64,6 +64,6 @@ class JacksonParserFactory @JvmOverloads constructor(
         }
     }
 
-    private inline fun <reified T : Any> buildParserRef(noinline parser: Parser<T>): Pair<Type, (String) -> T> =
+    private inline fun <reified T : Any> buildParserRef(noinline parser: Parser<T>) =
         T::class.java to parser
 }

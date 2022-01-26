@@ -9,7 +9,7 @@ import com.google.inject.Module
 import com.google.inject.PrivateModule
 import com.google.inject.assistedinject.FactoryModuleBuilder
 import io.mockk.mockk
-import io.pleo.prop.archaius.ArchaiusPropFactory
+import io.pleo.prop.commonsconfig.CommonsConfigPropFactory
 import io.pleo.prop.guice.AutoPropModule
 import io.pleo.prop.guice.internal.FailedToCreatePropException
 import io.pleo.prop.guice.internal.RequiredNamedAnnotationException
@@ -45,6 +45,14 @@ class PropTest {
             }
         )
 
+        val mappedEnumExpected = mapOf(
+            ComplexObjects.ParsingStage.PENDING_HUMAN_REVIEW to "This is pending human review",
+            ComplexObjects.ParsingStage.UNDER_HUMAN_REVIEW to "This is under human review",
+            ComplexObjects.ParsingStage.OUTPUT to "This is output",
+            ComplexObjects.ParsingStage.FINISHED to "This is finished",
+            ComplexObjects.ParsingStage.ERROR to "This is error",
+        )
+
         val complexObjects = injector.getInstance(ComplexObjects::class.java)
         val complexObjectPropValue = complexObjects.myComplexObjectProp()
         assertThat(complexObjectPropValue.name).isEqualTo("Rush B")
@@ -59,6 +67,9 @@ class PropTest {
 
         val stringPropValue = complexObjects.myStringProp()
         assertThat(stringPropValue).isEqualTo("awp")
+
+        val mappedEnumValue = complexObjects.myMappedEnumProp()
+        assertThat(mappedEnumValue).isEqualTo(mappedEnumExpected)
     }
 
     @Test
@@ -286,7 +297,7 @@ class PropTest {
         val autoPropModule = AutoPropModule(
             "io.pleo",
             modules.toList(),
-            ArchaiusPropFactory(),
+            CommonsConfigPropFactory(),
             JacksonParserFactory(),
         )
 
