@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/pleo-io/prop/compare/v4.0.0...v5.0.0) (2022-01-26)
+
+
+### Features
+
+* **core:** Exit Archaius, Enter Apache Commons Config2 ([c58945a](https://github.com/pleo-io/prop/commit/c58945aa6918afc5d03d656878b3e9af57ee4f0a))
+
+
+### BREAKING CHANGES
+
+* **core:** Archaius support is removed, including `ConfigurationManager()`
+
 # [4.0.0](https://github.com/pleo-io/prop/compare/v3.0.1...v4.0.0) (2022-01-24)
 
 
