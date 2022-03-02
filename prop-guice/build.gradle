@@ -1,6 +1,6 @@
 description = 'Guice integration for Pleo Prop'
 
-def guiceVersion = '5.0.1'
+def guiceVersion = '5.1.0'
 
 dependencies {
   api project(':prop-core')

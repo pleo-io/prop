@@ -30,7 +30,7 @@ allprojects {
 subprojects {
     ext {
         junitVersion = "5.8.2"
-        kotlinGuiceVersion = "1.5.0"
+        kotlinGuiceVersion = "1.6.0"
         kotlinReflectVersion = "1.6.10"
         mockkVersion = "1.12.2"
     }
@@ -56,7 +56,7 @@ subprojects {
     }
 
     dependencies {
-        implementation 'org.slf4j:slf4j-api:1.7.35'
+        implementation 'org.slf4j:slf4j-api:1.7.36'
         implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinReflectVersion"
         implementation "dev.misfitlabs.kotlinguice4:kotlin-guice:$kotlinGuiceVersion"
 
