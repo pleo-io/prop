@@ -20,6 +20,7 @@ import java.time.YearMonth
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
+import javax.money.Monetary
 
 class JacksonParserFactory @JvmOverloads constructor(
     private val objectMapper: ObjectMapper = ObjectMapper(),
@@ -47,6 +48,7 @@ class JacksonParserFactory @JvmOverloads constructor(
         buildParserRef(YearMonth::parse),
         buildParserRef(ZoneId::of),
         buildParserRef(ZoneOffset::of),
+        buildParserRef(Monetary::getCurrency)
     )
 
     override fun createParserForType(type: Type): Parser<*> =
