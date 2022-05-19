@@ -40,8 +40,8 @@ subprojects {
     apply plugin: 'maven-publish'
     apply plugin: "org.jmailen.kotlinter"
 
-    sourceCompatibility = 11
-    targetCompatibility = 11
+    sourceCompatibility = 17
+    targetCompatibility = 17
 
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
@@ -49,7 +49,7 @@ subprojects {
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = "17"
             javaParameters = true
             languageVersion = "1.6"
         }
