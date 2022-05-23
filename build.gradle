@@ -32,7 +32,7 @@ subprojects {
         junitVersion = "5.8.2"
         kotlinGuiceVersion = "1.6.0"
         kotlinReflectVersion = "1.6.20"
-        mockkVersion = "1.12.3"
+        mockkVersion = "1.12.4"
     }
 
     apply plugin: 'java-library'
