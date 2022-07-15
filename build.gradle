@@ -5,7 +5,7 @@ buildscript {
         kotlinCoroutinesVersion = "1.6.0"
         kotlinGradlePluginVersion = "1.6.20"
 
-        kotlinterGradleVersion = "3.10.0"
+        kotlinterGradleVersion = "3.11.1"
     }
 
     repositories {
