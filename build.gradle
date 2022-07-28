@@ -1,11 +1,11 @@
 
 buildscript {
     ext {
-        kotlinVersion = "1.6.10"
+        kotlinVersion = "1.6.20"
         kotlinCoroutinesVersion = "1.6.0"
-        kotlinGradlePluginVersion = "1.6.10"
+        kotlinGradlePluginVersion = "1.6.20"
 
-        kotlinterGradleVersion = "3.9.0"
+        kotlinterGradleVersion = "3.10.0"
     }
 
     repositories {
@@ -31,7 +31,7 @@ subprojects {
     ext {
         junitVersion = "5.8.2"
         kotlinGuiceVersion = "1.6.0"
-        kotlinReflectVersion = "1.6.10"
+        kotlinReflectVersion = "1.6.20"
         mockkVersion = "1.12.3"
     }
 
@@ -40,8 +40,8 @@ subprojects {
     apply plugin: 'maven-publish'
     apply plugin: "org.jmailen.kotlinter"
 
-    sourceCompatibility = 11
-    targetCompatibility = 11
+    sourceCompatibility = 17
+    targetCompatibility = 17
 
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
@@ -49,7 +49,7 @@ subprojects {
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = "17"
             javaParameters = true
             languageVersion = "1.6"
         }

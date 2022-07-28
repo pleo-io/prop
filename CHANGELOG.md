@@ -1,3 +1,15 @@
+# [6.0.0](https://github.com/pleo-io/prop/compare/v5.0.0...v6.0.0) (2022-05-23)
+
+
+### Performance Improvements
+
+* **core:** Removed old CODEOWNERS file in favour of .github/CODEOWNERS ([#121](https://github.com/pleo-io/prop/issues/121)) ([f3dbd4d](https://github.com/pleo-io/prop/commit/f3dbd4df878f14d67e4670324da670d1ac80e385))
+
+
+### BREAKING CHANGES
+
+* **core:** Java version updated from Java11 to Java17
+
 # [5.0.0](https://github.com/pleo-io/prop/compare/v4.0.0...v5.0.0) (2022-01-26)
 
 

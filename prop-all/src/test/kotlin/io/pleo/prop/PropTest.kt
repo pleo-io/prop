@@ -16,6 +16,7 @@ import io.pleo.prop.guice.internal.RequiredNamedAnnotationException
 import io.pleo.prop.jackson.JacksonParserFactory
 import io.pleo.prop.objects.BothNamedAnnotations
 import io.pleo.prop.objects.ComplexObjects
+import io.pleo.prop.objects.CurrencyUnitProp
 import io.pleo.prop.objects.DefaultValue
 import io.pleo.prop.objects.EmptyNamedAnnotation
 import io.pleo.prop.objects.InjectedObject
@@ -70,6 +71,19 @@ class PropTest {
 
         val mappedEnumValue = complexObjects.myMappedEnumProp()
         assertThat(mappedEnumValue).isEqualTo(mappedEnumExpected)
+    }
+
+    @Test
+    fun `can read CurrencyUnit`() {
+        val injector = createInjector(
+            Module { binder: Binder ->
+                binder.bind(CurrencyUnitProp::class.java)
+            }
+        )
+
+        val currency: CurrencyUnitProp = injector.getInstance(CurrencyUnitProp::class.java)
+
+        assertThat(currency.currency.get().currencyCode).isEqualTo("EUR")
     }
 
     @Test
