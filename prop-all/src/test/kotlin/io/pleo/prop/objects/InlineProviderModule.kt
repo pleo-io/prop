@@ -21,7 +21,7 @@ class InlineProviderModule : AbstractModule() {
     fun tiesto(
         io: InjectedObject?,
         @Named("io.pleo.test.prop4") w_w: Prop<String>,
-        @Named("io.pleo.test.prop3") u_u: Prop<String>,
+        @Named("io.pleo.test.prop3") u_u: Prop<String>
     ): InjectedObject {
         return InjectedObject()
     }

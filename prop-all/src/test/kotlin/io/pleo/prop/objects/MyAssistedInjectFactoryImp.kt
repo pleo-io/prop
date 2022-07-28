@@ -8,5 +8,5 @@ import javax.inject.Named
 @Suppress("unused")
 class MyAssistedInjectFactoryImp @Inject constructor(
     @Named("io.pleo.test.prop3") private val prop: Prop<String>,
-    @Assisted private val assistedArg: String,
+    @Assisted private val assistedArg: String
 )

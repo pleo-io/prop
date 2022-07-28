@@ -9,7 +9,7 @@ import javax.inject.Named
 class InvalidDefaultValueButValidValue @Inject constructor(
     @Default(DEFAULT_VALUE)
     @Named("io.pleo.test.prop6")
-    val usesDefaultValue: Prop<Double>,
+    val usesDefaultValue: Prop<Double>
 ) {
 
     companion object {

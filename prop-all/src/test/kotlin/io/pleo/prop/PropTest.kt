@@ -51,7 +51,7 @@ class PropTest {
             ComplexObjects.ParsingStage.UNDER_HUMAN_REVIEW to "This is under human review",
             ComplexObjects.ParsingStage.OUTPUT to "This is output",
             ComplexObjects.ParsingStage.FINISHED to "This is finished",
-            ComplexObjects.ParsingStage.ERROR to "This is error",
+            ComplexObjects.ParsingStage.ERROR to "This is error"
         )
 
         val complexObjects = injector.getInstance(ComplexObjects::class.java)
@@ -312,7 +312,7 @@ class PropTest {
             "io.pleo",
             modules.toList(),
             CommonsConfigPropFactory(),
-            JacksonParserFactory(),
+            JacksonParserFactory()
         )
 
         val allModules: List<Module> = buildList {

@@ -10,7 +10,7 @@ class ComplexObjects @Inject constructor(
     @Named("io.pleo.test.prop1") val withConstructor: Prop<InjectedObjectWithConstructor>,
     @Named("io.pleo.test.prop2") val myListOfComplexObjectProp: Prop<List<InjectedObject>>,
     @Named("io.pleo.test.prop3") val myStringProp: Prop<String>,
-    @Named("io.pleo.test.prop7") val myMappedEnumProp: Prop<Map<ParsingStage, String>>,
+    @Named("io.pleo.test.prop7") val myMappedEnumProp: Prop<Map<ParsingStage, String>>
 ) {
     enum class ParsingStage {
         UPLOADED,

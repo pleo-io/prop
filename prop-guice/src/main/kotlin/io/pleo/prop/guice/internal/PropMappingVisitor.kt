@@ -31,7 +31,7 @@ typealias PropResult = Result<Prop<*>>
 class PropMappingVisitor(
     filter: Predicate<TypeLiteral<*>>,
     private val propFactory: PropFactory,
-    private val parserFactory: ParserFactory,
+    private val parserFactory: ParserFactory
 ) : DefaultElementVisitor<Map<Key<Prop<*>>, PropResult>>() {
     private val injectionPointExtractor: InjectionPointExtractor = InjectionPointExtractor(filter)
 
@@ -108,7 +108,7 @@ class PropMappingVisitor(
             return propFactory.createProp(
                 propertyName,
                 parser as Parser<Any>,
-                defaultValue,
+                defaultValue
             )
         } catch (ex: RuntimeException) {
             throw FailedToCreatePropException(propertyName, ex)

@@ -7,5 +7,5 @@ import javax.inject.Named as JavaxNamed
 
 class BothNamedAnnotations @Inject constructor(
     @JavaxNamed("io.pleo.test.prop3") val stringProp1: Prop<String>,
-    @GoogleNamed("io.pleo.test.prop4") val stringProp2: Prop<String>,
+    @GoogleNamed("io.pleo.test.prop4") val stringProp2: Prop<String>
 )

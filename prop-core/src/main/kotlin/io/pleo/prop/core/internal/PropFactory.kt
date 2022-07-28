@@ -8,6 +8,6 @@ interface PropFactory {
     fun <T> createProp(
         propName: String,
         parse: Parser<T>,
-        defaultValue: T?,
+        defaultValue: T?
     ): Prop<T>
 }

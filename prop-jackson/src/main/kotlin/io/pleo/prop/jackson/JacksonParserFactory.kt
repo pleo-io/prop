@@ -23,7 +23,7 @@ import java.time.ZonedDateTime
 import javax.money.Monetary
 
 class JacksonParserFactory @JvmOverloads constructor(
-    private val objectMapper: ObjectMapper = ObjectMapper(),
+    private val objectMapper: ObjectMapper = ObjectMapper()
 ) : ParserFactory {
     @Suppress("MemberVisibilityCanBePrivate")
     private val knownParsers: MutableMap<Type, (String) -> Any> = mutableMapOf(
