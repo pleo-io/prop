@@ -1,3 +1,10 @@
+## [6.0.1](https://github.com/pleo-io/prop/compare/v6.0.0...v6.0.1) (2022-07-29)
+
+
+### Bug Fixes
+
+* **deps:** Correct renovate semantic release type ([#125](https://github.com/pleo-io/prop/issues/125)) ([b247551](https://github.com/pleo-io/prop/commit/b247551855b43a6e3d5bdf9d341b6948a901dc37))
+
 # [6.0.0](https://github.com/pleo-io/prop/compare/v5.0.0...v6.0.0) (2022-05-23)
 
 
