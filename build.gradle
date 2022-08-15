@@ -1,9 +1,9 @@
 
 buildscript {
     ext {
-        kotlinVersion = "1.6.20"
+        kotlinVersion = "1.7.0"
         kotlinCoroutinesVersion = "1.6.0"
-        kotlinGradlePluginVersion = "1.6.20"
+        kotlinGradlePluginVersion = "1.7.0"
 
         kotlinterGradleVersion = "3.10.0"
     }
@@ -31,7 +31,7 @@ subprojects {
     ext {
         junitVersion = "5.9.0"
         kotlinGuiceVersion = "1.6.0"
-        kotlinReflectVersion = "1.6.20"
+        kotlinReflectVersion = "1.7.0"
         mockkVersion = "1.12.3"
     }
 
