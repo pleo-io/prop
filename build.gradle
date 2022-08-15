@@ -31,7 +31,7 @@ subprojects {
     ext {
         junitVersion = "5.8.2"
         kotlinGuiceVersion = "1.6.0"
-        kotlinReflectVersion = "1.6.20"
+        kotlinReflectVersion = "1.7.0"
         mockkVersion = "1.12.3"
     }
 
