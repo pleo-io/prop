@@ -1,9 +1,9 @@
 
 buildscript {
     ext {
-        kotlinVersion = "1.6.20"
+        kotlinVersion = "1.7.0"
         kotlinCoroutinesVersion = "1.6.0"
-        kotlinGradlePluginVersion = "1.6.20"
+        kotlinGradlePluginVersion = "1.7.0"
 
         kotlinterGradleVersion = "3.10.0"
     }
