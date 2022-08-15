@@ -1,3 +1,10 @@
+## [6.0.2](https://github.com/pleo-io/prop/compare/v6.0.1...v6.0.2) (2022-08-15)
+
+
+### Bug Fixes
+
+* **deps:** update junit5 monorepo to v5.9.0 ([#124](https://github.com/pleo-io/prop/issues/124)) ([2bba6fb](https://github.com/pleo-io/prop/commit/2bba6fb7f38f1360dcfaf4923ae511e877f5c977))
+
 ## [6.0.1](https://github.com/pleo-io/prop/compare/v6.0.0...v6.0.1) (2022-07-29)
 
 
