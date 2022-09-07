@@ -1,0 +1,16 @@
+---
+version: 1
+service:
+  name: prop
+  lifecycle: generally_available
+  owner: pegasus-backend
+  language: Kotlin
+  description: |-
+    Simple auto-discovered dynamic properties for your app!
+  repositories:
+    - name: pleo-io/prop
+      path: '/'
+      provider: github
+  tags:
+    - key: type
+      value: library
