@@ -1,3 +1,10 @@
+## [6.0.3](https://github.com/pleo-io/prop/compare/v6.0.2...v6.0.3) (2022-09-08)
+
+
+### Bug Fixes
+
+* **deps:** update dependency org.jmailen.gradle:kotlinter-gradle to v3.11.1 ([#122](https://github.com/pleo-io/prop/issues/122)) ([08fe25f](https://github.com/pleo-io/prop/commit/08fe25fd8a1d8ee8b3164e37ea7dece66b47daa0))
+
 ## [6.0.2](https://github.com/pleo-io/prop/compare/v6.0.1...v6.0.2) (2022-08-15)
 
 
