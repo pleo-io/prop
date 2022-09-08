@@ -102,7 +102,7 @@ class CompositeConfigurationBuilder : ConfigurationBuilder<CompositeConfiguratio
                 ConfigurationBuilderResultCreatedEvent(
                     this,
                     ConfigurationBuilderResultCreatedEvent.RESULT_CREATED,
-                    compositeConfiguration,
+                    compositeConfiguration
                 )
             )
         }
@@ -110,14 +110,13 @@ class CompositeConfigurationBuilder : ConfigurationBuilder<CompositeConfiguratio
 
     private fun <E : Event> registerListener(
         eventSource: EventSource,
-        registrationData: EventListenerRegistrationData<E>,
+        registrationData: EventListenerRegistrationData<E>
     ) {
         eventSource.addEventListener(registrationData.eventType, registrationData.listener)
     }
 
     private fun createResult(): CompositeConfiguration =
         CompositeConfiguration().apply {
-
             items.forEach {
                 val configuration =
                     when (it) {

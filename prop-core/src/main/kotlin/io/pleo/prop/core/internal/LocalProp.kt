@@ -6,7 +6,7 @@ import io.pleo.prop.core.Supplier
 import java.time.Instant
 
 class LocalProp<T>(
-    private val supplier: Supplier<T>,
+    private val supplier: Supplier<T>
 ) : Prop<T> {
     private val created: Instant = Instant.now()
 

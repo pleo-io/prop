@@ -14,7 +14,7 @@ class ParsingProperty<T>(
     private val builder: ConfigurationBuilder<*>,
     val name: String,
     private val parser: Parser<T>,
-    private val defaultValue: T?,
+    private val defaultValue: T?
 ) {
     @Volatile
     private var value: T = parseProperty()
