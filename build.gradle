@@ -2,6 +2,7 @@
 buildscript {
     ext {
         kotlinVersion = "1.7.10"
+        kotlinCoroutinesVersion = "1.6.0"
         kotlinGradlePluginVersion = "1.7.10"
 
         kotlinterGradleVersion = "3.11.1"
@@ -28,10 +29,10 @@ allprojects {
 
 subprojects {
     ext {
-        junitVersion = "5.8.2"
+        junitVersion = "5.9.0"
         kotlinGuiceVersion = "1.6.0"
         kotlinReflectVersion = "1.7.10"
-        mockkVersion = "1.12.3"
+        mockkVersion = "1.12.4"
     }
 
     apply plugin: 'java-library'
