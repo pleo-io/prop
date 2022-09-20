@@ -19,6 +19,6 @@ class ComplexObjects @Inject constructor(
         UNDER_HUMAN_REVIEW,
         OUTPUT,
         FINISHED,
-        ERROR,
+        ERROR
     }
 }
