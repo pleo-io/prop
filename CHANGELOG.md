@@ -1,3 +1,17 @@
+## [6.0.5](https://github.com/pleo-io/prop/compare/v6.0.4...v6.0.5) (2022-09-20)
+
+
+### Bug Fixes
+
+* **deps:** update jackson to v2.13.4 ([#134](https://github.com/pleo-io/prop/issues/134)) ([a979f8e](https://github.com/pleo-io/prop/commit/a979f8eb200f68951a917e2aef766aa64b6624b2))
+
+## [6.0.4](https://github.com/pleo-io/prop/compare/v6.0.3...v6.0.4) (2022-09-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency org.jmailen.gradle:kotlinter-gradle to v3.12.0 ([#137](https://github.com/pleo-io/prop/issues/137)) ([5e1dff9](https://github.com/pleo-io/prop/commit/5e1dff95f53a612cfbfacbfb9ee1cd6bd982b28a))
+
 ## [6.0.3](https://github.com/pleo-io/prop/compare/v6.0.2...v6.0.3) (2022-09-08)
 
 
