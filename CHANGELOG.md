@@ -1,3 +1,10 @@
+## [6.0.7](https://github.com/pleo-io/prop/compare/v6.0.6...v6.0.7) (2022-09-22)
+
+
+### Bug Fixes
+
+* **deps:** update junit to v5.9.1 ([#138](https://github.com/pleo-io/prop/issues/138)) ([596206c](https://github.com/pleo-io/prop/commit/596206c034ff52ec540474bffa686523814cc066))
+
 ## [6.0.6](https://github.com/pleo-io/prop/compare/v6.0.5...v6.0.6) (2022-09-20)
 
 
