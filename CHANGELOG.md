@@ -1,3 +1,10 @@
+## [6.0.9](https://github.com/pleo-io/prop/compare/v6.0.8...v6.0.9) (2022-10-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency com.fasterxml.jackson.core:jackson-databind to v2.13.4.2 ([#141](https://github.com/pleo-io/prop/issues/141)) ([448c626](https://github.com/pleo-io/prop/commit/448c62690933962f9ac163be6b15d206bd80753c))
+
 ## [6.0.8](https://github.com/pleo-io/prop/compare/v6.0.7...v6.0.8) (2022-09-30)
 
 
