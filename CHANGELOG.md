@@ -1,3 +1,10 @@
+## [6.0.12](https://github.com/pleo-io/prop/compare/v6.0.11...v6.0.12) (2022-11-11)
+
+
+### Bug Fixes
+
+* **deps:** update kotlin to v1.7.21 ([#144](https://github.com/pleo-io/prop/issues/144)) ([9290692](https://github.com/pleo-io/prop/commit/92906925147228dbf8d3a5dcf014397f98f6ed57))
+
 ## [6.0.11](https://github.com/pleo-io/prop/compare/v6.0.10...v6.0.11) (2022-11-07)
 
 
