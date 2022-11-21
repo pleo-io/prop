@@ -1,3 +1,10 @@
+## [6.0.13](https://github.com/pleo-io/prop/compare/v6.0.12...v6.0.13) (2022-11-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency ch.qos.logback:logback-classic to v1.4.5 ([#145](https://github.com/pleo-io/prop/issues/145)) ([285e278](https://github.com/pleo-io/prop/commit/285e27861ab8a864782714725e91ae06fa5121ef))
+
 ## [6.0.12](https://github.com/pleo-io/prop/compare/v6.0.11...v6.0.12) (2022-11-11)
 
 
