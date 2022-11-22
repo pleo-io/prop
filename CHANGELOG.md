@@ -1,3 +1,10 @@
+## [6.0.14](https://github.com/pleo-io/prop/compare/v6.0.13...v6.0.14) (2022-11-22)
+
+
+### Bug Fixes
+
+* **deps:** update jackson to v2.14.1 ([#146](https://github.com/pleo-io/prop/issues/146)) ([9b7a4db](https://github.com/pleo-io/prop/commit/9b7a4dbb3e4547b40d1539a8b105ffb2181587af))
+
 ## [6.0.13](https://github.com/pleo-io/prop/compare/v6.0.12...v6.0.13) (2022-11-21)
 
 
