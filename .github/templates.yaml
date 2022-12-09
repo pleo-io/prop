@@ -2,3 +2,4 @@ version: v11.0.0
 
 files:
   - .github/workflows/format-kotlin.yaml
+  - .github/workflows/pr-help.yaml
