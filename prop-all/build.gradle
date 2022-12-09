@@ -5,5 +5,5 @@ dependencies {
     api project(':prop-guice')
     api project(':prop-jackson')
     api project(':prop-commons-config')
-    implementation "org.javamoney:moneta:1.4.2"
+    implementation(libs.moneta)
 }

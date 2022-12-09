@@ -1,26 +1,18 @@
 
 buildscript {
-    ext {
-        kotlinVersion = "1.7.22"
-        kotlinCoroutinesVersion = "1.6.0"
-        kotlinGradlePluginVersion = "1.7.22"
-
-        kotlinterGradleVersion = "3.12.0"
-    }
-
     repositories {
         mavenLocal()
         mavenCentral()
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinGradlePluginVersion"
-        classpath "org.jmailen.gradle:kotlinter-gradle:$kotlinterGradleVersion"
+        classpath(libs.kotlin.gradle.plugin)
+        classpath(libs.kotlinter.gradle)
     }
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "$kotlinVersion" apply false
+    alias(libs.plugins.kotlin.jvm) apply false
 }
 
 allprojects {
@@ -28,17 +20,10 @@ allprojects {
 }
 
 subprojects {
-    ext {
-        junitVersion = "5.9.1"
-        kotlinGuiceVersion = "1.6.0"
-        kotlinReflectVersion = "1.7.22"
-        mockkVersion = "1.12.4"
-    }
-
-    apply plugin: 'java-library'
-    apply plugin: "kotlin"
-    apply plugin: 'maven-publish'
-    apply plugin: "org.jmailen.kotlinter"
+    apply plugin: libs.plugins.java.library.get().pluginId
+    apply plugin: libs.plugins.kotlin.library.get().pluginId
+    apply plugin: libs.plugins.maven.publish.get().pluginId
+    apply plugin: libs.plugins.jmailen.kotlinter.get().pluginId
 
     sourceCompatibility = 17
     targetCompatibility = 17
@@ -56,17 +41,16 @@ subprojects {
     }
 
     dependencies {
-        implementation 'org.slf4j:slf4j-api:1.7.36'
-        implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinReflectVersion"
-        implementation "dev.misfitlabs.kotlinguice4:kotlin-guice:$kotlinGuiceVersion"
+        implementation(libs.slf4j)
+        implementation(libs.kotlin.reflect)
+        implementation(libs.kotlin.guice)
 
-        testImplementation 'com.google.truth:truth:1.1.3'
-        testImplementation 'ch.qos.logback:logback-classic:1.4.5'
-        testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
-        testImplementation "io.mockk:mockk:$mockkVersion"
+        testImplementation(libs.google.truth)
+        testImplementation(libs.logback.classic)
+        testImplementation(libs.junit.jupiter)
+        testImplementation(libs.mockk)
 
-        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-
+        testRuntimeOnly(libs.junit.jupiter.engine)
     }
 
     task sourcesJar(type: Jar) {
