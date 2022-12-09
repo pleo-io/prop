@@ -1,4 +1,4 @@
-version: v11.0.0
+version: v11.5.0
 
 files:
   - .github/workflows/format-kotlin.yaml
