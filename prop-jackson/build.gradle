@@ -2,7 +2,7 @@ description = 'Jackson implementation of ParserFactory'
 
 dependencies {
     api project(':prop-core')
-    api 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
-    api "com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1"
-    implementation "org.javamoney:moneta:1.4.2"
+    api(libs.jackson.databind)
+    api(libs.jackson.module.kotlin)
+    implementation(libs.moneta)
 }

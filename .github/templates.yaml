@@ -1,0 +1,12 @@
+version: v11.0.0
+
+files:
+  - .github/workflows/format-kotlin.yaml
+  - .github/workflows/pr-help.yaml
+  - .github/workflows/release.yaml
+  - .github/workflows/verify-release.yaml
+  - .autorc.json
+  - .github/workflows/opslevel.yaml
+
+values:
+  autoRelease: true
