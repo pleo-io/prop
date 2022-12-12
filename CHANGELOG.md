@@ -1,3 +1,10 @@
+## [6.0.16](https://github.com/pleo-io/prop/compare/v6.0.15...v6.0.16) (2022-12-12)
+
+
+### Bug Fixes
+
+* **deps:** update dependency org.slf4j:slf4j-api to v2 ([#151](https://github.com/pleo-io/prop/issues/151)) ([4c385f9](https://github.com/pleo-io/prop/commit/4c385f941efa30880d9cfd3815d1a8ab7c10d859))
+
 ## [6.0.15](https://github.com/pleo-io/prop/compare/v6.0.14...v6.0.15) (2022-11-29)
 
 
