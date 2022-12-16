@@ -1,3 +1,10 @@
+## [6.0.17](https://github.com/pleo-io/prop/compare/v6.0.16...v6.0.17) (2022-12-16)
+
+
+### Bug Fixes
+
+* **deps:** update dependency io.mockk:mockk to v1.13.3 ([#153](https://github.com/pleo-io/prop/issues/153)) ([b84fb0e](https://github.com/pleo-io/prop/commit/b84fb0ea172a5f64274c790f5bc3f574cdbe9809))
+
 ## [6.0.16](https://github.com/pleo-io/prop/compare/v6.0.15...v6.0.16) (2022-12-12)
 
 
