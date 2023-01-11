@@ -17,12 +17,13 @@ concurrency: ci-${{ github.workflow }}-${{ github.ref }}
 
 env:
   releaseOpenAPIClients: false
+  publishNodeOpenAPIClient: true
   publishTypeScriptFrontendModels: false
 
 jobs:
   determine-version:
     name: Determine version bump
-    runs-on: [ self-hosted, universal ]
+    runs-on: ubuntu-latest
     outputs:
       version-bump: ${{ steps.calculate-next-version.outputs.version }}
       current-version: ${{ steps.get-current-version.outputs.gradle_version }}
@@ -39,15 +40,15 @@ jobs:
         fetch-depth: 0
 
     # Set up a JDK environment for building, testing and releasing.
-    - name: Setup JDK 17
-      uses: actions/setup-java@v3.5.1
+    - name: Setup JDK 17.0.4
+      uses: actions/setup-java@v3.9.0
       with:
-        java-version: 17
+        java-version: 17.0.4
         distribution: temurin
 
     # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
     - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2.3.0
+      uses: gradle/gradle-build-action@v2.3.3
       with:
         gradle-executable: ./gradlew
         gradle-version: wrapper
@@ -111,7 +112,7 @@ jobs:
 
   bump-versions:
     name: Bump versions
-    runs-on: [ self-hosted, universal ]
+    runs-on: ubuntu-latest
     needs: determine-version
     if: needs.determine-version.outputs.version-bump
     outputs:
@@ -140,15 +141,15 @@ jobs:
         token: ${{ steps.get-admin-token.outputs.token }}
 
     # Setup JDK environment for Gradle build tasks.
-    - name: Setup JDK 17
-      uses: actions/setup-java@v3.5.1
+    - name: Setup JDK 17.0.4
+      uses: actions/setup-java@v3.9.0
       with:
-        java-version: 17
+        java-version: 17.0.4
         distribution: temurin
 
     # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
     - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2.3.0
+      uses: gradle/gradle-build-action@v2.3.3
       with:
         gradle-executable: ./gradlew
         gradle-version: wrapper
@@ -210,7 +211,7 @@ jobs:
 
   generate-changelog:
     name: Generate CHANGELOG
-    runs-on: [ self-hosted, universal ]
+    runs-on: ubuntu-latest
     needs:
     - determine-version
     - bump-versions
@@ -267,7 +268,7 @@ jobs:
 
   publish:
     name: Publish
-    runs-on: [ self-hosted, universal ]
+    runs-on: ubuntu-latest
     needs:
     - determine-version
     - bump-versions
@@ -295,15 +296,15 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # Setup a JDK environment for running Gradle publishing tasks.
-    - name: Setup JDK 17
-      uses: actions/setup-java@v3.5.1
+    - name: Setup JDK 17.0.4
+      uses: actions/setup-java@v3.9.0
       with:
-        java-version: 17
+        java-version: 17.0.4
         distribution: temurin
 
     # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
     - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2.3.0
+      uses: gradle/gradle-build-action@v2.3.3
       with:
         gradle-executable: ./gradlew
         gradle-version: wrapper
@@ -356,7 +357,7 @@ jobs:
 
     # Publish the TS/JS/Node client to the private GitHub NPM repository.
     - name: Publish Node OpenAPI client (NPM)
-      if: github.ref == env.default_branch_ref && env.releaseOpenAPIClients == 'true'
+      if: github.ref == env.default_branch_ref && env.releaseOpenAPIClients == 'true' && env.publishNodeOpenAPIClient == 'true'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |

@@ -30,7 +30,7 @@ jobs:
   validate-pr:
     name: Validate PR
     permissions: write-all
-    runs-on: [self-hosted, universal]
+    runs-on: ubuntu-latest
 
     steps:
     - name: Setup
