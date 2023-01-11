@@ -178,6 +178,7 @@ subprojects {
 // Executed only at root level so code coverage is only reported once to Coveralls
 coverallsJacoco {
     reportPath = "build/reports/jacoco/jacocoAggregatedReport/jacocoAggregatedReport.xml"
+    reportSourceSets += subprojects.sourceSets.main.allSource.srcDirs.flatten()
 }
 
 tasks.named('coverallsJacoco') {
