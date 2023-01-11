@@ -1,8 +1,14 @@
 
 buildscript {
     repositories {
-        mavenLocal()
-        mavenCentral()
+        repositories {
+            mavenLocal()
+            mavenCentral()
+            maven {
+                url "https://plugins.gradle.org/m2/"
+            }
+            google()
+        }
     }
 
     dependencies {
@@ -30,6 +36,10 @@ allprojects {
 
     tasks.named("jacocoLogAggregatedCoverage") {
         enabled = false
+    }
+
+    repositories {
+        mavenCentral()
     }
 }
 
