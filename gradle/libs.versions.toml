@@ -7,7 +7,7 @@ guiceVersion = "5.1.0"
 jacksonVersion = "2.14.1"
 junitVersion = "5.9.2"
 kotlinGuiceVersion = "1.6.0"
-kotlinVersion = "1.7.22"
+kotlinVersion = "1.8.0"
 kotlinterGradleVersion = "3.13.0"
 logbackClassicVersion = "1.4.5"
 mockkVersion = "1.13.3"
@@ -40,4 +40,6 @@ jmailen-kotlinter = { id = "org.jmailen.kotlinter" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }
 kotlin-library = { id = "kotlin" }
 maven-publish = { id = "maven-publish" }
+coveralls-jacoco = { id = "com.github.nbaztec.coveralls-jacoco", version = "1.2.15" }
+jacocolog = { id = "org.barfuin.gradle.jacocolog", version = "2.0.0" }
 
