@@ -13,10 +13,24 @@ buildscript {
 
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
+    id 'jacoco'
+    alias(libs.plugins.coveralls.jacoco) apply false
+    alias(libs.plugins.jacocolog) apply false
 }
 
 allprojects {
     group = 'io.pleo'
+
+    apply plugin: libs.plugins.coveralls.jacoco.get().pluginId
+    apply plugin: libs.plugins.jacocolog.get().pluginId
+
+    jacoco {
+        toolVersion = "0.8.7"
+    }
+
+    tasks.named("jacocoLogAggregatedCoverage") {
+        enabled = false
+    }
 }
 
 subprojects {
@@ -149,4 +163,13 @@ subprojects {
             }
         }
     }
+}
+
+// Executed only at root level so code coverage is only reported once to Coveralls
+coverallsJacoco {
+    reportPath = "build/reports/jacoco/jacocoAggregatedReport/jacocoAggregatedReport.xml"
+}
+
+tasks.named('coverallsJacoco') {
+    dependsOn jacocoAggregatedReport
 }
