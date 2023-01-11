@@ -87,33 +87,6 @@ subprojects {
         classifier = 'javadoc'
     }
 
-    ext.generateVersion = { ->
-        def updateMode = properties.get("mode") ?: "internal"
-        def splitVersionStrings = version.toString().split("[.]")
-        def (major, minor, patch) = splitVersionStrings.collect{Integer.parseInt(it)}
-        switch (updateMode) {
-            case "major": major++; minor = 0; patch = 0; break
-            case "minor": minor++; patch = 0; break
-            case "patch": patch++; break
-        }
-        "$major.$minor.$patch"
-    }
-
-    tasks.register("incrementVersion") {
-        group = "release"
-        description = "Increments the version in this build file everywhere it is used."
-
-        doLast {
-            def propertiesReference = new Properties()
-            def propertiesFile = file("gradle.properties")
-
-            def newVersion = properties.get("overrideVersion") ?: generateVersion()
-            propertiesReference.load(propertiesFile.newDataInputStream())
-            propertiesReference.setProperty("version", newVersion)
-            propertiesReference.store(propertiesFile.newWriter(), null)
-        }
-    }
-
     javadoc {
         if(JavaVersion.current().isJava9Compatible()) {
             options.addBooleanOption('html5', true)
@@ -172,6 +145,33 @@ subprojects {
                 }
             }
         }
+    }
+}
+
+ext.generateVersion = { ->
+    def updateMode = properties.get("mode") ?: "internal"
+    def splitVersionStrings = version.toString().split("[.]")
+    def (major, minor, patch) = splitVersionStrings.collect{Integer.parseInt(it)}
+    switch (updateMode) {
+        case "major": major++; minor = 0; patch = 0; break
+        case "minor": minor++; patch = 0; break
+        case "patch": patch++; break
+    }
+    "$major.$minor.$patch"
+}
+
+tasks.register("incrementVersion") {
+    group = "release"
+    description = "Increments the version in this build file everywhere it is used."
+
+    doLast {
+        def propertiesReference = new Properties()
+        def propertiesFile = file("gradle.properties")
+
+        def newVersion = properties.get("overrideVersion") ?: generateVersion()
+        propertiesReference.load(propertiesFile.newDataInputStream())
+        propertiesReference.setProperty("version", newVersion)
+        propertiesReference.store(propertiesFile.newWriter(), null)
     }
 }
 
