@@ -1,3 +1,514 @@
+# v6.0.20 (Mon Jan 16 2023)
+
+### Release Notes
+
+#### chore(deps): update dependency pleo-io/centralized-templates to v16.4.1 ([#166](https://github.com/pleo-io/prop/pull/166))
+
+<details>
+<summary>pleo-io/centralized-templates</summary>
+
+### [`v16.4.1`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1641-Fri-Jan-13-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.4.0...v16.4.1)
+
+
+##### Update dependency pleo-io/centralized-templates to v16 ([#&#8203;596](https://togithub.com/pleo-io/centralized-templates/pull/596))
+
+##### 🎁 Features
+
+-   Support closing stale PRs [#​592](https://togithub.com/pleo-io/centralized-templates/pull/592) ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen) [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### Authors: 2
+
+-   [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Anders Fischer-Nielsen ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+##### [`v16.3.4`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1634-Thu-Jan-12-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.3.3...v16.3.4)
+
+##### 🐞 Fixes
+
+-   Fix invalid Gradle builds in automatic version detection by using the Gradle Wrapper [#​590](https://togithub.com/pleo-io/centralized-templates/pull/590) ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen) [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### Authors: 2
+
+-   [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Anders Fischer-Nielsen ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+##### [`v16.3.3`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1633-Thu-Jan-12-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.3.2...v16.3.3)
+
+##### 🐞 Fixes
+
+-   Add Node setup to lock Node version in CodeQL analysis [#​591](https://togithub.com/pleo-io/centralized-templates/pull/591) ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen) [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### Authors: 2
+
+-   [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Anders Fischer-Nielsen ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+##### [`v16.3.2`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1632-Thu-Jan-12-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.3.1...v16.3.2)
+
+##### Update 8398a7/action-slack action to v3.15.0 ([#​548](https://togithub.com/pleo-io/centralized-templates/pull/548))
+
+##### 🐞 Fixes
+
+-   Update 8398a7/action-slack action to v3.15.0 [#​548](https://togithub.com/pleo-io/centralized-templates/pull/548) ([@&#8203;​pleo-bot-renovate](https://togithub.com/pleo-bot-renovate))
+
+##### Authors: 1
+
+-   Renovate (Pleo) ([@&#8203;​pleo-bot-renovate](https://togithub.com/pleo-bot-renovate))
+
+***
+
+##### [`v16.3.1`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1631-Thu-Jan-12-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.3.0...v16.3.1)
+
+##### 🐞 Fixes
+
+-   Ensure ECR publishing endpoint contains repository [#​589](https://togithub.com/pleo-io/centralized-templates/pull/589) ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+##### Authors: 1
+
+-   Anders Fischer-Nielsen ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+##### [`v16.3.0`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1630-Wed-Jan-11-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.2.2...v16.3.0)
+
+##### 🎁 Features
+
+-   Omit release notes when PR author is Renovate [#​587](https://togithub.com/pleo-io/centralized-templates/pull/587) ([@&#8203;​jsfr](https://togithub.com/jsfr) [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### 🏠 Internal
+
+-   Fix the changelog by removing nonsensical release notes [#​588](https://togithub.com/pleo-io/centralized-templates/pull/588) ([@&#8203;​jsfr](https://togithub.com/jsfr))
+
+##### Authors: 2
+
+-   [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Jens Fredskov ([@&#8203;​jsfr](https://togithub.com/jsfr))
+
+***
+
+##### [`v16.2.2`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1622-Wed-Jan-11-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.2.1...v16.2.2)
+
+##### 🐞 Fixes
+
+-   \[DX-845] Fix invalid inputs in action-slack [#​586](https://togithub.com/pleo-io/centralized-templates/pull/586) ([@&#8203;​matiasvigil](https://togithub.com/matiasvigil))
+
+##### Authors: 1
+
+-   Matias Vigil ([@&#8203;​matiasvigil](https://togithub.com/matiasvigil))
+
+***
+
+##### [`v16.2.1`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1621-Wed-Jan-11-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.2.0...v16.2.1)
+
+##### 🐞 Fixes
+
+-   Remove invalid default file [#​585](https://togithub.com/pleo-io/centralized-templates/pull/585) ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+##### Authors: 1
+
+-   Anders Fischer-Nielsen ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+##### [`v16.2.0`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1620-Wed-Jan-11-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.1.0...v16.2.0)
+
+##### 🎁 Features
+
+-   Optional Node Open API publishing [#​583](https://togithub.com/pleo-io/centralized-templates/pull/583) ([@&#8203;​dpotyralski](https://togithub.com/dpotyralski))
+
+##### Authors: 1
+
+-   Damian Potyralski ([@&#8203;​dpotyralski](https://togithub.com/dpotyralski))
+
+***
+
+##### [`v16.1.0`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1610-Wed-Jan-11-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.0.0...v16.1.0)
+
+##### 🎁 Features
+
+-   Prefer GitHub-hosted Action runner to speed up remaining workflows [#​577](https://togithub.com/pleo-io/centralized-templates/pull/577) ([@&#8203;​dpotyralski](https://togithub.com/dpotyralski) [@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen) [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### Authors: 3
+
+-   [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Anders Fischer-Nielsen ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+-   Damian Potyralski ([@&#8203;​dpotyralski](https://togithub.com/dpotyralski))
+
+***
+
+##### [`v16.0.0`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1600-Wed-Jan-11-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v15.0.2...v16.0.0)
+
+##### Removes deprecated release workflow from build_kotlin_ecr ([#​576](https://togithub.com/pleo-io/centralized-templates/pull/576))
+
+**This is a breaking change for `build_kotlin_ecr`!**
+
+Release related steps were deprecated for some time and now it's time to move away completely. Follow the guideline https://www.notion.so/pleo/235f7cab8e034e74bba375ef7e9caf7c for the migration path.
+
+***
+
+##### 💥 Major changes
+
+-   Removes deprecated release workflow from build_kotlin_ecr [#​576](https://togithub.com/pleo-io/centralized-templates/pull/576) ([@&#8203;​dpotyralski](https://togithub.com/dpotyralski) [@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+##### Authors: 2
+
+-   Anders Fischer-Nielsen ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+-   Damian Potyralski ([@&#8203;​dpotyralski](https://togithub.com/dpotyralski))
+
+***
+
+##### [`v15.0.2`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1502-Tue-Jan-10-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v15.0.1...v15.0.2)
+
+##### Update actions/upload-artifact action to v3.1.2 ([#​580](https://togithub.com/pleo-io/centralized-templates/pull/580))
+
+***
+
+##### 🐞 Fixes
+
+-   Update actions/upload-artifact action to v3.1.2 [#​580](https://togithub.com/pleo-io/centralized-templates/pull/580) ([@&#8203;​pleo-bot-renovate](https://togithub.com/pleo-bot-renovate))
+
+##### Authors: 1
+
+-   Renovate (Pleo) ([@&#8203;​pleo-bot-renovate](https://togithub.com/pleo-bot-renovate))
+
+***
+
+##### [`v15.0.1`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1501-Tue-Jan-10-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v15.0.0...v15.0.1)
+
+##### 🐞 Fixes
+
+-   Sets default jdkVersion to 17.0.4 [#​582](https://togithub.com/pleo-io/centralized-templates/pull/582) ([@&#8203;​dpotyralski](https://togithub.com/dpotyralski))
+
+##### Authors: 1
+
+-   Damian Potyralski ([@&#8203;​dpotyralski](https://togithub.com/dpotyralski))
+
+***
+
+##### [`v15.0.0`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1500-Tue-Jan-10-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v14.0.3...v15.0.0)
+
+##### 💥 Major changes
+
+-   Move the redundant OpsLevel POST workflow out of the repository [#​578](https://togithub.com/pleo-io/centralized-templates/pull/578) ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen) [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### Authors: 2
+
+-   [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Anders Fischer-Nielsen ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+##### [`v14.0.3`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1403-Tue-Jan-10-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v14.0.2...v14.0.3)
+
+##### Update pleo-io/actions action to v17 ([#​570](https://togithub.com/pleo-io/centralized-templates/pull/570))
+
+***
+
+##### 🐞 Fixes
+
+-   Update pleo-io/actions action to v17 [#​570](https://togithub.com/pleo-io/centralized-templates/pull/570) ([@&#8203;​pleo-bot-renovate](https://togithub.com/pleo-bot-renovate) [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### Authors: 2
+
+-   [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Renovate (Pleo) ([@&#8203;​pleo-bot-renovate](https://togithub.com/pleo-bot-renovate))
+
+***
+
+##### [`v14.0.2`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1402-Tue-Jan-10-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v14.0.1...v14.0.2)
+
+##### 🐞 Fixes
+
+-   Change verfiy-changed-files to changed-files [#​579](https://togithub.com/pleo-io/centralized-templates/pull/579) ([@&#8203;​jsfr](https://togithub.com/jsfr))
+
+##### Authors: 1
+
+-   Jens Fredskov ([@&#8203;​jsfr](https://togithub.com/jsfr))
+
+***
+
+##### [`v14.0.1`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1401-Mon-Jan-09-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v14.0.0...v14.0.1)
+
+##### 🐞 Fixes
+
+-   Coveralls reports being now published for missing scenarios [#​568](https://togithub.com/pleo-io/centralized-templates/pull/568) ([@&#8203;​dpotyralski](https://togithub.com/dpotyralski) [@&#8203;​VictorPascualV](https://togithub.com/VictorPascualV))
+
+##### Authors: 2
+
+-   Damian Potyralski ([@&#8203;​dpotyralski](https://togithub.com/dpotyralski))
+-   Victor Pascual ([@&#8203;​VictorPascualV](https://togithub.com/VictorPascualV))
+
+***
+
+##### [`v14.0.0`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1400-Mon-Jan-09-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v13.4.0...v14.0.0)
+
+##### 💥 Major changes
+
+-   Remove redundant default OpsLevel validation workflow [#​574](https://togithub.com/pleo-io/centralized-templates/pull/574) ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+##### Authors: 1
+
+-   Anders Fischer-Nielsen ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+##### [`v13.4.0`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1340-Mon-Jan-09-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v13.3.1...v13.4.0)
+
+##### 🎁 Features
+
+-   Prefer GitHub-hosted Action runner to speed up workflows [#​573](https://togithub.com/pleo-io/centralized-templates/pull/573) ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen) [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### 🏠 Internal
+
+-   Fix typo in README [#​565](https://togithub.com/pleo-io/centralized-templates/pull/565) ([@&#8203;​r0binary](https://togithub.com/r0binary) [@&#8203;​VictorPascualV](https://togithub.com/VictorPascualV))
+-   Update templates based on repository configuration [#​571](https://togithub.com/pleo-io/centralized-templates/pull/571) ([@&#8203;​pleo-file-distributor\[bot\]](https://togithub.com/pleo-file-distributor\[bot]) [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### Authors: 5
+
+-   [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   [@&#8203;​pleo-file-distributor\[bot\]](https://togithub.com/pleo-file-distributor\[bot])
+-   Anders Fischer-Nielsen ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+-   Robin Lungwitz ([@&#8203;​r0binary](https://togithub.com/r0binary))
+-   Victor Pascual ([@&#8203;​VictorPascualV](https://togithub.com/VictorPascualV))
+
+***
+
+##### [`v13.3.1`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1331-Sat-Jan-07-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v13.3.0...v13.3.1)
+
+##### Update tj-actions/glob action to v16 ([#​572](https://togithub.com/pleo-io/centralized-templates/pull/572))
+
+***
+
+##### 🐞 Fixes
+
+-   Update tj-actions/glob action to v16 [#​572](https://togithub.com/pleo-io/centralized-templates/pull/572) ([@&#8203;​pleo-bot-renovate](https://togithub.com/pleo-bot-renovate))
+
+##### Authors: 1
+
+-   Renovate (Pleo) ([@&#8203;​pleo-bot-renovate](https://togithub.com/pleo-bot-renovate))
+
+***
+
+##### [`v13.3.0`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1330-Fri-Jan-06-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v13.2.8...v13.3.0)
+
+##### 🎁 Features
+
+-   Prefer GitHub-hosted Action runner to speed up workflows [#​557](https://togithub.com/pleo-io/centralized-templates/pull/557) ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen) [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### Authors: 2
+
+-   [@&#8203;​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Anders Fischer-Nielsen ([@&#8203;​andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+##### [`v13.2.8`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1328-Fri-Jan-06-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v13.2.7...v13.2.8)
+
+##### Update dependency pleo-io/centralized-templates to v13 ([#​569](https://togithub.com/pleo-io/centralized-templates/pull/569))
+
+##### Update docker/build-push-action action to v3.2.0 ([#​552](https://togithub.com/pleo-io/centralized-templates/pull/552))
+
+##### 🐞 Fixes
+
+-   Update docker/build-push-action action to v3.2.0 [#​552](https://togithub.com/pleo-io/centralized-templates/pull/552) ([@&#8203;​​pleo-bot-renovate](https://togithub.com/pleo-bot-renovate) [@&#8203;​​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### Authors: 2
+
+-   [@&#8203;​​kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Renovate (Pleo) ([@&#8203;​​pleo-bot-renovate](https://togithub.com/pleo-bot-renovate))
+
+***
+
+***
+
+##### 🐞 Fixes
+
+-   Update dependency pleo-io/centralized-templates to v16 [#&#8203;596](https://togithub.com/pleo-io/centralized-templates/pull/596) ([@&#8203;pleo-bot-renovate](https://togithub.com/pleo-bot-renovate) [@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+##### Authors: 2
+
+-   Anders Fischer-Nielsen ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+-   Renovate (Pleo) ([@&#8203;pleo-bot-renovate](https://togithub.com/pleo-bot-renovate))
+
+***
+
+### [`v16.4.0`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1640-Thu-Jan-12-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.3.4...v16.4.0)
+
+##### 🎁 Features
+
+-   Support closing stale PRs [#&#8203;592](https://togithub.com/pleo-io/centralized-templates/pull/592) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen) [@&#8203;kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### Authors: 2
+
+-   [@&#8203;kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Anders Fischer-Nielsen ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+### [`v16.3.4`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1634-Thu-Jan-12-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.3.3...v16.3.4)
+
+##### 🐞 Fixes
+
+-   Fix invalid Gradle builds in automatic version detection by using the Gradle Wrapper [#&#8203;590](https://togithub.com/pleo-io/centralized-templates/pull/590) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen) [@&#8203;kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### Authors: 2
+
+-   [@&#8203;kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Anders Fischer-Nielsen ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+### [`v16.3.3`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1633-Thu-Jan-12-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.3.2...v16.3.3)
+
+##### 🐞 Fixes
+
+-   Add Node setup to lock Node version in CodeQL analysis [#&#8203;591](https://togithub.com/pleo-io/centralized-templates/pull/591) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen) [@&#8203;kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### Authors: 2
+
+-   [@&#8203;kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Anders Fischer-Nielsen ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+### [`v16.3.2`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1632-Thu-Jan-12-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.3.1...v16.3.2)
+
+
+##### Update 8398a7/action-slack action to v3.15.0 ([#&#8203;548](https://togithub.com/pleo-io/centralized-templates/pull/548))
+
+***
+
+##### 🐞 Fixes
+
+-   Update 8398a7/action-slack action to v3.15.0 [#&#8203;548](https://togithub.com/pleo-io/centralized-templates/pull/548) ([@&#8203;pleo-bot-renovate](https://togithub.com/pleo-bot-renovate))
+
+##### Authors: 1
+
+-   Renovate (Pleo) ([@&#8203;pleo-bot-renovate](https://togithub.com/pleo-bot-renovate))
+
+***
+
+### [`v16.3.1`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1631-Thu-Jan-12-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.3.0...v16.3.1)
+
+##### 🐞 Fixes
+
+-   Ensure ECR publishing endpoint contains repository [#&#8203;589](https://togithub.com/pleo-io/centralized-templates/pull/589) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+##### Authors: 1
+
+-   Anders Fischer-Nielsen ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+### [`v16.3.0`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1630-Wed-Jan-11-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.2.2...v16.3.0)
+
+##### 🎁 Features
+
+-   Omit release notes when PR author is Renovate [#&#8203;587](https://togithub.com/pleo-io/centralized-templates/pull/587) ([@&#8203;jsfr](https://togithub.com/jsfr) [@&#8203;kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### 🏠 Internal
+
+-   Fix the changelog by removing nonsensical release notes [#&#8203;588](https://togithub.com/pleo-io/centralized-templates/pull/588) ([@&#8203;jsfr](https://togithub.com/jsfr))
+
+##### Authors: 2
+
+-   [@&#8203;kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Jens Fredskov ([@&#8203;jsfr](https://togithub.com/jsfr))
+
+***
+
+### [`v16.2.2`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1622-Wed-Jan-11-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.2.1...v16.2.2)
+
+##### 🐞 Fixes
+
+-   \[DX-845] Fix invalid inputs in action-slack [#&#8203;586](https://togithub.com/pleo-io/centralized-templates/pull/586) ([@&#8203;matiasvigil](https://togithub.com/matiasvigil))
+
+##### Authors: 1
+
+-   Matias Vigil ([@&#8203;matiasvigil](https://togithub.com/matiasvigil))
+
+***
+
+</details>
+
+---
+
+---
+
+#### 🐞 Fixes
+
+- chore(deps): update dependency pleo-io/centralized-templates to v16.4.1 [#166](https://github.com/pleo-io/prop/pull/166) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+#### Authors: 1
+
+- Renovate (Pleo) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+---
+
 # v6.0.19 (Wed Jan 11 2023)
 
 ### Release Notes
