@@ -1,3 +1,61 @@
+# v6.0.21 (Thu Jan 19 2023)
+
+### Release Notes
+
+#### chore(deps): update dependency pleo-io/centralized-templates to v17 ([#168](https://github.com/pleo-io/prop/pull/168))
+
+<details>
+<summary>pleo-io/centralized-templates</summary>
+
+### [`v17.0.1`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1701-Fri-Jan-13-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v17.0.0...v17.0.1)
+
+##### 🐞 Fixes
+
+-   Avoid commenting on mismatched labels if 'patch' or 'internal' is set and no changes are detected [#&#8203;594](https://togithub.com/pleo-io/centralized-templates/pull/594) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen) [@&#8203;kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### 🏠 Internal
+
+-   Remove redundant 'files' attribute from 'defaults.yaml' [#&#8203;593](https://togithub.com/pleo-io/centralized-templates/pull/593) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen) [@&#8203;kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+
+##### Authors: 2
+
+-   [@&#8203;kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   Anders Fischer-Nielsen ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+### [`v17.0.0`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1700-Fri-Jan-13-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v16.4.1...v17.0.0)
+
+##### 💥 Major changes
+
+-   Change ownership of assing-random-codeowners action [#&#8203;599](https://togithub.com/pleo-io/centralized-templates/pull/599) ([@&#8203;marcos-arranz](https://togithub.com/marcos-arranz))
+
+##### Authors: 1
+
+-   Marcos Arranz ([@&#8203;marcos-arranz](https://togithub.com/marcos-arranz))
+
+***
+
+</details>
+
+---
+
+---
+
+#### 🐞 Fixes
+
+- chore(deps): update dependency pleo-io/centralized-templates to v17 [#168](https://github.com/pleo-io/prop/pull/168) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+#### Authors: 1
+
+- Renovate (Pleo) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+---
+
 # v6.0.20 (Mon Jan 16 2023)
 
 ### Release Notes
