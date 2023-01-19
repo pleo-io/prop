@@ -34,5 +34,15 @@
       "color": "#696969",
       "default": true
     }
+  ],
+  "plugins": [
+    [
+      "omit-release-notes",
+      {
+        "username": [
+          "pleo-bot-renovate"
+        ]
+      }
+    ]
   ]
 }
