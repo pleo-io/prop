@@ -7,20 +7,20 @@ name: Check PR
 on:
   pull_request:
     types:
-    - assigned
-    - unassigned
-    - labeled
-    - unlabeled
-    - opened
-    - edited
-    - closed
-    - reopened
-    - synchronize
-    - ready_for_review
-    - locked
-    - unlocked
-    - review_requested
-    - review_request_removed
+      - assigned
+      - unassigned
+      - labeled
+      - unlabeled
+      - opened
+      - edited
+      - closed
+      - reopened
+      - synchronize
+      - ready_for_review
+      - locked
+      - unlocked
+      - review_requested
+      - review_request_removed
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -33,11 +33,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Setup
-      uses: actions/setup-node@v3
+      - name: Setup
+        uses: actions/setup-node@v3
 
-    - name: Run Danger
-      run: npx danger ci -v --dangerfile pleo-io/danger-config/dangerfile.ts
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DANGER_GITHUB_API_BASE_URL: https://api.github.com
+      - name: Run Danger
+        run: npx danger ci -v --dangerfile pleo-io/danger-config/dangerfile.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DANGER_GITHUB_API_BASE_URL: https://api.github.com
