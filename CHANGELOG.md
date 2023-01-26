@@ -1,3 +1,117 @@
+# v6.0.22 (Thu Jan 26 2023)
+
+### Release Notes
+
+#### chore(deps): update dependency pleo-io/centralized-templates to v18 ([#169](https://github.com/pleo-io/prop/pull/169))
+
+<details>
+<summary>pleo-io/centralized-templates</summary>
+
+### [`v18.1.0`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1810-Tue-Jan-24-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v18.0.1...v18.1.0)
+
+##### 🎁 Features
+
+-   Support more languages for CodeQL analysis [#&#8203;614](https://togithub.com/pleo-io/centralized-templates/pull/614) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+##### 🏠 Internal
+
+-   Ensure consistent formatting of templates [#&#8203;610](https://togithub.com/pleo-io/centralized-templates/pull/610) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+##### Authors: 1
+
+-   Anders Fischer-Nielsen ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+### [`v18.0.1`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1801-Mon-Jan-23-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v18.0.0...v18.0.1)
+
+##### 🐞 Fixes
+
+-   Ensure Auto releases have the default 'git-tag' plugin enabled to restore previous release behavior [#&#8203;612](https://togithub.com/pleo-io/centralized-templates/pull/612) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+##### Authors: 1
+
+-   Anders Fischer-Nielsen ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+***
+
+### [`v18.0.0`](https://togithub.com/pleo-io/centralized-templates/blob/HEAD/CHANGELOG.md#v1800-Mon-Jan-23-2023)
+
+[Compare Source](https://togithub.com/pleo-io/centralized-templates/compare/v17.0.1...v18.0.0)
+
+
+##### Move container image pushing from our build workflow to our release workflow ([#&#8203;606](https://togithub.com/pleo-io/centralized-templates/pull/606))
+
+The container image push has been moved from the `build_kotlin_ecr` workflow to the `release` workflow to avoid redeploys when changes in a PR don't increase the API version.
+
+This makes the build workflow faster and moves all steps related to release to their expected location.
+
+This requires no action from Stewards except for ensuring that the `release` workflow is used for releasing the repository.
+
+***
+
+##### 💥 Major changes
+
+-   Move container image pushing from our build workflow to our release workflow [#&#8203;606](https://togithub.com/pleo-io/centralized-templates/pull/606) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen) [@&#8203;dpotyralski](https://togithub.com/dpotyralski))
+-   Remove automerge functionality due to GitHub API limitations [#&#8203;605](https://togithub.com/pleo-io/centralized-templates/pull/605) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+##### 🐞 Fixes
+
+-   Replace `master` for `<<<defaultBranch>>>` in `publish_library_typescript.yaml` [#&#8203;604](https://togithub.com/pleo-io/centralized-templates/pull/604) ([@&#8203;palpfiction](https://togithub.com/palpfiction))
+-   Update dependency pleo-io/centralized-templates to v17 [#&#8203;602](https://togithub.com/pleo-io/centralized-templates/pull/602) ([@&#8203;pleo-bot-renovate](https://togithub.com/pleo-bot-renovate) [@&#8203;marcos-arranz](https://togithub.com/marcos-arranz))
+
+##### ⚠️ Pushed to `main`
+
+-   Hotfix Auto releasing being disabled via plugins ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+-   Prefer verbose logging for Auto release steps ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+-   Remove redundant .releaserc since we prefer Auto ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+##### 🏠 Internal
+
+-   Ensure linting of all changes in PRs instead of only individual commits [#&#8203;611](https://togithub.com/pleo-io/centralized-templates/pull/611) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+-   Enable pyflakes and shellcheck for workflow linting [#&#8203;609](https://togithub.com/pleo-io/centralized-templates/pull/609) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+-   Lint only changed files and remove support for self-hosted labels [#&#8203;608](https://togithub.com/pleo-io/centralized-templates/pull/608) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+-   Extend comments for default values that are automatically set from repository information [#&#8203;607](https://togithub.com/pleo-io/centralized-templates/pull/607) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+-   Update files based on repository configuration [#&#8203;603](https://togithub.com/pleo-io/centralized-templates/pull/603) ([@&#8203;pleo-file-distributor\[bot\]](https://togithub.com/pleo-file-distributor\[bot]))
+-   Update files based on repository configuration [#&#8203;601](https://togithub.com/pleo-io/centralized-templates/pull/601) ([@&#8203;pleo-file-distributor\[bot\]](https://togithub.com/pleo-file-distributor\[bot]))
+-   Use central .autorc and update changelog [#&#8203;598](https://togithub.com/pleo-io/centralized-templates/pull/598) ([@&#8203;jsfr](https://togithub.com/jsfr) [@&#8203;kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot]))
+-   Use internally defined istio-parse-routes action [#&#8203;597](https://togithub.com/pleo-io/centralized-templates/pull/597) ([@&#8203;dpotyralski](https://togithub.com/dpotyralski))
+-   Update files based on repository configuration [#&#8203;600](https://togithub.com/pleo-io/centralized-templates/pull/600) ([@&#8203;pleo-file-distributor\[bot\]](https://togithub.com/pleo-file-distributor\[bot]))
+-   Add auto-closing of stale PRs [#&#8203;595](https://togithub.com/pleo-io/centralized-templates/pull/595) ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+
+##### Authors: 8
+
+-   [@&#8203;kodiakhq\[bot\]](https://togithub.com/kodiakhq\[bot])
+-   [@&#8203;pleo-file-distributor\[bot\]](https://togithub.com/pleo-file-distributor\[bot])
+-   Anders Fischer-Nielsen ([@&#8203;andersfischernielsen](https://togithub.com/andersfischernielsen))
+-   Damian Potyralski ([@&#8203;dpotyralski](https://togithub.com/dpotyralski))
+-   Jens Fredskov ([@&#8203;jsfr](https://togithub.com/jsfr))
+-   Marcos Arranz ([@&#8203;marcos-arranz](https://togithub.com/marcos-arranz))
+-   Pablo ([@&#8203;palpfiction](https://togithub.com/palpfiction))
+-   Renovate (Pleo) ([@&#8203;pleo-bot-renovate](https://togithub.com/pleo-bot-renovate))
+
+***
+
+</details>
+
+---
+
+---
+
+#### 🐞 Fixes
+
+- chore(deps): update dependency pleo-io/centralized-templates to v18 [#169](https://github.com/pleo-io/prop/pull/169) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+#### Authors: 1
+
+- Renovate (Pleo) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+---
+
 # v6.0.21 (Thu Jan 19 2023)
 
 ### Release Notes
