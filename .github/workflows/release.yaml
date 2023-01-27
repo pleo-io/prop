@@ -11,7 +11,7 @@ name: Release
 on:
   push:
     branches:
-    - master
+      - master
 
 concurrency: ci-${{ github.workflow }}-${{ github.ref }}
 
@@ -34,81 +34,82 @@ jobs:
       packages: write # Allows writing to packages
     timeout-minutes: 90
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-    # Set up a JDK environment for building, testing and releasing.
-    - name: Setup JDK 17.0.4
-      uses: actions/setup-java@v3.9.0
-      with:
-        java-version: 17.0.4
-        distribution: temurin
+      # Set up a JDK environment for building, testing and releasing.
+      - name: Setup JDK 17.0.4
+        uses: actions/setup-java@v3.9.0
+        with:
+          java-version: 17.0.4
+          distribution: temurin
 
-    # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
-    - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2.3.3
-      with:
-        gradle-executable: ./gradlew
-        gradle-version: wrapper
-        cache-read-only: true
+      # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2.3.3
+        with:
+          gradle-executable: ./gradlew
+          gradle-version: wrapper
+          cache-read-only: true
 
-    # Allow caching the Auto executable to speed up CI/CD steps by not re-downloading Auto.
-    - name: Cache Auto
-      id: cache-auto
-      uses: actions/cache@v3
-      with:
-        path: ~/auto
-        key: dependency--intuit/auto-v10.37.6
+      # Allow caching the Auto executable to speed up CI/CD steps by not re-downloading Auto.
+      - name: Cache Auto
+        id: cache-auto
+        uses: actions/cache@v3
+        with:
+          path: ~/auto
+          key: dependency--intuit/auto-v10.37.6
 
-    # Set up Auto for determining the version bump to release.
-    - name: Setup Auto
-      if: steps.cache-auto.outputs.cache-hit != 'true'
-      run: |
-        curl -vkL -o - https://github.com/intuit/auto/releases/download/v10.37.6/auto-linux.gz | gunzip > ~/auto
-        chmod a+x ~/auto
+      # Set up Auto for determining the version bump to release.
+      - name: Setup Auto
+        if: steps.cache-auto.outputs.cache-hit != 'true'
+        run: |
+          curl -vkL -o - https://github.com/intuit/auto/releases/download/v10.37.6/auto-linux.gz | gunzip > ~/auto
+          chmod a+x ~/auto
 
-    # Get the currently released version for determining how big a version jump to release.
-    - name: Get current version number (Gradle)
-      id: get-current-version
-      run: |
-        GRADLE_OUTPUT="$(./gradlew properties)"
-        EXIT_CODE=$?
-        GRADLE_VERSION="$(echo "$GRADLE_OUTPUT" | grep "^version: " | awk '{print $2}')"
+      # Get the currently released version for determining how big a version jump to release.
+      - name: Get current version number (Gradle)
+        id: get-current-version
+        run: |
+          GRADLE_OUTPUT="$(./gradlew properties)"
+          EXIT_CODE=$?
+          GRADLE_VERSION="$(echo "$GRADLE_OUTPUT" | grep "^version: " | awk '{print $2}')"
 
-        echo $GRADLE_VERSION
-        echo "gradle_version=$GRADLE_VERSION" >> $GITHUB_OUTPUT
+          echo "$GRADLE_VERSION"
+          echo "gradle_version=$GRADLE_VERSION" >> "$GITHUB_OUTPUT"
 
-        exit $EXIT_CODE
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
-        GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
-        GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
+            exit $EXIT_CODE
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
+          GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
 
-    # Verify that the current version is tagged in git as expected.
-    - name: Verify previous release tag
-      run: |
-        if git rev-parse "$TAG" >/dev/null 2>&1; then
-          echo "Found previous release tag $TAG";
-        else
-          echo "Did not find $TAG - creating release tag $TAG"
-          PREVIOUS_COMMIT="$(git rev-parse HEAD^1)"
-          git tag $TAG $PREVIOUS_COMMIT
-        fi
-      env:
-        TAG: v${{ steps.get-current-version.outputs.gradle_version }}
+      # Verify that the current version is tagged in git as expected.
+      - name: Verify previous release tag
+        run: |
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Found previous release tag $TAG";
+          else
+            echo "Did not find $TAG - creating release tag $TAG"
+            PREVIOUS_COMMIT="$(git rev-parse HEAD^1)"
+            git tag "$TAG" "$PREVIOUS_COMMIT"
+          fi
+        env:
+          TAG: v${{ steps.get-current-version.outputs.gradle_version }}
 
-    # Determine how big a version bump to release (patch, minor, major).
-    - name: Calculate new version (Auto)
-      id: calculate-next-version
-      run: |
-        AUTO_VERSION="$(~/auto version --from v${{ steps.get-current-version.outputs.gradle_version }} | tail -n 1)"
-        echo $AUTO_VERSION
-        echo "version=$AUTO_VERSION" >> $GITHUB_OUTPUT
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Determine how big a version bump to release (patch, minor, major).
+      - name: Calculate new version (Auto)
+        id: calculate-next-version
+        run: |
+          CURRENT_VERSION="v${{ steps.get-current-version.outputs.gradle_version }}"
+          AUTO_VERSION="$(~/auto version --from $CURRENT_VERSION | tail -n 1)"
+          echo "$AUTO_VERSION"
+          echo "version=$AUTO_VERSION" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   bump-versions:
     name: Bump versions
@@ -124,97 +125,97 @@ jobs:
       packages: write # Allows writing to packages
     timeout-minutes: 90
     steps:
-    # Elevate token permissions to allow pushing to the default branch without branch protections.
-    - name: Allow pushing version updates to the default branch
-      id: get-admin-token
-      uses: peter-murray/workflow-application-token-action@v2
-      with:
-        application_id: ${{ secrets.PLEO_GH_APP_TOKEN_SIGNER_APP_ID }}
-        application_private_key: ${{ secrets.PLEO_GH_APP_TOKEN_SIGNER_PRIVATE_KEY }}
+      # Elevate token permissions to allow pushing to the default branch without branch protections.
+      - name: Allow pushing version updates to the default branch
+        id: get-admin-token
+        uses: peter-murray/workflow-application-token-action@v2
+        with:
+          application_id: ${{ secrets.PLEO_GH_APP_TOKEN_SIGNER_APP_ID }}
+          application_private_key: ${{ secrets.PLEO_GH_APP_TOKEN_SIGNER_PRIVATE_KEY }}
 
-    # Checkout the code with the elevated token to allow default branch pushes.
-    - name: Checkout code
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        ref: master
-        token: ${{ steps.get-admin-token.outputs.token }}
+      # Checkout the code with the elevated token to allow default branch pushes.
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: master
+          token: ${{ steps.get-admin-token.outputs.token }}
 
-    # Setup JDK environment for Gradle build tasks.
-    - name: Setup JDK 17.0.4
-      uses: actions/setup-java@v3.9.0
-      with:
-        java-version: 17.0.4
-        distribution: temurin
+      # Setup JDK environment for Gradle build tasks.
+      - name: Setup JDK 17.0.4
+        uses: actions/setup-java@v3.9.0
+        with:
+          java-version: 17.0.4
+          distribution: temurin
 
-    # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
-    - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2.3.3
-      with:
-        gradle-executable: ./gradlew
-        gradle-version: wrapper
-        cache-read-only: true
+      # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2.3.3
+        with:
+          gradle-executable: ./gradlew
+          gradle-version: wrapper
+          cache-read-only: true
 
-    # Setup Node for TS/JS/Node client generation.
-    - name: Setup Node
-      if: env.releaseOpenAPIClients == 'true'
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
+      # Setup Node for TS/JS/Node client generation.
+      - name: Setup Node
+        if: env.releaseOpenAPIClients == 'true'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
-    # Bump the version according to the version bump detected by Auto.
-    - name: Bump library version (Gradle)
-      run: ./gradlew incrementVersion -Pmode=${{ needs.determine-version.outputs.version-bump }} --stacktrace
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
-        GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
-        GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
+      # Bump the version according to the version bump detected by Auto.
+      - name: Bump library version (Gradle)
+        run: ./gradlew incrementVersion -Pmode=${{ needs.determine-version.outputs.version-bump }} --stacktrace
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
+          GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
 
-    # Get the new version.
-    - name: Get updated version number (Gradle)
-      id: get-updated-version-number
-      run: |
-        GRADLE_OUTPUT="$(./gradlew properties)"
-        EXIT_CODE=$?
-        GRADLE_VERSION="$(echo "$GRADLE_OUTPUT" | grep "^version: " | awk '{print $2}')"
+      # Get the new version.
+      - name: Get updated version number (Gradle)
+        id: get-updated-version-number
+        run: |
+          GRADLE_OUTPUT="$(./gradlew properties)"
+          EXIT_CODE=$?
+          GRADLE_VERSION="$(echo "$GRADLE_OUTPUT" | grep "^version: " | awk '{print $2}')"
 
-        echo $GRADLE_VERSION
-        echo "gradle_version=$GRADLE_VERSION" >> $GITHUB_OUTPUT
+          echo "$GRADLE_VERSION"
+          echo "gradle_version=$GRADLE_VERSION" >> "$GITHUB_OUTPUT"
 
-        exit $EXIT_CODE
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
-        GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
-        GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
+          exit $EXIT_CODE
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
+          GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
 
-    # Generate the Kotlin and TS/JS/Node client.
-    - name: Build project and generate clients (Gradle)
-      if: env.releaseOpenAPIClients == 'true'
-      run: ./gradlew build -x test -x functest --stacktrace
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
-        GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
-        GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
-        GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
+      # Generate the Kotlin and TS/JS/Node client.
+      - name: Build project and generate clients (Gradle)
+        if: env.releaseOpenAPIClients == 'true'
+        run: ./gradlew build -x test -x functest --stacktrace
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
+          GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
 
-    # Commit and push the project with version changes applied to the default branch.
-    - name: Add changes (Git)
-      uses: EndBug/add-and-commit@v9
-      with:
-        author_name: pleo-bot-auto-versioning
-        author_email: ops+auto_versioning@pleo.io
-        message: Release ${{ steps.get-updated-version-number.outputs.gradle_version }} [skip ci]
-        commit: --no-verify
-        tag: v${{ steps.get-updated-version-number.outputs.gradle_version }}
+      # Commit and push the project with version changes applied to the default branch.
+      - name: Add changes (Git)
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: pleo-bot-auto-versioning
+          author_email: ops+auto_versioning@pleo.io
+          message: Release ${{ steps.get-updated-version-number.outputs.gradle_version }} [skip ci]
+          commit: --no-verify
+          tag: v${{ steps.get-updated-version-number.outputs.gradle_version }}
 
   generate-changelog:
     name: Generate CHANGELOG
     runs-on: ubuntu-latest
     needs:
-    - determine-version
-    - bump-versions
+      - determine-version
+      - bump-versions
     if: needs.determine-version.outputs.current-version != needs.bump-versions.outputs.new-version
     permissions:
       contents: write # Allows cloning the repository and creating releases in the "Release" page
@@ -223,55 +224,55 @@ jobs:
       packages: write # Allows writing to packages
     timeout-minutes: 90
     steps:
-    # Elevate token permissions to allow pushing to the default branch without branch protections.
-    - name: Allow pushing version updates to the default branch
-      id: get-admin-token
-      uses: peter-murray/workflow-application-token-action@v2
-      with:
-        application_id: ${{ secrets.PLEO_GH_APP_TOKEN_SIGNER_APP_ID }}
-        application_private_key: ${{ secrets.PLEO_GH_APP_TOKEN_SIGNER_PRIVATE_KEY }}
+      # Elevate token permissions to allow pushing to the default branch without branch protections.
+      - name: Allow pushing version updates to the default branch
+        id: get-admin-token
+        uses: peter-murray/workflow-application-token-action@v2
+        with:
+          application_id: ${{ secrets.PLEO_GH_APP_TOKEN_SIGNER_APP_ID }}
+          application_private_key: ${{ secrets.PLEO_GH_APP_TOKEN_SIGNER_PRIVATE_KEY }}
 
-    # Checkout the code with the elevated token to allow default branch pushes.
-    - name: Checkout code
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        ref: master
-        token: ${{ steps.get-admin-token.outputs.token }}
+      # Checkout the code with the elevated token to allow default branch pushes.
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: master
+          token: ${{ steps.get-admin-token.outputs.token }}
 
-    # Allow caching the Auto executable to speed up CI/CD steps by not re-downloading Auto.
-    - name: Cache Auto
-      id: cache-auto
-      uses: actions/cache@v3
-      with:
-        path: ~/auto
-        key: dependency--intuit/auto-v10.37.6
+      # Allow caching the Auto executable to speed up CI/CD steps by not re-downloading Auto.
+      - name: Cache Auto
+        id: cache-auto
+        uses: actions/cache@v3
+        with:
+          path: ~/auto
+          key: dependency--intuit/auto-v10.37.6
 
-    # Set up Auto for generating a CHANGELOG.
-    - name: Setup Auto
-      if: steps.cache-auto.outputs.cache-hit != 'true'
-      run: |
-        curl -vkL -o - https://github.com/intuit/auto/releases/download/v10.37.6/auto-linux.gz | gunzip > ~/auto
-        chmod a+x ~/auto
+      # Set up Auto for generating a CHANGELOG.
+      - name: Setup Auto
+        if: steps.cache-auto.outputs.cache-hit != 'true'
+        run: |
+          curl -vkL -o - https://github.com/intuit/auto/releases/download/v10.37.6/auto-linux.gz | gunzip > ~/auto
+          chmod a+x ~/auto
 
-    # Generate the CHANGELOG with changes from the previously released version to the current version.
-    - name: Generate Release Notes (Auto)
-      run: ~/auto changelog --from v${{ needs.determine-version.outputs.current-version }}
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Generate the CHANGELOG with changes from the previously released version to the current version.
+      - name: Generate Release Notes (Auto)
+        run: ~/auto changelog --from v${{ needs.determine-version.outputs.current-version }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # Add and push the generated CHANGELOG to the default branch.
-    - name: Push changes (Git)
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ steps.get-admin-token.outputs.token }}
+      # Add and push the generated CHANGELOG to the default branch.
+      - name: Push changes (Git)
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ steps.get-admin-token.outputs.token }}
 
   publish:
     name: Publish
     runs-on: ubuntu-latest
     needs:
-    - determine-version
-    - bump-versions
+      - determine-version
+      - bump-versions
     if: needs.determine-version.outputs.current-version != needs.bump-versions.outputs.new-version
     permissions:
       contents: write # Allows cloning the repository and creating releases in the "Release" page
@@ -280,153 +281,279 @@ jobs:
       packages: write # Allows writing to packages
     timeout-minutes: 90
     steps:
-    # Checkout the code to publish.
-    - name: Checkout code
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        ref: master
+      # Checkout the code to publish.
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: master
 
-    # Detect the default branch.
-    - name: Standardize environment
-      run: |
-        default_branch_ref="refs/heads/${{ github.event.repository.default_branch }}"
-        echo "default_branch_ref=${default_branch_ref}" >> $GITHUB_ENV
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Set up expected environment variables for the repository name and the default branch.
+      - name: Environment standardization
+        run: |
+          default_branch=${{ github.event.repository.default_branch }}
+          echo "default_branch=${default_branch}" >> "$GITHUB_ENV"
+          default_branch_ref="refs/heads/${default_branch}"
+          echo "default_branch_ref=${default_branch_ref}" >> "$GITHUB_ENV"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # Setup a JDK environment for running Gradle publishing tasks.
-    - name: Setup JDK 17.0.4
-      uses: actions/setup-java@v3.9.0
-      with:
-        java-version: 17.0.4
-        distribution: temurin
+      - name: Describe environment (for debugging)
+        run: env
 
-    # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
-    - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2.3.3
-      with:
-        gradle-executable: ./gradlew
-        gradle-version: wrapper
-        gradle-home-cache-cleanup: true
-        cache-read-only: ${{ github.ref != env.default_branch_ref }}
+      # Setup a JDK environment for running Gradle publishing tasks.
+      - name: Setup JDK 17.0.4
+        uses: actions/setup-java@v3.9.0
+        with:
+          java-version: 17.0.4
+          distribution: temurin
 
-    # Release the library.
-    - name: Release library (Gradle)
-      if: env.releaseOpenAPIClients == 'false'
-      id: release-library
-      continue-on-error: true
-      uses: nick-fields/retry@v2
-      with:
-        command: ./gradlew publish --parallel --continue --stacktrace
-        max_attempts: 3   # Attempt to release a maximum of three times
-        timeout_minutes: 30   # Minutes to wait before attempt times out.
-        retry_wait_seconds: 5   # Wait 5 seconds before retrying
-      env:
-        GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
-        GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
+      # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2.3.3
+        with:
+          gradle-executable: ./gradlew
+          gradle-version: wrapper
+          gradle-home-cache-cleanup: true
+          cache-read-only: true
 
-    # Setup a Node environment to allow publishing to the private GitHub NPM package repository.
-    - name: Setup Node
-      if: env.releaseOpenAPIClients == 'true'
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
+      # Setup a Node environment to allow publishing to the private GitHub NPM package repository.
+      - name: Setup Node
+        if: env.releaseOpenAPIClients == 'true'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
-    # Build the project and generate the Kotlin and TS/JS/Node client for publishing.
-    - name: Build project and generate clients (Gradle)
-      if: env.releaseOpenAPIClients == 'true'
-      run: ./gradlew build -x test -x functest --stacktrace
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
-        GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
-        GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
-        GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
+      # Build the project and generate the Kotlin and TS/JS/Node client for publishing.
+      - name: Build project (Gradle)
+        run: ./gradlew build -x test --stacktrace
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
+          GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
 
-    # Publish the Kotlin client to the private GitHub Maven repository.
-    - name: Publish Kotlin OpenAPI client (Gradle)
-      if: github.ref == env.default_branch_ref && env.releaseOpenAPIClients == 'true'
-      run: ./gradlew :pleo-${{ github.event.repository.name }}-client-kotlin:publish -x test -x formatKotlin -x functest --stacktrace
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
-        GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
-        GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
+      # Login to DockerHub for fetching and pushing Docker images.
+      - name: Login to DockerHub
+        uses: docker/login-action@v2.0.0
+        with:
+          username: pleodeployments
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    # Publish the TS/JS/Node client to the private GitHub NPM repository.
-    - name: Publish Node OpenAPI client (NPM)
-      if: github.ref == env.default_branch_ref && env.releaseOpenAPIClients == 'true' && env.publishNodeOpenAPIClient == 'true'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        cd ./pleo-${{ github.event.repository.name }}-client-js/output/node
-        npm install
-        npm config set '//npm.pkg.github.com/:_authToken' "${GITHUB_TOKEN}"
-        npm publish --access restricted
+      # Create Buildx context.
+      - name: Setup Docker context
+        run: |
+          docker context create builders
 
-    # Publish the TS/JS/Node models to the private GitHub NPM repository for frontend requests.
-    - name: Publish TypeScript models (NPM)
-      if: github.ref == env.default_branch_ref && env.releaseOpenAPIClients == 'true' && env.publishTypeScriptFrontendModels == 'true'
-      continue-on-error: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        cd ./pleo-${{ github.event.repository.name }}-client-js/output/models
-        npm install
-        npm config set '//npm.pkg.github.com/:_authToken' "${GITHUB_TOKEN}"
-        npm publish --access restricted
+      # Setup Buildx for Docker operations.
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v2.0.0
+        with:
+          endpoint: builders
 
-    # Push the generated OpenAPI definition to OpsLevel
-    - name: Push generated OpenAPI definitions to OpsLevel
-      if: env.releaseOpenAPIClients == 'true'
-      continue-on-error: true
-      run: |
-        SERVICE_ALIAS="${{ github.event.repository.name }}"
-        if [[ -z "${SERVICE_ALIAS}" ]]; then
-          echo "Could not detect an OpsLevel service alias."
-          echo "::error::Could not detect an OpsLevel service alias."
-          exit 1
-        fi
+      # Build Docker image and cache Docker image/layers.
+      - name: Build Docker Image
+        uses: docker/build-push-action@v3.2.0
+        with:
+          context: .
+          tags: ${{ github.sha }}
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: github_sha=${{ github.sha }}
 
-        echo "Detected service alias as $SERVICE_ALIAS"
-        echo "Pushing OpenAPI definition to OpsLevel..."
-        echo ""
+      - name: Configure Staging AWS credentials
+        if: env.deploymentEnabled == 'true'
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          aws-access-key-id: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
 
-        curl --retry 5 \
-          --retry-delay 0 \
-          --max-time 10 \
-          --retry-max-time 80 \
-          -i \
-          -X POST "${{ secrets.OPSLEVEL_API_DOCS_URL }}/$SERVICE_ALIAS/openapi" \
-          -H 'content-type: application/octet-stream' \
-          --data-binary @pleo-${{ github.event.repository.name }}-rest/api/${{ github.event.repository.name }}-openapi.yaml
+      # Allow publishing the built project Docker image to AWS ECR (staging).
+      - name: Login to Amazon ECR Staging
+        if: env.deploymentEnabled == 'true'
+        uses: aws-actions/amazon-ecr-login@v1.5.3
 
-    # Alert in Slack on any failure in the publishing job.
-    - name: Alert in Slack on failure on openAPI clients scenario
-      if: (cancelled() || failure()) && env.releaseOpenAPIClients == 'true'
-      uses: rtCamp/action-slack-notify@v2.2.0
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-        SLACK_CHANNEL: dev-deploy-failure
-        SLACK_COLOR: danger
-        SLACK_TITLE: ${{ github.actor }} publish of `${{ github.repository }}` library to registry failed or was cancelled
-        SLACK_MESSAGE: 'Reason: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}| Release job failed :warning:>'
-        SLACK_USERNAME: GitHub Actions
-        SLACK_ICON_EMOJI: ':crashingrocket:'
-        SLACK_FOOTER: ''
+      # Publish the built project Docker image to AWS ECR (staging).
+      - name: Push Docker Image to AWS ECR Staging
+        if: env.deploymentEnabled == 'true'
+        run: |
+          ecr_repo_url="${{ secrets.STAGING_ECR_URL }}/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
+          docker tag ${{ github.sha }} ${ecr_repo_url}
+          docker push ${ecr_repo_url}
+          docker rmi -f ${ecr_repo_url}
 
-    # Alert in Slack on any failure in the publishing job.
-    - name: Alert in Slack on failure on release-library scenario
-      if: (steps.release-library.outcome == 'failure' || cancelled() || failure()) && env.releaseOpenAPIClients == 'false'
-      uses: rtCamp/action-slack-notify@v2.2.0
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-        SLACK_CHANNEL: dev-deploy-failure
-        SLACK_COLOR: danger
-        SLACK_TITLE: ${{ github.actor }} publish of one or more libraries in `${{ github.repository }}` failed or was/were cancelled
-        SLACK_MESSAGE: 'Reason: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}| Release job failed :warning:>'
-        SLACK_USERNAME: GitHub Actions
-        SLACK_ICON_EMOJI: ':crashingrocket:'
-        SLACK_FOOTER: ''
+      - name: Configure Production AWS credentials
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          aws-access-key-id: ${{ secrets.PRODUCTION_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PRODUCTION_AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+
+      # Allow publishing the built project Docker image to AWS ECR (production).
+      - name: Login to AWS ECR Production
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
+        uses: aws-actions/amazon-ecr-login@v1.5.3
+
+      # Publish the built project Docker image to AWS ECR (staging).
+      - name: Push Docker Image to AWS ECR Production
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
+        run: |
+          ecr_repo_url="${{ secrets.PRODUCTION_ECR_URL }}/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
+          docker tag ${{ github.sha }} ${ecr_repo_url}
+          docker push ${ecr_repo_url}
+          docker rmi -f ${ecr_repo_url}
+
+      # Release the library.
+      - name: Release library (Gradle)
+        if: env.releaseOpenAPIClients == 'false'
+        id: release-library
+        continue-on-error: true
+        uses: nick-fields/retry@v2
+        with:
+          command: ./gradlew publish --parallel --continue --stacktrace
+          max_attempts: 3 # Attempt to release a maximum of three times
+          timeout_minutes: 30 # Minutes to wait before attempt times out.
+          retry_wait_seconds: 5 # Wait 5 seconds before retrying
+        env:
+          GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
+
+      # Publish the Kotlin client to the private GitHub Maven repository.
+      - name: Publish Kotlin OpenAPI client (Gradle)
+        if: env.releaseOpenAPIClients == 'true'
+        run: ./gradlew :pleo-${{ github.event.repository.name }}-client-kotlin:publish -x test -x formatKotlin -x functest --stacktrace
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
+          GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
+
+      # Publish the TS/JS/Node client to the private GitHub NPM repository.
+      - name: Publish Node OpenAPI client (NPM)
+        if: env.releaseOpenAPIClients == 'true' && env.publishNodeOpenAPIClient == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd ./pleo-${{ github.event.repository.name }}-client-js/output/node
+          npm install
+          npm config set '//npm.pkg.github.com/:_authToken' "${GITHUB_TOKEN}"
+          npm publish --access restricted
+
+      # Publish the TS/JS/Node models to the private GitHub NPM repository for frontend requests.
+      - name: Publish TypeScript models (NPM)
+        if: env.releaseOpenAPIClients == 'true' && env.publishTypeScriptFrontendModels == 'true'
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd ./pleo-${{ github.event.repository.name }}-client-js/output/models
+          npm install
+          npm config set '//npm.pkg.github.com/:_authToken' "${GITHUB_TOKEN}"
+          npm publish --access restricted
+
+      # Push the generated OpenAPI definition to OpsLevel
+      - name: Push generated OpenAPI definitions to OpsLevel
+        if: env.releaseOpenAPIClients == 'true'
+        continue-on-error: true
+        run: |
+          SERVICE_ALIAS="${{ github.event.repository.name }}"
+          if [[ -z "${SERVICE_ALIAS}" ]]; then
+            echo "Could not detect an OpsLevel service alias."
+            echo "::error::Could not detect an OpsLevel service alias."
+            exit 1
+          fi
+
+          echo "Detected service alias as $SERVICE_ALIAS"
+          echo "Pushing OpenAPI definition to OpsLevel..."
+          echo ""
+
+          curl --retry 5 \
+            --retry-delay 0 \
+            --max-time 10 \
+            --retry-max-time 80 \
+            -i \
+            -X POST "${{ secrets.OPSLEVEL_API_DOCS_URL }}/$SERVICE_ALIAS/openapi" \
+            -H 'content-type: application/octet-stream' \
+            --data-binary @pleo-${{ github.event.repository.name }}-rest/api/${{ github.event.repository.name }}-openapi.yaml
+
+      # Alert in Slack on any failure in the publishing job.
+      - name: Alert in Slack on failure for OpenAPI client release
+        if: (cancelled() || failure()) && env.releaseOpenAPIClients == 'true'
+        uses: rtCamp/action-slack-notify@v2.2.0
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_CHANNEL: dev-deploy-failure
+          SLACK_COLOR: danger
+          SLACK_TITLE: ${{ github.actor }} publish of `${{ github.repository }}` library to registry failed or was cancelled
+          SLACK_MESSAGE: "Reason: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}| Release job failed :warning:>"
+          SLACK_USERNAME: GitHub Actions
+          SLACK_ICON_EMOJI: ":crashingrocket:"
+          SLACK_FOOTER: ""
+
+      # Alert in Slack on any failure in the publishing job.
+      - name: Alert in Slack on failure for library release
+        if: (steps.release-library.outcome == 'failure' || cancelled() || failure()) && env.releaseOpenAPIClients == 'false'
+        uses: rtCamp/action-slack-notify@v2.2.0
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_CHANNEL: dev-deploy-failure
+          SLACK_COLOR: danger
+          SLACK_TITLE: ${{ github.actor }} publish of one or more libraries in `${{ github.repository }}` failed or was/were cancelled
+          SLACK_MESSAGE: "Reason: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}| Release job failed :warning:>"
+          SLACK_USERNAME: GitHub Actions
+          SLACK_ICON_EMOJI: ":crashingrocket:"
+          SLACK_FOOTER: ""
+
+  trigger-deploy:
+    name: Trigger deployment
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs:
+      - determine-version
+      - bump-versions
+      - publish
+    if: needs.determine-version.outputs.current-version != needs.bump-versions.outputs.new-version
+    steps:
+      # Checkout the code with the elevated token to allow default branch pushes.
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: master
+
+      - name: Standardize environment
+        run: |
+          default_branch_ref="refs/heads/${{ github.event.repository.default_branch }}"
+          echo "default_branch_ref=${default_branch_ref}" >> "$GITHUB_ENV"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger deployment
+        if: env.deploymentEnabled == 'true'
+        uses: pleo-io/actions/trigger-workflow-dispatch@v17.1.0
+        with:
+          WORKFLOW_DISPATCH_FILE_NAME: deploy_k8s_primary_ecr.yaml
+          WORKFLOW_FILE_REF: ${{ env.default_branch_ref }}
+          GITHUB_DISPATCH_WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_DISPATCH_DEPLOYMENTS }}
+          ENV: staging
+          COMMIT_SHA: ${{ github.sha }}
+          ALLOW_CHAINED_DEPLOYMENTS: "true"
+
+      # Alert if any steps failed in this workflow.
+      - name: Alert in Slack when cancelled deploys to Staging and Production (due to build failure for default branch)
+        if: cancelled() || failure()
+        uses: rtCamp/action-slack-notify@v2.2.0
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_CHANNEL: dev-deploy-failure
+          SLACK_COLOR: danger
+          SLACK_TITLE: ${{ github.actor }} your deploy of `${{ github.event.repository.name }}` to *Staging* and *Production* environments was cancelled
+          SLACK_MESSAGE: "Reason: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}| Build failed for `${{ env.default_branch_ref }}` branch :warning:>"
+          SLACK_USERNAME: GitHub Actions
+          SLACK_ICON_EMOJI: ":crashingrocket:"
+          SLACK_FOOTER: ""

@@ -8,11 +8,11 @@ name: Verify Release
 on:
   pull_request:
     types:
-    - opened
-    - edited
-    - labeled
-    - unlabeled
-    - synchronize
+      - opened
+      - edited
+      - labeled
+      - unlabeled
+      - synchronize
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -23,23 +23,23 @@ jobs:
     name: Verify Release
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3.2.0
-      with:
-        fetch-depth: 0
+      - name: Checkout code
+        uses: actions/checkout@v3.2.0
+        with:
+          fetch-depth: 0
 
-    # Allow Renovate to pass this check on checks on branches where a PR isn't present yet.
-    - name: Determine author
-      id: determine_author
-      run: |
-        AUTHOR="$(git log -1 --pretty=format:'%an' | xargs -0)"
-        echo $AUTHOR
-        echo "author=$AUTHOR" >> $GITHUB_OUTPUT
+      # Allow Renovate to pass this check on checks on branches where a PR isn't present yet.
+      - name: Determine author
+        id: determine_author
+        run: |
+          AUTHOR="$(git log -1 --pretty=format:'%an' | xargs -0)"
+          echo "$AUTHOR"
+          echo "author=$AUTHOR" >> "$GITHUB_OUTPUT"
 
-    - name: Verify PR labels
-      id: verify_pr_labels
-      if: steps.determine_author.outputs.author != 'Renovate (Pleo)'
-      uses: docker://agilepathway/pull-request-label-checker:latest
-      with:
-        one_of: major,minor,patch,internal
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Verify PR labels
+        id: verify_pr_labels
+        if: steps.determine_author.outputs.author != 'Renovate (Pleo)'
+        uses: docker://agilepathway/pull-request-label-checker:latest
+        with:
+          one_of: major,minor,patch,internal
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
