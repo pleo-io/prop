@@ -1,3 +1,16 @@
+# v6.0.26 (Tue Jan 31 2023)
+
+#### 🐞 Fixes
+
+- fix(deps): update dependency io.mockk:mockk to v1.13.4 [#173](https://github.com/pleo-io/prop/pull/173) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate) [@kodiakhq[bot]](https://github.com/kodiakhq[bot]))
+
+#### Authors: 2
+
+- [@kodiakhq[bot]](https://github.com/kodiakhq[bot])
+- Renovate (Pleo) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+---
+
 # v6.0.25 (Tue Jan 31 2023)
 
 #### 🐞 Fixes
