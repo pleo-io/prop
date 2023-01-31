@@ -9,8 +9,8 @@ on: push
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   # Only cancel previous runs unless on 'defaultBranch' (which is set in template configuration).
-  # defaultBranch is set to: 'master'.
-  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+  # defaultBranch is set to: 'main'.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   build:
