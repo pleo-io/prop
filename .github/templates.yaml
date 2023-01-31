@@ -14,6 +14,6 @@ files:
 values:
   autoRelease: true
   allowKodiakAutoMerge: true
-  defaultBranch: master
+  defaultBranch: main
   sendOpsLevelDeployNotifications: true
   sendOpsLevelVulnerabilityCheck: true

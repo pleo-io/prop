@@ -11,7 +11,7 @@ name: Release
 on:
   push:
     branches:
-      - master
+      - main
 
 concurrency: ci-${{ github.workflow }}-${{ github.ref }}
 
@@ -138,7 +138,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: master
+          ref: main
           token: ${{ steps.get-admin-token.outputs.token }}
 
       # Setup JDK environment for Gradle build tasks.
@@ -237,7 +237,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: master
+          ref: main
           token: ${{ steps.get-admin-token.outputs.token }}
 
       # Allow caching the Auto executable to speed up CI/CD steps by not re-downloading Auto.
@@ -286,7 +286,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: master
+          ref: main
 
       # Set up expected environment variables for the repository name and the default branch.
       - name: Environment standardization
@@ -524,7 +524,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: master
+          ref: main
 
       - name: Standardize environment
         run: |
