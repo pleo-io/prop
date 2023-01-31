@@ -19,6 +19,8 @@ env:
   releaseOpenAPIClients: false
   publishNodeOpenAPIClient: true
   publishTypeScriptFrontendModels: false
+  deploymentEnabled: true
+  productionDeploymentEnabled: true
 
 jobs:
   determine-version:
@@ -267,8 +269,8 @@ jobs:
         with:
           github_token: ${{ steps.get-admin-token.outputs.token }}
 
-  publish:
-    name: Publish
+  publish-clients:
+    name: Publish clients
     runs-on: ubuntu-latest
     needs:
       - determine-version
@@ -326,85 +328,13 @@ jobs:
 
       # Build the project and generate the Kotlin and TS/JS/Node client for publishing.
       - name: Build project (Gradle)
+        if: env.releaseOpenAPIClients == 'true'
         run: ./gradlew build -x test --stacktrace
         env:
           GITHUB_TOKEN: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
           GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
           GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
           GRADLE_WRITE_KEY: ${{ secrets.GITHUB_TOKEN }}
-
-      # Login to DockerHub for fetching and pushing Docker images.
-      - name: Login to DockerHub
-        uses: docker/login-action@v2.0.0
-        with:
-          username: pleodeployments
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      # Create Buildx context.
-      - name: Setup Docker context
-        run: |
-          docker context create builders
-
-      # Setup Buildx for Docker operations.
-      - name: Setup Buildx
-        uses: docker/setup-buildx-action@v2.0.0
-        with:
-          endpoint: builders
-
-      # Build Docker image and cache Docker image/layers.
-      - name: Build Docker Image
-        uses: docker/build-push-action@v3.2.0
-        with:
-          context: .
-          tags: ${{ github.sha }}
-          load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          build-args: github_sha=${{ github.sha }}
-
-      - name: Configure Staging AWS credentials
-        if: env.deploymentEnabled == 'true'
-        uses: aws-actions/configure-aws-credentials@v1.7.0
-        with:
-          aws-access-key-id: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-1
-
-      # Allow publishing the built project Docker image to AWS ECR (staging).
-      - name: Login to Amazon ECR Staging
-        if: env.deploymentEnabled == 'true'
-        uses: aws-actions/amazon-ecr-login@v1.5.3
-
-      # Publish the built project Docker image to AWS ECR (staging).
-      - name: Push Docker Image to AWS ECR Staging
-        if: env.deploymentEnabled == 'true'
-        run: |
-          ecr_repo_url="${{ secrets.STAGING_ECR_URL }}/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
-          docker tag ${{ github.sha }} ${ecr_repo_url}
-          docker push ${ecr_repo_url}
-          docker rmi -f ${ecr_repo_url}
-
-      - name: Configure Production AWS credentials
-        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
-        uses: aws-actions/configure-aws-credentials@v1.7.0
-        with:
-          aws-access-key-id: ${{ secrets.PRODUCTION_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.PRODUCTION_AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-1
-
-      # Allow publishing the built project Docker image to AWS ECR (production).
-      - name: Login to AWS ECR Production
-        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
-        uses: aws-actions/amazon-ecr-login@v1.5.3
-
-      # Publish the built project Docker image to AWS ECR (staging).
-      - name: Push Docker Image to AWS ECR Production
-        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
-        run: |
-          ecr_repo_url="${{ secrets.PRODUCTION_ECR_URL }}/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
-          docker tag ${{ github.sha }} ${ecr_repo_url}
-          docker push ${ecr_repo_url}
-          docker rmi -f ${ecr_repo_url}
 
       # Release the library.
       - name: Release library (Gradle)
@@ -509,23 +439,113 @@ jobs:
           SLACK_ICON_EMOJI: ":crashingrocket:"
           SLACK_FOOTER: ""
 
-  trigger-deploy:
-    name: Trigger deployment
+  publish-docker-image:
+    name: Publish Docker image
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-    needs:
-      - determine-version
-      - bump-versions
-      - publish
-    if: needs.determine-version.outputs.current-version != needs.bump-versions.outputs.new-version
+    timeout-minutes: 90
     steps:
-      # Checkout the code with the elevated token to allow default branch pushes.
+      # Checkout the code to publish.
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: main
 
+      # Setup a JDK environment for running Gradle publishing tasks.
+      - name: Setup JDK 17.0.4
+        uses: actions/setup-java@v3.9.0
+        with:
+          java-version: 17.0.4
+          distribution: temurin
+
+      # Build the project and generate Docker Image
+      - name: Build project (Gradle)
+        run: ./gradlew build -x test --stacktrace
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
+          GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+
+      # Login to DockerHub for fetching and pushing Docker images.
+      - name: Login to DockerHub
+        uses: docker/login-action@v2.0.0
+        with:
+          username: pleodeployments
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Create Buildx context.
+      - name: Setup Docker context
+        run: |
+          docker context create builders
+
+      # Setup Buildx for Docker operations.
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v2.0.0
+        with:
+          endpoint: builders
+
+      # Build Docker image and cache Docker image/layers.
+      - name: Build Docker Image
+        uses: docker/build-push-action@v3.2.0
+        with:
+          context: .
+          tags: ${{ github.sha }}
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: github_sha=${{ github.sha }}
+
+      - name: Configure Staging AWS credentials
+        if: env.deploymentEnabled == 'true'
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          aws-access-key-id: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+
+      # Allow publishing the built project Docker image to AWS ECR (staging).
+      - name: Login to Amazon ECR Staging
+        if: env.deploymentEnabled == 'true'
+        uses: aws-actions/amazon-ecr-login@v1.5.3
+
+      # Publish the built project Docker image to AWS ECR (staging).
+      - name: Push Docker Image to AWS ECR Staging
+        if: env.deploymentEnabled == 'true'
+        run: |
+          ecr_repo_url="${{ secrets.STAGING_ECR_URL }}/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
+          docker tag ${{ github.sha }} ${ecr_repo_url}
+          docker push ${ecr_repo_url}
+          docker rmi -f ${ecr_repo_url}
+
+      - name: Configure Production AWS credentials
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          aws-access-key-id: ${{ secrets.PRODUCTION_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PRODUCTION_AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+
+      # Allow publishing the built project Docker image to AWS ECR (production).
+      - name: Login to AWS ECR Production
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
+        uses: aws-actions/amazon-ecr-login@v1.5.3
+
+      # Publish the built project Docker image to AWS ECR (staging).
+      - name: Push Docker Image to AWS ECR Production
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
+        run: |
+          ecr_repo_url="${{ secrets.PRODUCTION_ECR_URL }}/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
+          docker tag ${{ github.sha }} ${ecr_repo_url}
+          docker push ${ecr_repo_url}
+          docker rmi -f ${ecr_repo_url}
+
+  trigger-deploy:
+    name: Trigger deployment
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs:
+      - publish-docker-image
+    steps:
       - name: Standardize environment
         run: |
           default_branch_ref="refs/heads/${{ github.event.repository.default_branch }}"
