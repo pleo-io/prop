@@ -1,3 +1,16 @@
+# v6.0.24 (Tue Jan 31 2023)
+
+#### 🐞 Fixes
+
+- chore(deps): update plugin jacocolog to v3 [#172](https://github.com/pleo-io/prop/pull/172) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate) [@kodiakhq[bot]](https://github.com/kodiakhq[bot]))
+
+#### Authors: 2
+
+- [@kodiakhq[bot]](https://github.com/kodiakhq[bot])
+- Renovate (Pleo) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+---
+
 # v6.0.23 (Tue Jan 31 2023)
 
 #### 🐞 Fixes
