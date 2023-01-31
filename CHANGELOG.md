@@ -1,3 +1,60 @@
+# v6.0.26 (Tue Jan 31 2023)
+
+#### 🐞 Fixes
+
+- fix(deps): update dependency io.mockk:mockk to v1.13.4 [#173](https://github.com/pleo-io/prop/pull/173) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate) [@kodiakhq[bot]](https://github.com/kodiakhq[bot]))
+
+#### Authors: 2
+
+- [@kodiakhq[bot]](https://github.com/kodiakhq[bot])
+- Renovate (Pleo) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+---
+
+# v6.0.25 (Tue Jan 31 2023)
+
+#### 🐞 Fixes
+
+- fix(deps): update jackson to v2.14.2 [#174](https://github.com/pleo-io/prop/pull/174) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate) [@kodiakhq[bot]](https://github.com/kodiakhq[bot]))
+
+#### Authors: 2
+
+- [@kodiakhq[bot]](https://github.com/kodiakhq[bot])
+- Renovate (Pleo) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+---
+
+# v6.0.24 (Tue Jan 31 2023)
+
+#### 🐞 Fixes
+
+- chore(deps): update plugin jacocolog to v3 [#172](https://github.com/pleo-io/prop/pull/172) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate) [@kodiakhq[bot]](https://github.com/kodiakhq[bot]))
+
+#### Authors: 2
+
+- [@kodiakhq[bot]](https://github.com/kodiakhq[bot])
+- Renovate (Pleo) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+---
+
+# v6.0.23 (Tue Jan 31 2023)
+
+#### 🐞 Fixes
+
+- chore(deps): update dependency pleo-io/centralized-templates to v19 [#175](https://github.com/pleo-io/prop/pull/175) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+#### 🏠 Internal
+
+- Update files based on repository configuration [#170](https://github.com/pleo-io/prop/pull/170) ([@pleo-file-distributor[bot]](https://github.com/pleo-file-distributor[bot]) [@EliasJorgensen](https://github.com/EliasJorgensen))
+
+#### Authors: 3
+
+- [@pleo-file-distributor[bot]](https://github.com/pleo-file-distributor[bot])
+- Elias Jørgensen ([@EliasJorgensen](https://github.com/EliasJorgensen))
+- Renovate (Pleo) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+---
+
 # v6.0.22 (Thu Jan 26 2023)
 
 ### Release Notes
