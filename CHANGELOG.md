@@ -1,3 +1,22 @@
+# v6.0.28 (Thu Feb 02 2023)
+
+#### 🐞 Fixes
+
+- Remove broken readme link to prepare for OSS [#181](https://github.com/pleo-io/prop/pull/181) ([@EliasJorgensen](https://github.com/EliasJorgensen))
+
+#### 🏠 Internal
+
+- Update files based on repository configuration [#179](https://github.com/pleo-io/prop/pull/179) ([@pleo-file-distributor[bot]](https://github.com/pleo-file-distributor[bot]))
+- Disable the 'deploymentEnabled' property to avoid Docker build [#180](https://github.com/pleo-io/prop/pull/180) ([@andersfischernielsen](https://github.com/andersfischernielsen))
+
+#### Authors: 3
+
+- [@pleo-file-distributor[bot]](https://github.com/pleo-file-distributor[bot])
+- Anders Fischer-Nielsen ([@andersfischernielsen](https://github.com/andersfischernielsen))
+- Elias Jørgensen ([@EliasJorgensen](https://github.com/EliasJorgensen))
+
+---
+
 # v6.0.27 (Thu Feb 02 2023)
 
 #### 🐞 Fixes
