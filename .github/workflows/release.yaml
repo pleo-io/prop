@@ -19,7 +19,7 @@ env:
   releaseOpenAPIClients: false
   publishNodeOpenAPIClient: true
   publishTypeScriptFrontendModels: false
-  deploymentEnabled: true
+  deploymentEnabled: false
   productionDeploymentEnabled: true
 
 jobs:
@@ -446,6 +446,7 @@ jobs:
     steps:
       # Checkout the code to publish.
       - name: Checkout code
+        if: env.deploymentEnabled == 'true'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -453,6 +454,7 @@ jobs:
 
       # Setup a JDK environment for running Gradle publishing tasks.
       - name: Setup JDK 17.0.4
+        if: env.deploymentEnabled == 'true'
         uses: actions/setup-java@v3.9.0
         with:
           java-version: 17.0.4
@@ -460,6 +462,7 @@ jobs:
 
       # Build the project and generate Docker Image
       - name: Build project (Gradle)
+        if: env.deploymentEnabled == 'true'
         run: ./gradlew build -x test --stacktrace
         env:
           GITHUB_TOKEN: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
@@ -468,6 +471,7 @@ jobs:
 
       # Login to DockerHub for fetching and pushing Docker images.
       - name: Login to DockerHub
+        if: env.deploymentEnabled == 'true'
         uses: docker/login-action@v2.0.0
         with:
           username: pleodeployments
@@ -475,17 +479,20 @@ jobs:
 
       # Create Buildx context.
       - name: Setup Docker context
+        if: env.deploymentEnabled == 'true'
         run: |
           docker context create builders
 
       # Setup Buildx for Docker operations.
       - name: Setup Buildx
+        if: env.deploymentEnabled == 'true'
         uses: docker/setup-buildx-action@v2.0.0
         with:
           endpoint: builders
 
       # Build Docker image and cache Docker image/layers.
       - name: Build Docker Image
+        if: env.deploymentEnabled == 'true'
         uses: docker/build-push-action@v3.2.0
         with:
           context: .
@@ -530,7 +537,7 @@ jobs:
         if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
         uses: aws-actions/amazon-ecr-login@v1.5.3
 
-      # Publish the built project Docker image to AWS ECR (staging).
+      # Publish the built project Docker image to AWS ECR (production).
       - name: Push Docker Image to AWS ECR Production
         if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
         run: |
