@@ -11,4 +11,4 @@ service:
     - key: type
       value: library
     - key: open-source
-      value: true
+      value: "true"
