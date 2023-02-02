@@ -1,3 +1,22 @@
+# v6.0.27 (Thu Feb 02 2023)
+
+#### 🐞 Fixes
+
+- chore(deps): update dependency pleo-io/centralized-templates to v19.0.3 [#178](https://github.com/pleo-io/prop/pull/178) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+#### 🏠 Internal
+
+- Update files based on repository configuration [#177](https://github.com/pleo-io/prop/pull/177) ([@pleo-file-distributor[bot]](https://github.com/pleo-file-distributor[bot]))
+- PEG-3530: The default branch does not follow branch naming conventions [#176](https://github.com/pleo-io/prop/pull/176) (alessandro.afloarei@pleo.io)
+
+#### Authors: 3
+
+- [@pleo-file-distributor[bot]](https://github.com/pleo-file-distributor[bot])
+- Alessandro Afloarei ([@blade47](https://github.com/blade47))
+- Renovate (Pleo) ([@pleo-bot-renovate](https://github.com/pleo-bot-renovate))
+
+---
+
 # v6.0.26 (Tue Jan 31 2023)
 
 #### 🐞 Fixes
