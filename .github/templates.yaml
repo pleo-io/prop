@@ -17,3 +17,4 @@ values:
   defaultBranch: main
   sendOpsLevelDeployNotifications: true
   sendOpsLevelVulnerabilityCheck: true
+  deploymentEnabled: false
