@@ -1,7 +1,7 @@
 ---
 version: 1
 service:
-  name: prop
+  name: Prop
   lifecycle: generally_available
   owner: pegasus
   language: Kotlin
