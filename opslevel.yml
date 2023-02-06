@@ -1,7 +1,7 @@
 ---
 version: 1
 service:
-  name: prop
+  name: Prop
   lifecycle: generally_available
   owner: pegasus
   language: Kotlin
@@ -10,3 +10,5 @@ service:
   tags:
     - key: type
       value: library
+    - key: open-source
+      value: "true"
