@@ -276,6 +276,7 @@ jobs:
       - determine-version
       - bump-versions
     if: needs.determine-version.outputs.current-version != needs.bump-versions.outputs.new-version
+    environment: release
     permissions:
       contents: write # Allows cloning the repository and creating releases in the "Release" page
       issues: write # Allows searching through PRs and issues
