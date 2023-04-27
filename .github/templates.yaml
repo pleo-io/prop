@@ -1,4 +1,4 @@
-version: v19.0.3
+version: v20.13.10
 
 files:
   - .github/.kodiak.toml
@@ -9,6 +9,7 @@ files:
   - .github/workflows/pr-help.yaml
   - .github/workflows/assign-random-codeowner.yaml
   - .github/workflows/build-and-test.yaml
+  - .github/workflows/codeql-analysis.yaml
 
 
 values:
