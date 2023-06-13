@@ -1,4 +1,4 @@
-version: v21.0.0
+version: v21.0.2
 
 files:
   - .github/.kodiak.toml
@@ -9,7 +9,6 @@ files:
   - .github/workflows/pr-help.yaml
   - .github/workflows/assign-random-codeowner.yaml
   - .github/workflows/build-and-test.yaml
-
 
 values:
   autoRelease: true
