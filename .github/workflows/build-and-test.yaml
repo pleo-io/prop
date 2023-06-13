@@ -70,6 +70,7 @@ jobs:
 
         # Login to AWS for fetching CI/CD cache.
       - name: Configure AWS credentials
+        if: ${{ github.event.repository.visibility != 'public' }}
         uses: aws-actions/configure-aws-credentials@v2.1.0
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_CICD_S3_CACHE }}
@@ -78,6 +79,7 @@ jobs:
 
         # Check whether the current code has already been run in CI/CD.
       - name: Check CI/CD cache
+        if: ${{ github.event.repository.visibility != 'public' }}
         uses: pleo-io/s3-cache-action@v2.0.2
         id: s3-cache
         with:
@@ -109,28 +111,28 @@ jobs:
           GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
 
       - name: Run Unit Tests
-        if: steps.s3-cache.outputs.processed == 'false'
+        if: steps.s3-cache.outputs.processed != 'true'
         run: ./gradlew check
         env:
           GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
           GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
 
       - name: Publish Unit Tests report to GitHub
-        if: steps.s3-cache.outputs.processed == 'false'
+        if: steps.s3-cache.outputs.processed != 'true'
         uses: mikepenz/action-junit-report@v3.7.7
         with:
           check_name: Unit Tests report
           report_paths: "**/build/test-results/test/TEST-*.xml"
 
       - name: Generate aggregated code coverage report
-        if: steps.s3-cache.outputs.processed == 'false'
+        if: steps.s3-cache.outputs.processed != 'true'
         run: ./gradlew jacocoAggregateReport
         env:
           GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
           GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
 
       - name: Publish code coverage report to Coveralls
-        if: steps.s3-cache.outputs.processed == 'false'
+        if: steps.s3-cache.outputs.processed != 'true'
         continue-on-error: true
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
