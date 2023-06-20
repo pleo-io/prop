@@ -488,7 +488,7 @@ jobs:
       - name: Push Docker Image to AWS ECR Product dev
         if: env.productDevDeploymentEnabled == 'true'
         run: |
-          ecr_repo_url="${{ secrets.PRODUCT_DEV_ECR_URL }}/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
+          ecr_repo_url="${{ vars.AWS_ACCOUNT_ID_PRODUCT_DEV }}.dkr.ecr.eu-west-1.amazonaws.com/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
           docker tag ${{ github.sha }} ${ecr_repo_url}
           docker push ${ecr_repo_url}
           docker rmi -f ${ecr_repo_url}
@@ -510,7 +510,7 @@ jobs:
       - name: Push Docker Image to AWS ECR Staging
         if: env.deploymentEnabled == 'true'
         run: |
-          ecr_repo_url="${{ secrets.STAGING_ECR_URL }}/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
+          ecr_repo_url="${{ vars.AWS_ACCOUNT_ID_PRODUCT_STAGING }}.dkr.ecr.eu-west-1.amazonaws.com/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
           docker tag ${{ github.sha }} ${ecr_repo_url}
           docker push ${ecr_repo_url}
           docker rmi -f ${ecr_repo_url}
@@ -532,7 +532,7 @@ jobs:
       - name: Push Docker Image to AWS ECR Production
         if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
         run: |
-          ecr_repo_url="${{ secrets.PRODUCTION_ECR_URL }}/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
+          ecr_repo_url="${{ vars.AWS_ACCOUNT_ID_PRODUCT_PRODUCTION }}.dkr.ecr.eu-west-1.amazonaws.com/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
           docker tag ${{ github.sha }} ${ecr_repo_url}
           docker push ${ecr_repo_url}
           docker rmi -f ${ecr_repo_url}
