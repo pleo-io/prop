@@ -9,6 +9,7 @@ files:
   - .github/workflows/pr-help.yaml
   - .github/workflows/assign-random-codeowner.yaml
   - .github/workflows/build-and-test.yaml
+  - .github/workflows/codeql-analysis.yaml
 
 values:
   autoRelease: true
