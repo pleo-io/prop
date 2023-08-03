@@ -45,15 +45,15 @@ jobs:
           fetch-depth: 0
 
       # Set up a JDK environment for building, testing and releasing.
-      - name: Setup JDK 17.0.4
-        uses: actions/setup-java@v3.11.0
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3.12.0
         with:
-          java-version: 17.0.4
+          java-version: 17
           distribution: temurin
 
       # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.4.2
+        uses: gradle/gradle-build-action@v2.7.0
         with:
           gradle-executable: ./gradlew
           gradle-version: wrapper
@@ -65,13 +65,13 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/auto
-          key: dependency--intuit/auto-v10.46.0
+          key: dependency--intuit/auto-v11.0.0
 
       # Set up Auto for determining the version bump to release.
       - name: Setup Auto
         if: steps.cache-auto.outputs.cache-hit != 'true'
         run: |
-          curl -vkL -o - https://github.com/intuit/auto/releases/download/v10.46.0/auto-linux.gz | gunzip > ~/auto
+          curl -vkL -o - https://github.com/intuit/auto/releases/download/v11.0.0/auto-linux.gz | gunzip > ~/auto
           chmod a+x ~/auto
 
       # Get the currently released version for determining how big a version jump to release.
@@ -152,25 +152,25 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/auto
-          key: dependency--intuit/auto-v10.46.0
+          key: dependency--intuit/auto-v11.0.0
 
       # Set up Auto for generating a CHANGELOG.
       - name: Setup Auto
         if: steps.cache-auto.outputs.cache-hit != 'true'
         run: |
-          curl -vkL -o - https://github.com/intuit/auto/releases/download/v10.46.0/auto-linux.gz | gunzip > ~/auto
+          curl -vkL -o - https://github.com/intuit/auto/releases/download/v11.0.0/auto-linux.gz | gunzip > ~/auto
           chmod a+x ~/auto
 
       # Setup JDK environment for Gradle build tasks.
-      - name: Setup JDK 17.0.4
-        uses: actions/setup-java@v3.11.0
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3.12.0
         with:
-          java-version: 17.0.4
+          java-version: 17
           distribution: temurin
 
       # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.4.2
+        uses: gradle/gradle-build-action@v2.7.0
         with:
           gradle-executable: ./gradlew
           gradle-version: wrapper
@@ -274,15 +274,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Setup a JDK environment for running Gradle publishing tasks.
-      - name: Setup JDK 17.0.4
-        uses: actions/setup-java@v3.11.0
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3.12.0
         with:
-          java-version: 17.0.4
+          java-version: 17
           distribution: temurin
 
       # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.4.2
+        uses: gradle/gradle-build-action@v2.7.0
         with:
           gradle-executable: ./gradlew
           gradle-version: wrapper
@@ -313,7 +313,7 @@ jobs:
         continue-on-error: true
         uses: nick-fields/retry@v2
         with:
-          command: ./gradlew publish --parallel --continue --stacktrace
+          command: ./gradlew publish --parallel --continue --stacktrace --no-configuration-cache
           max_attempts: 3 # Attempt to release a maximum of three times
           timeout_minutes: 30 # Minutes to wait before attempt times out.
           retry_wait_seconds: 5 # Wait 5 seconds before retrying
@@ -326,7 +326,7 @@ jobs:
       # Publish the Kotlin client to the private GitHub Maven repository.
       - name: Publish Kotlin OpenAPI client (Gradle)
         if: env.releaseOpenAPIClients == 'true'
-        run: ./gradlew :pleo-${{ github.event.repository.name }}-client-kotlin:publish -x test -x formatKotlin -x functest --stacktrace
+        run: ./gradlew :pleo-${{ github.event.repository.name }}-client-kotlin:publish -x test -x formatKotlin -x functest --stacktrace --no-configuration-cache
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
@@ -359,7 +359,7 @@ jobs:
       # Publish additional publishing configurations to the private GitHub Maven repository.
       - name: Publish additional publishing configurations (Gradle)
         if: env.publishAdditionalProjects == 'true' && env.releaseOpenAPIClients == 'true'
-        run: ./gradlew publish -x test -x formatKotlin -x :pleo-${{ github.event.repository.name }}-client-kotlin:publish -x functest --stacktrace
+        run: ./gradlew publish -x test -x formatKotlin -x :pleo-${{ github.event.repository.name }}-client-kotlin:publish -x functest --stacktrace --no-configuration-cache
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GRADLE_USER: ${{ secrets.GITHUB_ACTOR }}
@@ -424,11 +424,11 @@ jobs:
           ref: main
 
       # Setup a JDK environment for running Gradle publishing tasks.
-      - name: Setup JDK 17.0.4
+      - name: Setup JDK 17
         if: env.deploymentEnabled == 'true'
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v3.12.0
         with:
-          java-version: 17.0.4
+          java-version: 17
           distribution: temurin
 
       # Build the project and generate Docker Image
@@ -443,7 +443,7 @@ jobs:
       # Login to DockerHub for fetching and pushing Docker images.
       - name: Login to DockerHub
         if: env.deploymentEnabled == 'true'
-        uses: docker/login-action@v2.1.0
+        uses: docker/login-action@v2.2.0
         with:
           username: pleodeployments
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -475,7 +475,7 @@ jobs:
 
       - name: Configure product-dev AWS credentials
         if: env.productDevDeploymentEnabled == 'true'
-        uses: aws-actions/configure-aws-credentials@v2.0.0
+        uses: aws-actions/configure-aws-credentials@v2.2.0
         with:
           role-to-assume: arn:aws:iam::${{vars.AWS_ACCOUNT_ID_PRODUCT_DEV}}:role/github/repository/${{ github.event.repository.name }}-github-actions
           role-session-name: GitHubActions
@@ -483,7 +483,7 @@ jobs:
 
       - name: Login to Amazon ECR Product dev
         if: env.productDevDeploymentEnabled == 'true'
-        uses: aws-actions/amazon-ecr-login@v1.6.0
+        uses: aws-actions/amazon-ecr-login@v1.6.2
 
       - name: Push Docker Image to AWS ECR Product dev
         if: env.productDevDeploymentEnabled == 'true'
@@ -495,7 +495,7 @@ jobs:
 
       - name: Configure staging AWS credentials
         if: env.deploymentEnabled == 'true'
-        uses: aws-actions/configure-aws-credentials@v2.1.0
+        uses: aws-actions/configure-aws-credentials@v2.2.0
         with:
           role-to-assume: arn:aws:iam::${{vars.AWS_ACCOUNT_ID_PRODUCT_STAGING}}:role/github/repository/${{ github.event.repository.name }}-github-actions
           role-session-name: GitHubActions
@@ -504,7 +504,7 @@ jobs:
       # Allow publishing the built project Docker image to AWS ECR (staging).
       - name: Login to Amazon ECR Staging
         if: env.deploymentEnabled == 'true'
-        uses: aws-actions/amazon-ecr-login@v1.6.0
+        uses: aws-actions/amazon-ecr-login@v1.6.2
 
       # Publish the built project Docker image to AWS ECR (staging).
       - name: Push Docker Image to AWS ECR Staging
@@ -517,7 +517,7 @@ jobs:
 
       - name: Configure production AWS credentials
         if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
-        uses: aws-actions/configure-aws-credentials@v2.1.0
+        uses: aws-actions/configure-aws-credentials@v2.2.0
         with:
           role-to-assume: arn:aws:iam::${{vars.AWS_ACCOUNT_ID_PRODUCT_PRODUCTION}}:role/github/repository/${{ github.event.repository.name }}-github-actions
           role-session-name: GitHubActions
@@ -526,7 +526,7 @@ jobs:
       # Allow publishing the built project Docker image to AWS ECR (production).
       - name: Login to AWS ECR Production
         if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
-        uses: aws-actions/amazon-ecr-login@v1.6.0
+        uses: aws-actions/amazon-ecr-login@v1.6.2
 
       # Publish the built project Docker image to AWS ECR (production).
       - name: Push Docker Image to AWS ECR Production
@@ -546,7 +546,7 @@ jobs:
     steps:
       - name: Trigger deployment
         if: env.deploymentEnabled == 'true'
-        uses: pleo-io/actions/trigger-workflow-dispatch@v19.1.3
+        uses: pleo-io/actions/trigger-workflow-dispatch@v19.3.0
         with:
           WORKFLOW_DISPATCH_FILE_NAME: deploy_k8s_primary_ecr.yaml
           WORKFLOW_FILE_REF: "refs/heads/${{ github.event.repository.default_branch }}"
