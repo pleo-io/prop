@@ -15,33 +15,43 @@ on:
       - synchronize
       - ready_for_review
 
-concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   auto-version-pr:
     name: Detect OpenAPI changes
     if: ${{ (github.event.repository.language == 'Kotlin' || github.event.repository.language == 'Java') && github.event.pull_request.draft == false && false && github.event.action != 'unlabeled' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    concurrency: ci-${{ github.workflow }}-${{ github.ref }}
     steps:
+      # Caches openapi docs
+      - name: Caches generated openapi docs
+        id: cache-docs
+        uses: actions/cache@v3
+        with:
+          path: |
+            generated.yaml
+            existing.yaml
+          key: OpenApiDocs-${{ github.workflow }}-${{ github.sha }}
+
       # Checkout the default branch
       - name: Checkout '${{ github.event.repository.default_branch }}'
+        if: steps.cache-docs.outputs.cache-hit != 'true'
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.repository.default_branch }}
 
       # Set up a JDK environment for building, testing and releasing.
-      - name: Setup JDK 17.0.4
-        uses: actions/setup-java@v3.11.0
+      - name: Setup JDK 17
+        if: steps.cache-docs.outputs.cache-hit != 'true'
+        uses: actions/setup-java@v3.12.0
         with:
-          java-version: 17.0.4
+          java-version: 17
           distribution: temurin
 
       # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.4.2
+        if: steps.cache-docs.outputs.cache-hit != 'true'
+        uses: gradle/gradle-build-action@v2.7.0
         with:
           gradle-executable: ./gradlew
           gradle-version: wrapper
@@ -50,6 +60,7 @@ jobs:
 
       # Generate the '${{ github.event.repository.default_branch }}' OpenAPI definition.
       - name: Generate '${{ github.event.repository.default_branch }}' OpenAPI spec
+        if: steps.cache-docs.outputs.cache-hit != 'true'
         run: |
           ./gradlew pleo-"$REPOSITORY_NAME"-rest:resolve --stacktrace
         env:
@@ -58,6 +69,7 @@ jobs:
           REPOSITORY_NAME: ${{ github.event.repository.name }}
 
       - name: Move OpenAPI schema
+        if: steps.cache-docs.outputs.cache-hit != 'true'
         run: |
           echo "Using OpenAPI spec path: 'pleo-$REPOSITORY_NAME-rest'"
           FILE_PATH="$(find "pleo-$REPOSITORY_NAME-rest" -type f -name "$REPOSITORY_NAME-openapi.yaml" -not -path "pleo-$REPOSITORY_NAME-rest/build/*")"
@@ -67,6 +79,7 @@ jobs:
           NEW_PATH: existing.yaml
 
       - name: Checkout HEAD
+        if: steps.cache-docs.outputs.cache-hit != 'true'
         uses: actions/checkout@v3
         with:
           ref: ${{ env.GITHUB_SHA }}
@@ -74,6 +87,7 @@ jobs:
 
       # Generate modified OpenAPI definition from changes.
       - name: Generate 'HEAD' OpenAPI spec
+        if: steps.cache-docs.outputs.cache-hit != 'true'
         run: |
           ./gradlew pleo-"$REPOSITORY_NAME"-rest:resolve --stacktrace
         env:
@@ -82,6 +96,7 @@ jobs:
           REPOSITORY_NAME: ${{ github.event.repository.name }}
 
       - name: Move OpenAPI schema
+        if: steps.cache-docs.outputs.cache-hit != 'true'
         run: |
           echo "Using OpenAPI spec path: 'pleo-$REPOSITORY_NAME-rest'"
           FILE_PATH="$(find "pleo-$REPOSITORY_NAME-rest" -type f -name "$REPOSITORY_NAME-openapi.yaml" -not -path "pleo-$REPOSITORY_NAME-rest/build/*")"
@@ -162,9 +177,7 @@ jobs:
     if: always()
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.5.2
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v3.5.3
 
       # Allow Renovate to pass this check on checks on branches where a PR isn't present yet.
       - name: Determine author
