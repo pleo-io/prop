@@ -38,7 +38,7 @@ jobs:
 
       # Assign random CODEOWNERS unless reviewers have been assigned manually
       - name: Assign CODEOWNERS
-        uses: pleo-io/assign-random-codeowners@v0.2.10
+        uses: pleo-io/assign-random-codeowners@v0.2.11
         with:
           reviewers-to-assign: 2
           assign-from-changed-files: true
