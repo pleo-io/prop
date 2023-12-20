@@ -14,13 +14,13 @@ import io.pleo.prop.core.Parser
 import io.pleo.prop.core.Prop
 import io.pleo.prop.core.internal.ParserFactory
 import io.pleo.prop.core.internal.PropFactory
+import jakarta.inject.Named
 import java.lang.reflect.Executable
 import java.lang.reflect.Parameter
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.Optional.ofNullable
 import java.util.function.Predicate
-import javax.inject.Named
 
 typealias PropResult = Result<Prop<*>>
 
