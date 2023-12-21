@@ -13,7 +13,6 @@ buildscript {
 
     dependencies {
         classpath(libs.kotlin.gradle.plugin)
-        classpath(libs.kotlinter.gradle)
     }
 }
 
@@ -48,7 +47,6 @@ subprojects {
     apply plugin: libs.plugins.java.library.get().pluginId
     apply plugin: libs.plugins.kotlin.library.get().pluginId
     apply plugin: libs.plugins.maven.publish.get().pluginId
-    apply plugin: libs.plugins.jmailen.kotlinter.get().pluginId
 
     sourceCompatibility = 17
     targetCompatibility = 17
