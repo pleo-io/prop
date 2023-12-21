@@ -107,21 +107,6 @@ ext.generateVersion = { ->
     "$major.$minor.$patch"
 }
 
-tasks.register("incrementVersion") {
-    group = "release"
-    description = "Increments the version in this build file everywhere it is used."
-
-    doLast {
-        def propertiesReference = new Properties()
-        def propertiesFile = file("gradle.properties")
-
-        def newVersion = properties.get("overrideVersion") ?: generateVersion()
-        propertiesReference.load(propertiesFile.newDataInputStream())
-        propertiesReference.setProperty("version", newVersion)
-        propertiesReference.store(propertiesFile.newWriter(), null)
-    }
-}
-
 // Executed only at root level so code coverage is only reported once to Coveralls
 coverallsJacoco {
     reportPath = "build/reports/jacoco/jacocoAggregatedReport/jacocoAggregatedReport.xml"
