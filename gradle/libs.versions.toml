@@ -11,6 +11,7 @@ kotlinVersion = "1.8.0"
 logbackClassicVersion = "1.4.5"
 mockkVersion = "1.13.4"
 monetaVersion = "1.4.2"
+pleoGradlePluginVersion = "5.14.0"
 slf4jVersion = "2.0.6"
 
 [libraries]
@@ -37,4 +38,4 @@ java-library = { id = "java-library" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }
 kotlin-library = { id = "kotlin" }
 maven-publish = { id = "maven-publish" }
-pleo-gradle-plugin = { id = "io.pleo.gradle.plugin", version = "5.12.0" }
+pleo-gradle-plugin = { id = "io.pleo.gradle.plugin", version.ref = "pleoGradlePluginVersion" }
