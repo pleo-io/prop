@@ -1,9 +1,9 @@
 package io.pleo.prop.objects
 
+import com.google.inject.Inject
+import com.google.inject.Provider
+import com.google.inject.name.Named
 import io.pleo.prop.core.Prop
-import javax.inject.Inject
-import javax.inject.Named
-import javax.inject.Provider
 
 class MyInterfaceProvider @Inject constructor(
     @Named("io.pleo.test.prop3") val prop: Prop<String>

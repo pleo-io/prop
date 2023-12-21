@@ -4,8 +4,8 @@ package io.pleo.prop.objects
 import com.google.inject.AbstractModule
 import com.google.inject.Provides
 import com.google.inject.Singleton
+import com.google.inject.name.Named
 import io.pleo.prop.core.Prop
-import javax.inject.Named
 
 @Suppress("unused", "SpellCheckingInspection", "unused_parameter")
 class InlineProviderModule : AbstractModule() {
