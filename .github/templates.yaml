@@ -1,4 +1,4 @@
-version: v23.1.2
+version: v32.0.1
 
 files:
   - .github/.kodiak.toml
