@@ -1,3 +1,21 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven {
+            name = "GitHubPackages"
+            url =
+                    uri("https://maven.pkg.github.com/pleo-io/pleo-gradle-plugin")
+
+            credentials {
+                username = providers.gradleProperty("gpr.user")
+                        .getOrElse(System.getenv("GITHUB_ACTOR"))
+                password = providers.gradleProperty("gpr.key")
+                        .getOrElse(System.getenv("GRADLE_READ_KEY"))
+            }
+        }
+    }
+}
+
 rootProject.name = 'prop'
 
 include ':prop-core'

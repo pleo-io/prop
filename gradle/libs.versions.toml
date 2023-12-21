@@ -42,4 +42,4 @@ kotlin-library = { id = "kotlin" }
 maven-publish = { id = "maven-publish" }
 coveralls-jacoco = { id = "com.github.nbaztec.coveralls-jacoco", version = "1.2.15" }
 jacocolog = { id = "org.barfuin.gradle.jacocolog", version = "3.0.0" }
-
+pleo-gradle-plugin = { id = "io.pleo.gradle.plugin", version = "5.12.0" }
