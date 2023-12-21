@@ -62,6 +62,16 @@ subprojects {
         testRuntimeOnly(libs.junit.jupiter.engine)
     }
 
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.allJava
+        archiveClassifier = 'sources'
+    }
+
+    task javadocJar(type: Jar) {
+        from javadoc
+        archiveClassifier = 'javadoc'
+    }
+
     javadoc {
         if(JavaVersion.current().isJava9Compatible()) {
             options.addBooleanOption('html5', true)
@@ -77,12 +87,54 @@ subprojects {
         useJUnitPlatform()
     }
 
+    publishing {
+        publications {
+            mavenJavaPublic(MavenPublication) {
+                from components.java
+                artifact sourcesJar
+                artifact javadocJar
+
+                pom {
+                    name = project.name
+                    description = "Dynamic properties for your Java/Kotlin app"
+                    url = 'http://github.com/pleo-io/prop'
+                    licenses {
+                        license {
+                            name = 'MIT License'
+                            url = 'http://www.opensource.org/licenses/mit-license.php'
+                        }
+                    }
+                    developers {
+                        developer {
+                            name = 'Pleo'
+                            email = 'dev@pleo.io'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:git@github.com:pleo-io/prop.git'
+                        developerConnection = 'scm:git:git@github.com:pleo-io/prop.git'
+                        url = 'https://github.com/pleo-io/prop'
+                    }
+                }
+            }
+        }
+
+        repositories {
+            mavenLocal()
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/pleo-io/prop")
+                credentials {
+                    username = providers.gradleProperty("gpr.user")
+                            .getOrElse(System.getenv("GITHUB_ACTOR"))
+                    password = providers.gradleProperty("gpr.key")
+                            .getOrElse(System.getenv("GITHUB_TOKEN"))
+                }
+            }
+        }
+    }
 }
 
 tasks.check {
     finalizedBy("formatKotlin")
-}
-
-pleoRepositoryExtension {
-    publish.set(subprojects.toSet())
 }
