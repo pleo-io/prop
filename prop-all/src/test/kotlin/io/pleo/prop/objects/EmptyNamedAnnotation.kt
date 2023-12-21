@@ -5,4 +5,8 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @Suppress("UNUSED_PARAMETER")
-class EmptyNamedAnnotation @Inject constructor(@Named myProp: Prop<String>)
+class EmptyNamedAnnotation
+    @Inject
+    constructor(
+        @Named myProp: Prop<String>,
+    )

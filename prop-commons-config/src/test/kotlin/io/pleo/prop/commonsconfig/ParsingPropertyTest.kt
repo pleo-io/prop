@@ -32,10 +32,12 @@ class ParsingPropertyTest {
     fun `can change value`() {
         propertyValue = "value1"
 
-        val reloadingDetector = object : ReloadingDetector {
-            override fun isReloadingRequired(): Boolean = true
-            override fun reloadingPerformed() {}
-        }
+        val reloadingDetector =
+            object : ReloadingDetector {
+                override fun isReloadingRequired(): Boolean = true
+
+                override fun reloadingPerformed() = Unit
+            }
         val reloadingController = ReloadingController(reloadingDetector)
 
         val builder = BasicConfigurationBuilder(TestConfiguration::class.java, emptyMap(), false)

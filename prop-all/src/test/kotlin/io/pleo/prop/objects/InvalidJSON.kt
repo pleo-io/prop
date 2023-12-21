@@ -5,4 +5,8 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @Suppress("UNUSED_PARAMETER")
-class InvalidJSON @Inject constructor(@Named("io.pleo.prop5") objectProp: Prop<InjectedObject>)
+class InvalidJSON
+    @Inject
+    constructor(
+        @Named("io.pleo.prop5") objectProp: Prop<InjectedObject>,
+    )
