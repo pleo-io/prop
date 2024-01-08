@@ -12,7 +12,7 @@ kotlinterGradleVersion = "3.13.0"
 logbackClassicVersion = "1.4.5"
 mockkVersion = "1.13.4"
 monetaVersion = "1.4.2"
-slf4jVersion = "2.0.6"
+slf4jVersion = "2.0.11"
 
 [libraries]
 commons-beanutils = { group = "commons-beanutils", name = "commons-beanutils", version.ref = "commonsBeanUtilsVersion"}
