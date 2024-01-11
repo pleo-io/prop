@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 @Suppress("unused")
 class UnnamedProp
-    @Inject
-    constructor(unnamedProp: Prop<String>)
+@Inject
+constructor(unnamedProp: Prop<String>)

@@ -6,7 +6,7 @@ import javax.inject.Named
 import javax.money.CurrencyUnit
 
 class CurrencyUnitProp
-    @Inject
-    constructor(
-        @Named("io.pleo.test.prop8") val currency: Prop<CurrencyUnit>,
-    )
+@Inject
+constructor(
+    @Named("io.pleo.test.prop8") val currency: Prop<CurrencyUnit>
+)

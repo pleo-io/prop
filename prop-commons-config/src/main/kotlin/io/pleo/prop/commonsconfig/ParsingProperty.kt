@@ -14,7 +14,7 @@ class ParsingProperty<T>(
     private val builder: ConfigurationBuilder<*>,
     val name: String,
     private val parser: Parser<T>,
-    private val defaultValue: T?,
+    private val defaultValue: T?
 ) {
     @Volatile
     private var value: T = parseProperty()
@@ -64,7 +64,7 @@ class ParsingProperty<T>(
             logger.warn(
                 "Failed to parse property '{}'. Keeping last valid value.",
                 name,
-                ex,
+                ex
             )
         }
     }

@@ -6,7 +6,7 @@ import javax.inject.Named
 
 @Suppress("UNUSED_PARAMETER")
 class EmptyNamedAnnotation
-    @Inject
-    constructor(
-        @Named myProp: Prop<String>,
-    )
+@Inject
+constructor(
+    @Named myProp: Prop<String>
+)

@@ -31,7 +31,7 @@ typealias PropResult = Result<Prop<*>>
 class PropMappingVisitor(
     filter: Predicate<TypeLiteral<*>>,
     private val propFactory: PropFactory,
-    private val parserFactory: ParserFactory,
+    private val parserFactory: ParserFactory
 ) : DefaultElementVisitor<Map<Key<Prop<*>>, PropResult>>() {
     private val injectionPointExtractor: InjectionPointExtractor = InjectionPointExtractor(filter)
 
@@ -93,7 +93,7 @@ class PropMappingVisitor(
 
     private fun <K, V> MutableMap<K, Result<V>>.buildAndSet(
         key: K,
-        builder: () -> V,
+        builder: () -> V
     ) = set(key, runCatching(builder))
 
     private fun Parameter.toProp(key: Key<*>): Prop<*> {
@@ -112,7 +112,7 @@ class PropMappingVisitor(
             return propFactory.createProp(
                 propertyName,
                 parser as Parser<Any>,
-                defaultValue,
+                defaultValue
             )
         } catch (ex: RuntimeException) {
             throw FailedToCreatePropException(propertyName, ex)
@@ -127,7 +127,7 @@ class PropMappingVisitor(
 
     private fun getNamedAnnotationValue(
         annotations: List<Annotation>,
-        key: Key<*>,
+        key: Key<*>
     ): String =
         annotations.mapNotNull(::annotationValueIfNamed).lastOrNull()
             ?: throw RequiredNamedAnnotationException(key)
