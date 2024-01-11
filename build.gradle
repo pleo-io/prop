@@ -13,16 +13,30 @@ buildscript {
 
     dependencies {
         classpath(libs.kotlin.gradle.plugin)
+        classpath(libs.kotlinter.gradle)
     }
 }
 
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
-    alias(libs.plugins.pleo.gradle.plugin)
+    id 'jacoco'
+    alias(libs.plugins.coveralls.jacoco) apply false
+    alias(libs.plugins.jacocolog) apply false
 }
 
 allprojects {
     group = 'io.pleo'
+
+    apply plugin: libs.plugins.coveralls.jacoco.get().pluginId
+    apply plugin: libs.plugins.jacocolog.get().pluginId
+
+    jacoco {
+        toolVersion = "0.8.7"
+    }
+
+    tasks.named("jacocoLogAggregatedCoverage") {
+        enabled = false
+    }
 
     repositories {
         mavenCentral()
@@ -33,6 +47,7 @@ subprojects {
     apply plugin: libs.plugins.java.library.get().pluginId
     apply plugin: libs.plugins.kotlin.library.get().pluginId
     apply plugin: libs.plugins.maven.publish.get().pluginId
+    apply plugin: libs.plugins.jmailen.kotlinter.get().pluginId
 
     sourceCompatibility = 17
     targetCompatibility = 17
@@ -89,7 +104,7 @@ subprojects {
 
     publishing {
         publications {
-            mavenJavaPublic(MavenPublication) {
+            mavenJava(MavenPublication) {
                 from components.java
                 artifact sourcesJar
                 artifact javadocJar
@@ -125,16 +140,47 @@ subprojects {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/pleo-io/prop")
                 credentials {
-                    username = providers.gradleProperty("gpr.user")
-                            .getOrElse(System.getenv("GITHUB_ACTOR"))
-                    password = providers.gradleProperty("gpr.key")
-                            .getOrElse(System.getenv("GITHUB_TOKEN"))
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GITHUB_TOKEN")
                 }
             }
         }
     }
 }
 
-tasks.check {
-    finalizedBy("formatKotlin")
+ext.generateVersion = { ->
+    def updateMode = properties.get("mode") ?: "internal"
+    def splitVersionStrings = version.toString().split("[.]")
+    def (major, minor, patch) = splitVersionStrings.collect{Integer.parseInt(it)}
+    switch (updateMode) {
+        case "major": major++; minor = 0; patch = 0; break
+        case "minor": minor++; patch = 0; break
+        case "patch": patch++; break
+    }
+    "$major.$minor.$patch"
+}
+
+tasks.register("incrementVersion") {
+    group = "release"
+    description = "Increments the version in this build file everywhere it is used."
+
+    doLast {
+        def propertiesReference = new Properties()
+        def propertiesFile = file("gradle.properties")
+
+        def newVersion = properties.get("overrideVersion") ?: generateVersion()
+        propertiesReference.load(propertiesFile.newDataInputStream())
+        propertiesReference.setProperty("version", newVersion)
+        propertiesReference.store(propertiesFile.newWriter(), null)
+    }
+}
+
+// Executed only at root level so code coverage is only reported once to Coveralls
+coverallsJacoco {
+    reportPath = "build/reports/jacoco/jacocoAggregatedReport/jacocoAggregatedReport.xml"
+    reportSourceSets += subprojects.sourceSets.main.allSource.srcDirs.flatten()
+}
+
+tasks.named('coverallsJacoco') {
+    dependsOn jacocoAggregatedReport
 }

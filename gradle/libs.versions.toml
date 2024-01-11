@@ -8,10 +8,10 @@ jacksonVersion = "2.14.2"
 junitVersion = "5.9.3"
 kotlinGuiceVersion = "1.6.0"
 kotlinVersion = "1.8.0"
+kotlinterGradleVersion = "3.13.0"
 logbackClassicVersion = "1.4.5"
 mockkVersion = "1.13.4"
 monetaVersion = "1.4.2"
-pleoGradlePluginVersion = "5.14.0"
 slf4jVersion = "2.0.6"
 
 [libraries]
@@ -28,6 +28,7 @@ junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", vers
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinVersion" }
 kotlin-guice = { module = "dev.misfitlabs.kotlinguice4:kotlin-guice", version.ref = "kotlinGuiceVersion" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlinVersion" }
+kotlinter-gradle = { module = "org.jmailen.gradle:kotlinter-gradle", version.ref = "kotlinterGradleVersion" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logbackClassicVersion" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
 moneta = { module = "org.javamoney:moneta", version.ref = "monetaVersion" }
@@ -35,7 +36,9 @@ slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4jVersion" }
 
 [plugins]
 java-library = { id = "java-library" }
+jmailen-kotlinter = { id = "org.jmailen.kotlinter" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }
 kotlin-library = { id = "kotlin" }
 maven-publish = { id = "maven-publish" }
-pleo-gradle-plugin = { id = "io.pleo.gradle.plugin", version.ref = "pleoGradlePluginVersion" }
+coveralls-jacoco = { id = "com.github.nbaztec.coveralls-jacoco", version = "1.2.15" }
+jacocolog = { id = "org.barfuin.gradle.jacocolog", version = "3.0.0" }
