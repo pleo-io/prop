@@ -22,6 +22,7 @@ plugins {
     id 'jacoco'
     alias(libs.plugins.coveralls.jacoco) apply false
     alias(libs.plugins.jacocolog) apply false
+    alias(libs.plugins.jmailen.kotlinter)
 }
 
 allprojects {
@@ -85,6 +86,10 @@ subprojects {
     task javadocJar(type: Jar) {
         from javadoc
         archiveClassifier = 'javadoc'
+    }
+
+    tasks.named('check') {
+        finalizedBy 'formatKotlin'
     }
 
     javadoc {
