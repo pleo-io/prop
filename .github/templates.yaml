@@ -6,7 +6,6 @@ files:
   - .github/workflows/assign-random-codeowner.yaml
   - .github/workflows/build-and-test.yaml
   - .github/workflows/codeql-analysis.yaml
-  - .github/workflows/format-kotlin.yaml
   - .github/workflows/pr-help.yaml
   - .github/workflows/release.yaml
   - .github/workflows/verify-release.yaml
