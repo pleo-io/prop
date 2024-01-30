@@ -192,6 +192,6 @@ tasks.named('coverallsJacoco') {
     dependsOn jacocoAggregatedReport
 }
 
-//tasks.named('check') {
-//    dependsOn 'installKotlinterPrePushHook'
-//}
+tasks.create('check') {
+    dependsOn installKotlinterPrePushHook
+}
