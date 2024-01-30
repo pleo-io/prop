@@ -4,7 +4,7 @@ import io.pleo.prop.core.Prop
 import javax.inject.Inject
 import javax.inject.Named
 
-@Suppress("unused")
+@Suppress("unused", "UNUSED_PARAMETER")
 class NullValue
 @Inject
 constructor(

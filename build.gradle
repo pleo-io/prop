@@ -192,6 +192,13 @@ tasks.named('coverallsJacoco') {
     dependsOn jacocoAggregatedReport
 }
 
-//tasks.named('check') {
-//    dependsOn 'installKotlinterPrePushHook'
-//}
+tasks.create(name:"installLocalGitHooks", type: Copy) {
+    from("$rootDir/.githooks")
+    into("$rootDir/.git/hooks")
+
+    fileMode = 509 // = 775 in octal
+}
+
+tasks.create('check') {
+    dependsOn installLocalGitHooks
+}
