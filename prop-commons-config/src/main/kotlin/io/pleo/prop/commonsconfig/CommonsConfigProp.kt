@@ -5,7 +5,7 @@ import io.pleo.prop.core.Prop
 import java.time.Instant
 
 class CommonsConfigProp<T>(
-    private val parsingProperty: ParsingProperty<T>
+    private val parsingProperty: ParsingProperty<T>,
 ) : Prop<T> {
     override val name: String
         get() = parsingProperty.name

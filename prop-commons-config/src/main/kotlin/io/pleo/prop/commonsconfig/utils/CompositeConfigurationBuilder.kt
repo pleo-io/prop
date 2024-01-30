@@ -64,7 +64,7 @@ class CompositeConfigurationBuilder : ConfigurationBuilder<CompositeConfiguratio
 
     override fun <T : Event> addEventListener(
         eventType: EventType<T>,
-        listener: EventListener<in T>
+        listener: EventListener<in T>,
     ) {
         eventListeners.addEventListener(eventType, listener)
         if (isResultInitialised) {
@@ -74,7 +74,7 @@ class CompositeConfigurationBuilder : ConfigurationBuilder<CompositeConfiguratio
 
     override fun <T : Event?> removeEventListener(
         eventType: EventType<T>?,
-        listener: EventListener<in T>?
+        listener: EventListener<in T>?,
     ): Boolean {
         if (isResultInitialised) {
             result.removeEventListener(eventType, listener)
@@ -108,15 +108,15 @@ class CompositeConfigurationBuilder : ConfigurationBuilder<CompositeConfiguratio
                 ConfigurationBuilderResultCreatedEvent(
                     this,
                     ConfigurationBuilderResultCreatedEvent.RESULT_CREATED,
-                    compositeConfiguration
-                )
+                    compositeConfiguration,
+                ),
             )
         }
     }
 
     private fun <E : Event> registerListener(
         eventSource: EventSource,
-        registrationData: EventListenerRegistrationData<E>
+        registrationData: EventListenerRegistrationData<E>,
     ) {
         eventSource.addEventListener(registrationData.eventType, registrationData.listener)
     }

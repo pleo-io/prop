@@ -10,5 +10,5 @@ class MyAssistedInjectFactoryImp2
 @Inject
 constructor(
     @Named("io.pleo.test.prop4") private val prop: Prop<String>,
-    @Assisted private val assistedArg: Int
+    @Assisted private val assistedArg: Int,
 )

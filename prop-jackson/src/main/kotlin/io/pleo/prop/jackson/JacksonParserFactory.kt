@@ -25,7 +25,7 @@ import javax.money.Monetary
 class JacksonParserFactory
 @JvmOverloads
 constructor(
-    private val objectMapper: ObjectMapper = ObjectMapper()
+    private val objectMapper: ObjectMapper = ObjectMapper(),
 ) : ParserFactory {
     @Suppress("MemberVisibilityCanBePrivate")
     private val knownParsers: MutableMap<Type, (String) -> Any> =
@@ -51,14 +51,15 @@ constructor(
             buildParserRef(YearMonth::parse),
             buildParserRef(ZoneId::of),
             buildParserRef(ZoneOffset::of),
-            buildParserRef(Monetary::getCurrency)
+            buildParserRef(Monetary::getCurrency),
         )
 
     override fun createParserForType(type: Type): Parser<*> = knownParsers.getOrPut(type, buildParserBuilder(type))
 
     private fun <T : Any> buildParserBuilder(type: Type): (() -> Parser<T>) =
         {
-            { rawString: String ->
+            {
+                    rawString: String ->
                 try {
                     objectMapper.readValue(rawString, TypeFactory.defaultInstance().constructType(type))
                 } catch (ex: IOException) {

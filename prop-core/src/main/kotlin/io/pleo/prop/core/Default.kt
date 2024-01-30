@@ -4,5 +4,5 @@ package io.pleo.prop.core
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class Default(
     /** The default value  */
-    val value: String = ""
+    val value: String = "",
 )

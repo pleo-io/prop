@@ -8,5 +8,5 @@ import javax.inject.Named
 class NullValue
 @Inject
 constructor(
-    @Named("io.pleo.undefined.property") thisThrows: Prop<String>
+    @Named("io.pleo.undefined.property") thisThrows: Prop<String>,
 )

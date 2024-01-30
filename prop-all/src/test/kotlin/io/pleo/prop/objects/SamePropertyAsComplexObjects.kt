@@ -7,5 +7,5 @@ import javax.inject.Named
 class SamePropertyAsComplexObjects
 @Inject
 constructor(
-    @Named("io.pleo.test.prop1") val myComplexObjectProp: Prop<InjectedObject>
+    @Named("io.pleo.test.prop1") val myComplexObjectProp: Prop<InjectedObject>,
 )

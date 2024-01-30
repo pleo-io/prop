@@ -8,7 +8,7 @@ import javax.inject.Provider
 class MyInterfaceProvider
 @Inject
 constructor(
-    @Named("io.pleo.test.prop3") val prop: Prop<String>
+    @Named("io.pleo.test.prop3") val prop: Prop<String>,
 ) : Provider<MyInterface> {
     override fun get(): MyInterface =
         object : MyInterface {

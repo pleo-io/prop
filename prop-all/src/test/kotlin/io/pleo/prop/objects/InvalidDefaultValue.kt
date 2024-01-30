@@ -11,7 +11,7 @@ class InvalidDefaultValue
 constructor(
     @Default(DEFAULT_VALUE)
     @Named("io.pleo.undefined.property")
-    val usesDefaultValue: Prop<Double>
+    val usesDefaultValue: Prop<Double>,
 ) {
     companion object {
         const val DEFAULT_VALUE = "This is not a double!"

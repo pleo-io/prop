@@ -8,5 +8,5 @@ import javax.inject.Named
 class InvalidJSON
 @Inject
 constructor(
-    @Named("io.pleo.prop5") objectProp: Prop<InjectedObject>
+    @Named("io.pleo.prop5") objectProp: Prop<InjectedObject>,
 )

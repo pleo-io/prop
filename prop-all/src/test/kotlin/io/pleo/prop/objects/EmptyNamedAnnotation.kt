@@ -8,5 +8,5 @@ import javax.inject.Named
 class EmptyNamedAnnotation
 @Inject
 constructor(
-    @Named myProp: Prop<String>
+    @Named myProp: Prop<String>,
 )
