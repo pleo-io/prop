@@ -11,19 +11,19 @@ class AutoPropModule(
     private val packagePrefix: String,
     private val modulesToScan: Iterable<Module>,
     private val propFactory: PropFactory,
-    private val parserFactory: ParserFactory
+    private val parserFactory: ParserFactory,
 ) : Module {
     override fun configure(binder: Binder) {
         PropMappingVisitor(
             { it.rawType.getPackage().name.startsWith(packagePrefix) },
             propFactory,
-            parserFactory
+            parserFactory,
         )
             .visit(Elements.getElements(modulesToScan))
             .forEach { (key, value) ->
                 value.fold(
                     { binder.bind(key).toInstance(it) },
-                    { binder.addError(it) }
+                    { binder.addError(it) },
                 )
             }
     }

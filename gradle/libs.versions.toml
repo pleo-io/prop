@@ -8,7 +8,7 @@ jacksonVersion = "2.14.2"
 junitVersion = "5.9.3"
 kotlinGuiceVersion = "1.6.0"
 kotlinVersion = "1.8.0"
-kotlinterGradleVersion = "3.13.0"
+kotlinterGradleVersion = "3.16.0"
 logbackClassicVersion = "1.4.5"
 mockkVersion = "1.13.4"
 monetaVersion = "1.4.2"
@@ -36,10 +36,9 @@ slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4jVersion" }
 
 [plugins]
 java-library = { id = "java-library" }
-jmailen-kotlinter = { id = "org.jmailen.kotlinter" }
+jmailen-kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinterGradleVersion" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }
 kotlin-library = { id = "kotlin" }
 maven-publish = { id = "maven-publish" }
 coveralls-jacoco = { id = "com.github.nbaztec.coveralls-jacoco", version = "1.2.15" }
 jacocolog = { id = "org.barfuin.gradle.jacocolog", version = "3.0.0" }
-
