@@ -8,23 +8,22 @@ import org.apache.commons.configuration2.builder.fluent.Configurations
 import java.io.File
 
 class CommonsConfigPropFactory(
-    private val builder: ConfigurationBuilder<*>? = null
+    private val builder: ConfigurationBuilder<*>? = null,
 ) : PropFactory {
     override fun <T> createProp(
         propName: String,
         parse: Parser<T>,
-        defaultValue: T?
+        defaultValue: T?,
     ): Prop<T> =
         CommonsConfigProp(
             ParsingProperty(
                 builder = builder ?: createDefaultBuilder(),
                 name = propName,
                 parser = parse,
-                defaultValue = defaultValue
-            )
+                defaultValue = defaultValue,
+            ),
         )
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun createDefaultBuilder(): ConfigurationBuilder<*> =
-        Configurations().propertiesBuilder(File("config.properties"))
+    fun createDefaultBuilder(): ConfigurationBuilder<*> = Configurations().propertiesBuilder(File("config.properties"))
 }

@@ -5,4 +5,8 @@ import io.pleo.prop.core.Prop
 import jakarta.inject.Named
 
 @Suppress("UNUSED_PARAMETER")
-class EmptyNamedAnnotation @Inject constructor(@Named myProp: Prop<String>)
+class EmptyNamedAnnotation
+@Inject
+constructor(
+    @Named myProp: Prop<String>,
+)

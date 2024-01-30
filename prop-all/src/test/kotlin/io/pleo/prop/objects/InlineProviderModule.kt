@@ -11,7 +11,9 @@ import io.pleo.prop.core.Prop
 class InlineProviderModule : AbstractModule() {
     @Provides
     @Singleton
-    fun hardwell(@Named("io.pleo.test.prop3") w_w: Prop<String>): InjectedObject {
+    fun hardwell(
+        @Named("io.pleo.test.prop3") w_w: Prop<String>,
+    ): InjectedObject {
         return InjectedObject()
     }
 
@@ -21,7 +23,7 @@ class InlineProviderModule : AbstractModule() {
     fun tiesto(
         io: InjectedObject?,
         @Named("io.pleo.test.prop4") w_w: Prop<String>,
-        @Named("io.pleo.test.prop3") u_u: Prop<String>
+        @Named("io.pleo.test.prop3") u_u: Prop<String>,
     ): InjectedObject {
         return InjectedObject()
     }

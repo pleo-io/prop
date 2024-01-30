@@ -4,5 +4,5 @@ import com.google.inject.TypeLiteral
 
 class PropParameters<T>(
     val typeLiteral: TypeLiteral<T>,
-    val annotations: List<Annotation>
+    val annotations: List<Annotation>,
 )
