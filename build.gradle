@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 buildscript {
     repositories {
         repositories {
@@ -53,11 +55,11 @@ subprojects {
     sourceCompatibility = 17
     targetCompatibility = 17
 
-    tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile).configureEach {
         options.encoding = 'UTF-8'
     }
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+    tasks.withType(KotlinCompile).configureEach {
         kotlinOptions {
             jvmTarget = "17"
             javaParameters = true
@@ -78,12 +80,12 @@ subprojects {
         testRuntimeOnly(libs.junit.jupiter.engine)
     }
 
-    task sourcesJar(type: Jar) {
+    tasks.register('sourcesJar', Jar) {
         from sourceSets.main.allJava
         archiveClassifier = 'sources'
     }
 
-    task javadocJar(type: Jar) {
+    tasks.register('javadocJar', Jar) {
         from javadoc
         archiveClassifier = 'javadoc'
     }
