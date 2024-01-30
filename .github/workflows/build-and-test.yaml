@@ -128,6 +128,24 @@ jobs:
           check_name: Unit Tests report
           report_paths: "**/build/test-results/test/TEST-*.xml"
 
+      # Run Detekt
+      - name: Run Detekt
+        continue-on-error: true
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: ./gradlew detekt --stacktrace
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          JOB_RUNR_REPO_PASSWORD: ${{ secrets.JOB_RUNR_REPO_PASSWORD }}
+
+      # Publish Detekt results to GitHub.
+      - name: Publish Detekt SARIF report to GitHub
+        continue-on-error: true
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: build/reports/detekt/detekt.sarif
+
       - name: Trigger release
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: peter-evans/repository-dispatch@v2
