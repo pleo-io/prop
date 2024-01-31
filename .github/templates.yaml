@@ -7,7 +7,6 @@ files:
   - .github/workflows/codeql-analysis.yaml
   - .github/workflows/pr-help.yaml
   - .github/workflows/release.yaml
-  - .github/workflows/verify-release.yaml
 
 values:
   autoRelease: true

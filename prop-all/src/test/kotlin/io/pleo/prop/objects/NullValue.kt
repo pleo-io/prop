@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import com.google.inject.name.Named
 import io.pleo.prop.core.Prop
 
-@Suppress("unused")
+@Suppress("unused", "UNUSED_PARAMETER")
 class NullValue
 @Inject
 constructor(
