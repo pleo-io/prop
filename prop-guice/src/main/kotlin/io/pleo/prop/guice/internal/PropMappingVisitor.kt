@@ -20,7 +20,7 @@ import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.Optional.ofNullable
 import java.util.function.Predicate
-import com.google.inject.name.Named as JuiceNamed
+import com.google.inject.name.Named as GoogleNamed
 import jakarta.inject.Named as JakartaNamed
 
 typealias PropResult = Result<Prop<*>>
@@ -136,7 +136,7 @@ class PropMappingVisitor(
     private fun annotationValueIfNamed(annotation: Annotation): String? =
         when (annotation) {
             is JakartaNamed -> annotation.value
-            is JuiceNamed -> annotation.value
+            is GoogleNamed -> annotation.value
             else -> null
         }?.ifEmpty { null }
 }
