@@ -33,7 +33,7 @@ jobs:
   auto-approve-pr:
     runs-on: ubuntu-latest
     name: Auto-approve PR
-    if: ${{ github.actor == 'pleo-bot-renovate' && contains(github.event.pull_request.labels.*.name, 'autoapprove') }}
+    if: ${{ contains(fromJSON('["pleo-bot-renovate", "pleo-file-distributor[bot]"]'), github.actor) && contains(github.event.pull_request.labels.*.name, 'autoapprove') }}
     steps:
       - uses: hmarr/auto-approve-action@v3
         if: env.autoApproveEnabled == 'true'

@@ -21,6 +21,7 @@ env:
   publishTypeScriptFrontendModels: false
   publishAdditionalProjects: false
   deploymentEnabled: false
+  environmentTenant: product
   productionDeploymentEnabled: true
   generateChangelogUpdate: true
 
@@ -45,14 +46,14 @@ jobs:
 
       # Set up a JDK environment for building, testing and releasing.
       - name: Setup JDK 17
-        uses: actions/setup-java@v3.13.0
+        uses: actions/setup-java@v4.0.0
         with:
           java-version: 17
           distribution: temurin
 
       # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.10.0
+        uses: gradle/gradle-build-action@v2.11.1
         with:
           gradle-executable: ./gradlew
           gradle-version: wrapper
@@ -61,7 +62,7 @@ jobs:
       # Allow caching the Auto executable to speed up CI/CD steps by not re-downloading Auto.
       - name: Cache Auto
         id: cache-auto
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/auto
           key: dependency--intuit/auto-v11.0.4
@@ -149,7 +150,7 @@ jobs:
       # Allow caching the Auto executable to speed up CI/CD steps by not re-downloading Auto.
       - name: Cache Auto
         id: cache-auto
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/auto
           key: dependency--intuit/auto-v11.0.4
@@ -163,14 +164,14 @@ jobs:
 
       # Setup JDK environment for Gradle build tasks.
       - name: Setup JDK 17
-        uses: actions/setup-java@v3.13.0
+        uses: actions/setup-java@v4.0.0
         with:
           java-version: 17
           distribution: temurin
 
       # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.10.0
+        uses: gradle/gradle-build-action@v2.11.1
         with:
           gradle-executable: ./gradlew
           gradle-version: wrapper
@@ -280,14 +281,14 @@ jobs:
 
       # Setup a JDK environment for running Gradle publishing tasks.
       - name: Setup JDK 17
-        uses: actions/setup-java@v3.13.0
+        uses: actions/setup-java@v4.0.0
         with:
           java-version: 17
           distribution: temurin
 
       # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.10.0
+        uses: gradle/gradle-build-action@v2.11.1
         with:
           gradle-executable: ./gradlew
           gradle-version: wrapper
@@ -435,7 +436,7 @@ jobs:
       # Setup a JDK environment for running Gradle publishing tasks.
       - name: Setup JDK 17
         if: env.deploymentEnabled == 'true'
-        uses: actions/setup-java@v3.13.0
+        uses: actions/setup-java@v4.0.0
         with:
           java-version: 17
           distribution: temurin
@@ -479,7 +480,7 @@ jobs:
             GRADLE_READ_KEY=${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
 
       - name: Configure product-dev AWS credentials
-        if: env.deploymentEnabled == 'true'
+        if: env.deploymentEnabled == 'true' && env.environmentTenant == 'product'
         uses: aws-actions/configure-aws-credentials@v4.0.1
         with:
           role-to-assume: arn:aws:iam::${{vars.AWS_ACCOUNT_ID_PRODUCT_DEV}}:role/github/repository/${{ github.event.repository.name }}-github-actions
@@ -487,20 +488,20 @@ jobs:
           aws-region: eu-west-1
           special-characters-workaround: true
 
-      - name: Login to Amazon ECR Product dev
-        if: env.deploymentEnabled == 'true'
+      - name: Login to Amazon ECR product-dev
+        if: env.deploymentEnabled == 'true' && env.environmentTenant == 'product'
         uses: aws-actions/amazon-ecr-login@v2.0.1
 
-      - name: Push Docker Image to AWS ECR Product dev
-        if: env.deploymentEnabled == 'true'
+      - name: Push Docker Image to AWS ECR product-dev
+        if: env.deploymentEnabled == 'true' && env.environmentTenant == 'product'
         run: |
           ecr_repo_url="${{ vars.AWS_ACCOUNT_ID_PRODUCT_DEV }}.dkr.ecr.eu-west-1.amazonaws.com/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
           docker tag ${{ github.sha }} ${ecr_repo_url}
           docker push ${ecr_repo_url}
           docker rmi -f ${ecr_repo_url}
 
-      - name: Configure staging AWS credentials
-        if: env.deploymentEnabled == 'true'
+      - name: Configure product-staging AWS credentials
+        if: env.deploymentEnabled == 'true' && env.environmentTenant == 'product'
         uses: aws-actions/configure-aws-credentials@v4.0.1
         with:
           role-to-assume: arn:aws:iam::${{vars.AWS_ACCOUNT_ID_PRODUCT_STAGING}}:role/github/repository/${{ github.event.repository.name }}-github-actions
@@ -508,22 +509,20 @@ jobs:
           aws-region: eu-west-1
           special-characters-workaround: true
 
-      # Allow publishing the built project Docker image to AWS ECR (staging).
-      - name: Login to Amazon ECR Staging
-        if: env.deploymentEnabled == 'true'
+      - name: Login to Amazon ECR product-staging
+        if: env.deploymentEnabled == 'true' && env.environmentTenant == 'product'
         uses: aws-actions/amazon-ecr-login@v2.0.1
 
-      # Publish the built project Docker image to AWS ECR (staging).
-      - name: Push Docker Image to AWS ECR Staging
-        if: env.deploymentEnabled == 'true'
+      - name: Push Docker Image to AWS ECR product-staging
+        if: env.deploymentEnabled == 'true' && env.environmentTenant == 'product'
         run: |
           ecr_repo_url="${{ vars.AWS_ACCOUNT_ID_PRODUCT_STAGING }}.dkr.ecr.eu-west-1.amazonaws.com/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
           docker tag ${{ github.sha }} ${ecr_repo_url}
           docker push ${ecr_repo_url}
           docker rmi -f ${ecr_repo_url}
 
-      - name: Configure production AWS credentials
-        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
+      - name: Configure product-production AWS credentials
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true' && env.environmentTenant == 'product'
         uses: aws-actions/configure-aws-credentials@v4.0.1
         with:
           role-to-assume: arn:aws:iam::${{vars.AWS_ACCOUNT_ID_PRODUCT_PRODUCTION}}:role/github/repository/${{ github.event.repository.name }}-github-actions
@@ -531,16 +530,35 @@ jobs:
           aws-region: eu-west-1
           special-characters-workaround: true
 
-      # Allow publishing the built project Docker image to AWS ECR (production).
-      - name: Login to AWS ECR Production
-        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
+      - name: Login to AWS ECR product-production
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true' && env.environmentTenant == 'product'
         uses: aws-actions/amazon-ecr-login@v2.0.1
 
-      # Publish the built project Docker image to AWS ECR (production).
-      - name: Push Docker Image to AWS ECR Production
-        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true'
+      - name: Push Docker Image to AWS ECR product-production
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true' && env.environmentTenant == 'product'
         run: |
           ecr_repo_url="${{ vars.AWS_ACCOUNT_ID_PRODUCT_PRODUCTION }}.dkr.ecr.eu-west-1.amazonaws.com/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
+          docker tag ${{ github.sha }} ${ecr_repo_url}
+          docker push ${ecr_repo_url}
+          docker rmi -f ${ecr_repo_url}
+
+      - name: Configure tooling-production AWS credentials
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true' && env.environmentTenant == 'tooling'
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          role-to-assume: arn:aws:iam::${{vars.AWS_ACCOUNT_ID_TOOLING_PRODUCTION}}:role/github/repository/${{ github.event.repository.name }}-github-actions
+          role-session-name: GitHubActions
+          aws-region: eu-west-1
+          special-characters-workaround: true
+
+      - name: Login to Amazon ECR tooling-production
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true' && env.environmentTenant == 'tooling'
+        uses: aws-actions/amazon-ecr-login@v2.0.1
+
+      - name: Push Docker Image to AWS ECR tooling-production
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true' && env.environmentTenant == 'tooling'
+        run: |
+          ecr_repo_url="${{ vars.AWS_ACCOUNT_ID_TOOLING_PRODUCTION }}.dkr.ecr.eu-west-1.amazonaws.com/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
           docker tag ${{ github.sha }} ${ecr_repo_url}
           docker push ${ecr_repo_url}
           docker rmi -f ${ecr_repo_url}
@@ -549,12 +567,14 @@ jobs:
     name: Prepare env variables
     outputs:
       deploymentEnabled: ${{ steps.env-variables.outputs.deploymentEnabled }}
+      environmentTenant: ${{ steps.env-variables.outputs.environmentTenant }}
     runs-on: ubuntu-latest
     steps:
       - name: Set output variables
         id: env-variables
         run: |
           echo "deploymentEnabled=${{ env.deploymentEnabled }}" >> "$GITHUB_OUTPUT"
+          echo "environmentTenant=${{ env.environmentTenant }}" >> "$GITHUB_OUTPUT"
 
   trigger-deploy-gitops-product-dev:
     name: Trigger deployment (GitOps)- Update product-dev image
@@ -562,7 +582,7 @@ jobs:
     needs:
       - publish-docker-image
       - get-env-variables
-    if: needs.get-env-variables.outputs.deploymentEnabled == 'true'
+    if: needs.get-env-variables.outputs.deploymentEnabled == 'true' && needs.get-env-variables.outputs.environmentTenant == 'product'
     uses: pleo-io/reusable-workflows/.github/workflows/update-image-tag.yaml@main
     with:
       environment: product-dev
@@ -577,10 +597,25 @@ jobs:
     needs:
       - publish-docker-image
       - get-env-variables
-    if: needs.get-env-variables.outputs.deploymentEnabled == 'true'
+    if: needs.get-env-variables.outputs.deploymentEnabled == 'true' && needs.get-env-variables.outputs.environmentTenant == 'product'
     uses: pleo-io/reusable-workflows/.github/workflows/update-image-tag.yaml@main
     with:
       environment: product-staging
+      image_tag: ${{ github.sha }}
+    secrets:
+      application_id: ${{ secrets.PLEO_GH_APP_TOKEN_SIGNER_APP_ID }}
+      application_private_key: ${{ secrets.PLEO_GH_APP_TOKEN_SIGNER_PRIVATE_KEY }}
+
+  trigger-deploy-gitops-tooling-production:
+    name: Trigger deployment (GitOps)- Update tooling-production image
+    concurrency: update-image-tag
+    needs:
+      - publish-docker-image
+      - get-env-variables
+    if: needs.get-env-variables.outputs.deploymentEnabled == 'true' && needs.get-env-variables.outputs.environmentTenant == 'tooling'
+    uses: pleo-io/reusable-workflows/.github/workflows/update-image-tag.yaml@main
+    with:
+      environment: tooling-production
       image_tag: ${{ github.sha }}
     secrets:
       application_id: ${{ secrets.PLEO_GH_APP_TOKEN_SIGNER_APP_ID }}

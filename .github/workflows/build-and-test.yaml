@@ -91,14 +91,14 @@ jobs:
 
         # Set up a JDK environment for building, testing and releasing.
       - name: Set up JDK 17
-        uses: actions/setup-java@v3.13.0
+        uses: actions/setup-java@v4.0.0
         with:
           java-version: 17
           distribution: temurin
 
       # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.10.0
+        uses: gradle/gradle-build-action@v2.11.1
         with:
           gradle-executable: ./gradlew
           gradle-version: wrapper
@@ -123,10 +123,28 @@ jobs:
 
       - name: Publish Unit Tests report to GitHub
         if: steps.s3-cache.outputs.processed != 'true'
-        uses: mikepenz/action-junit-report@0831a82caad2465c31c6dd929978f640cb42556c # v4.0.3
+        uses: mikepenz/action-junit-report@b1b7f659602565970688b2e2588738b9398e895d # v4.0.4
         with:
           check_name: Unit Tests report
           report_paths: "**/build/test-results/test/TEST-*.xml"
+
+      # Run Detekt
+      - name: Run Detekt
+        continue-on-error: true
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: ./gradlew detekt --stacktrace
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          GRADLE_READ_KEY: ${{ secrets.GH_REGISTRY_GRADLE_TOKEN }}
+          JOB_RUNR_REPO_PASSWORD: ${{ secrets.JOB_RUNR_REPO_PASSWORD }}
+
+      # Publish Detekt results to GitHub.
+      - name: Publish Detekt SARIF report to GitHub
+        continue-on-error: true
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: build/reports/detekt/detekt.sarif
 
       - name: Trigger release
         if: ${{ github.ref == 'refs/heads/main' }}
