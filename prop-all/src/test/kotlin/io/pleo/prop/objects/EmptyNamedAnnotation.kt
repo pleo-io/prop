@@ -1,8 +1,8 @@
 package io.pleo.prop.objects
 
+import com.google.inject.Inject
 import io.pleo.prop.core.Prop
-import javax.inject.Inject
-import javax.inject.Named
+import jakarta.inject.Named
 
 @Suppress("UNUSED_PARAMETER")
 class EmptyNamedAnnotation
