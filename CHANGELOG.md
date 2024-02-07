@@ -1,3 +1,8 @@
+# v7.0.0 (Thu Feb 07 2024)
+
+- Bumps the version of Guice to v7. 
+- Removes support for `javax.inject.Inject` and `javax.inject.Provider` in favor of `jakarta.inject.Inject` and `jakarta.inject.Provider` [#239](https://github.com/pleo-io/prop/pull/239) ([@erwinw](https://github.com/erwinw)
+
 # v6.0.28 (Thu Feb 02 2023)
 
 #### 🐞 Fixes

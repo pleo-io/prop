@@ -9,7 +9,7 @@ It is made of 4 modules that when combined give you a full, flexible and powerfu
 If you're okay with using Guice, Apache Commons Config2 and Jackson, add a dependency on `prop-all` (Gradle):
 
 ```groovy
-implementation "io.pleo:prop-all:2.0.0"
+implementation "io.pleo:prop-all:7.0.0"
 ```
 
 All you need is to initialize the `AutoPropModule` by passing it all the Guice Modules you'd like it to scan for `Prop<X>` dependencies.
