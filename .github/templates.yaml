@@ -1,4 +1,4 @@
-version: v33.13.0
+version: v34.4.61
 
 files:
   - .autorc.json
@@ -15,3 +15,4 @@ values:
   sendOpsLevelDeployNotifications: true
   sendOpsLevelVulnerabilityCheck: true
   deploymentEnabled: false
+  runWizCliDepsScan: false
