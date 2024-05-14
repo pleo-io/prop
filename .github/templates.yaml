@@ -1,4 +1,4 @@
-version: v34.4.61
+version: v34.7.1
 
 files:
   - .autorc.json
@@ -7,6 +7,7 @@ files:
   - .github/workflows/codeql-analysis.yaml
   - .github/workflows/pr-help.yaml
   - .github/workflows/release.yaml
+  - .github/workflows/renovate_dependency_management.yaml
 
 values:
   autoRelease: true
@@ -16,3 +17,4 @@ values:
   sendOpsLevelVulnerabilityCheck: true
   deploymentEnabled: false
   runWizCliDepsScan: false
+  renovateCronjobSchedule: '25 6 * * 1-5' # At 06:25 on every day-of-week from Monday through Friday.
