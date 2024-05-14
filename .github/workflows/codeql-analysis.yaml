@@ -28,9 +28,6 @@ env:
   CONFIG_FILE: ""
   RUN_ON_DEFAULT_BRANCH: true
   GRADLE_SCRIPT_PATH: ./gradlew
-  setWizCliDepsScanPath: .
-  setWizCliDepsPolicy: Pleo-Default-vulnerabilities-policy
-  runWizCliDepsScan: false
 
 jobs:
   preflight:
@@ -38,7 +35,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       should_run_analyze: ${{ steps.maybe_skip_analyze.outputs.should_run_analyze }}
-      should_run_wiz_cli: ${{ steps.maybe_skip_wiz_cli.outputs.should_run_wiz_cli }}
       working_language: ${{steps.working_language_step.outputs.WORKING_LANGUAGE}}
     steps:
       - uses: winterjung/split@a211a1c46e35fcdc4097d59dd6282d4a9859651b # v2
@@ -69,60 +65,19 @@ jobs:
             echo "Running CodeQL analysis"
             echo "should_run_analyze=true" >> "$GITHUB_OUTPUT"
           fi
-      - id: maybe_skip_wiz_cli
-        name: Check if Wiz-CLI Deps Scan should run
-        shell: bash
-        run: |
-          if [[ "${{ env.runWizCliDepsScan }}" == "true" ]]; then
-            echo "should_run_wiz_cli=true" >> "$GITHUB_OUTPUT"
-          else
-              echo "should_run_wiz_cli=false" >> "$GITHUB_OUTPUT"
-          fi
       - id: working_language_step
         name: We check if the repository language is supported by CodeQL
         run: echo "WORKING_LANGUAGE=${{env[format('language_{0}', github.event.repository.language)]}}" >> "$GITHUB_OUTPUT"
 
   wiz-cli:
     name: Scan Dependencies with Wiz CLI
-    if: ${{ needs.preflight.outputs.should_run_wiz_cli == 'true'}}
-    needs:
-      - preflight
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
-
-      - name: Check latest version of Wiz CLI
-        id: version_check
-        run: |
-          raw_output=$(curl -sL https://wizcli.app.wiz.io/latest/wizcli-version)
-          LATEST_VERSION=$(echo "$raw_output" | grep -oP '"\K[^-]*' | head -1) 
-          COMPLETE_VERSION=$(echo "$raw_output" | grep -oP '(?<=").*?(?=")')
-          echo "version=$LATEST_VERSION" >> "$GITHUB_OUTPUT"
-          echo "complete_version=$COMPLETE_VERSION" >> "$GITHUB_OUTPUT"
-
-      - name: Cache Wiz CLI
-        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
-        id: cache_wizcli
-        with:
-          path: wizcli-${{ steps.version_check.outputs.version }}
-          key: wizcli-${{ steps.version_check.outputs.version }}
-
-      - name: Download Wiz CLI
-        if: steps.cache_wizcli.outputs.cache-hit != 'true'
-        run: curl -o wizcli-${{ steps.version_check.outputs.version }} https://wizcli.app.wiz.io/${{ steps.version_check.outputs.complete_version }}/wizcli && chmod +x wizcli-${{ steps.version_check.outputs.version }}
-
-      - name: Authenticate to Wiz
-        env:
-          WIZ_CLIENT_ID: ${{ secrets.WIZ_CLIENT_ID }}
-          WIZ_CLIENT_SECRET: ${{ secrets.WIZ_CLIENT_SECRET }}
-        run: ./wizcli-${{ steps.version_check.outputs.version }} auth --id "$WIZ_CLIENT_ID" --secret "$WIZ_CLIENT_SECRET"
-
-      - name: Run wiz CLI Dependency Scan
-        run: ./wizcli-${{ steps.version_check.outputs.version }} dir scan --path "${{ env.setWizCliDepsScanPath }}" --policy "${{ env.setWizCliDepsPolicy }}"
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'feature-deploy') && (github.ref != 'refs/heads/main' || github.event_name != 'push') }}
+    uses: pleo-io/reusable-workflows/.github/workflows/wiz-cli.yaml@main
+    with:
+      scan_deps: false
+      deps_scan_path: .
+      deps_policy: Pleo-Default-vulnerabilities-policy
+    secrets: inherit
 
   analyze-code:
     name: Analyze code with CodeQL
