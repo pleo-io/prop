@@ -25,7 +25,6 @@ env:
   productionDeploymentEnabled: true
   generateChangelogUpdate: true
   forceReleaseOpenAPIDocument: 
-  setWizCliDepsPolicy: Pleo-Default-vulnerabilities-policy
 
 jobs:
   determine-version:
@@ -431,28 +430,6 @@ jobs:
           fetch-depth: 0
           ref: main
 
-      - name: Check latest version of Wiz CLI
-        if: env.deploymentEnabled == 'true'
-        id: version_check
-        run: |
-          raw_output=$(curl -sL https://wizcli.app.wiz.io/latest/wizcli-version)
-          LATEST_VERSION=$(echo "$raw_output" | grep -oP '"\K[^-]*' | head -1) 
-          COMPLETE_VERSION=$(echo "$raw_output" | grep -oP '(?<=").*?(?=")')
-          echo "version=$LATEST_VERSION" >> "$GITHUB_OUTPUT"
-          echo "complete_version=$COMPLETE_VERSION" >> "$GITHUB_OUTPUT"
-
-      - name: Cache Wiz CLI
-        if: env.deploymentEnabled == 'true'
-        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
-        id: cache_wizcli
-        with:
-          path: wizcli-${{ steps.version_check.outputs.version }}
-          key: wizcli-${{ steps.version_check.outputs.version }}
-
-      - name: Download Wiz CLI
-        if: steps.cache_wizcli.outputs.cache-hit != 'true' && env.deploymentEnabled == 'true'
-        run: curl -o wizcli-${{ steps.version_check.outputs.version }} https://wizcli.app.wiz.io/${{ steps.version_check.outputs.complete_version }}/wizcli && chmod +x wizcli-${{ steps.version_check.outputs.version }}
-
       # Setup a JDK environment for running Gradle publishing tasks.
       - name: Setup JDK 17
         if: env.deploymentEnabled == 'true'
@@ -512,22 +489,8 @@ jobs:
         if: env.deploymentEnabled == 'true'
         uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076 # v2.0.1
 
-      - name: Authenticate to Wiz
-        if: env.deploymentEnabled == 'true'
-        shell: bash
-        env:
-          WIZ_CLIENT_ID: ${{ secrets.WIZ_CLIENT_ID }}
-          WIZ_CLIENT_SECRET: ${{ secrets.WIZ_CLIENT_SECRET }}
-        run: ./wizcli-${{ steps.version_check.outputs.version }} auth --id "$WIZ_CLIENT_ID" --secret "$WIZ_CLIENT_SECRET"
-
-      - name: Run Wiz CLI Container Image Scan
-        if: env.deploymentEnabled == 'true'
-        id: image_scan
-        shell: bash
-        run: ./wizcli-${{ steps.version_check.outputs.version }} docker scan --image ${{ github.sha }} --policy "${{ env.setWizCliDepsPolicy }}"
-
       - name: Push Docker Image to AWS ECR shared services
-        if: steps.image_scan.outcome == 'success' && env.deploymentEnabled == 'true'
+        if: env.deploymentEnabled == 'true'
         run: |
           ecr_repo_url="${{ vars.AWS_ACCOUNT_ID_SHARED_SERVICES }}.dkr.ecr.eu-west-1.amazonaws.com/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
           docker tag ${{ github.sha }} ${ecr_repo_url}
@@ -535,7 +498,7 @@ jobs:
           docker rmi -f ${ecr_repo_url}
 
       - name: Configure product-dev AWS credentials
-        if: steps.image_scan.outcome == 'success' && env.deploymentEnabled == 'true' && env.environmentTenant == 'product'
+        if: env.deploymentEnabled == 'true' && env.environmentTenant == 'product'
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502 # v4.0.2
         with:
           role-to-assume: arn:aws:iam::${{vars.AWS_ACCOUNT_ID_PRODUCT_DEV}}:role/github/repository/${{ github.event.repository.name }}-github-actions
@@ -548,7 +511,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076 # v2.0.1
 
       - name: Push Docker Image to AWS ECR product-dev
-        if: steps.image_scan.outcome == 'success' && env.deploymentEnabled == 'true' && env.environmentTenant == 'product'
+        if: env.deploymentEnabled == 'true' && env.environmentTenant == 'product'
         run: |
           ecr_repo_url="${{ vars.AWS_ACCOUNT_ID_PRODUCT_DEV }}.dkr.ecr.eu-west-1.amazonaws.com/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
           docker tag ${{ github.sha }} ${ecr_repo_url}
@@ -569,7 +532,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076 # v2.0.1
 
       - name: Push Docker Image to AWS ECR product-staging
-        if: steps.image_scan.outcome == 'success' && env.deploymentEnabled == 'true' && env.environmentTenant == 'product'
+        if: env.deploymentEnabled == 'true' && env.environmentTenant == 'product'
         run: |
           ecr_repo_url="${{ vars.AWS_ACCOUNT_ID_PRODUCT_STAGING }}.dkr.ecr.eu-west-1.amazonaws.com/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
           docker tag ${{ github.sha }} ${ecr_repo_url}
@@ -590,7 +553,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076 # v2.0.1
 
       - name: Push Docker Image to AWS ECR product-production
-        if: steps.image_scan.outcome == 'success' && env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true' && env.environmentTenant == 'product'
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true' && env.environmentTenant == 'product'
         run: |
           ecr_repo_url="${{ vars.AWS_ACCOUNT_ID_PRODUCT_PRODUCTION }}.dkr.ecr.eu-west-1.amazonaws.com/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
           docker tag ${{ github.sha }} ${ecr_repo_url}
@@ -611,7 +574,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076 # v2.0.1
 
       - name: Push Docker Image to AWS ECR tooling-production
-        if: steps.image_scan.outcome == 'success' && env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true' && env.environmentTenant == 'tooling'
+        if: env.deploymentEnabled == 'true' && env.productionDeploymentEnabled == 'true' && env.environmentTenant == 'tooling'
         run: |
           ecr_repo_url="${{ vars.AWS_ACCOUNT_ID_TOOLING_PRODUCTION }}.dkr.ecr.eu-west-1.amazonaws.com/pleo/${{ github.event.repository.name }}:${{ github.sha }}"
           docker tag ${{ github.sha }} ${ecr_repo_url}
@@ -631,12 +594,25 @@ jobs:
           echo "deploymentEnabled=${{ env.deploymentEnabled }}" >> "$GITHUB_OUTPUT"
           echo "environmentTenant=${{ env.environmentTenant }}" >> "$GITHUB_OUTPUT"
 
+  wiz-cli:
+    name: Scan Image with Wiz CLI
+    uses: pleo-io/reusable-workflows/.github/workflows/wiz-cli.yaml@main
+    needs:
+      - publish-docker-image
+      - get-env-variables
+    with:
+      scan_container: false
+      container_tag: ${{ github.sha }}
+      deps_policy: Pleo-Default-vulnerabilities-policy
+    secrets: inherit
+
   trigger-deploy-gitops-product-dev:
     name: Trigger deployment (GitOps)- Update product-dev image
     concurrency: update-image-tag
     needs:
       - publish-docker-image
       - get-env-variables
+      - wiz-cli
     if: needs.get-env-variables.outputs.deploymentEnabled == 'true' && needs.get-env-variables.outputs.environmentTenant == 'product'
     uses: pleo-io/reusable-workflows/.github/workflows/update-image-tag.yaml@main
     with:
@@ -652,6 +628,7 @@ jobs:
     needs:
       - publish-docker-image
       - get-env-variables
+      - wiz-cli
     if: needs.get-env-variables.outputs.deploymentEnabled == 'true' && needs.get-env-variables.outputs.environmentTenant == 'product'
     uses: pleo-io/reusable-workflows/.github/workflows/update-image-tag.yaml@main
     with:
@@ -667,6 +644,7 @@ jobs:
     needs:
       - publish-docker-image
       - get-env-variables
+      - wiz-cli
     if: needs.get-env-variables.outputs.deploymentEnabled == 'true' && needs.get-env-variables.outputs.environmentTenant == 'tooling'
     uses: pleo-io/reusable-workflows/.github/workflows/update-image-tag.yaml@main
     with:
@@ -682,6 +660,7 @@ jobs:
     needs:
       - publish-docker-image
       - get-env-variables
+      - wiz-cli
     if: needs.get-env-variables.outputs.deploymentEnabled == 'true' && needs.get-env-variables.outputs.environmentTenant == 'data-integration'
     uses: pleo-io/reusable-workflows/.github/workflows/update-image-tag.yaml@main
     with:
@@ -697,6 +676,7 @@ jobs:
     needs:
       - publish-docker-image
       - get-env-variables
+      - wiz-cli
     if: needs.get-env-variables.outputs.deploymentEnabled == 'true' && needs.get-env-variables.outputs.environmentTenant == 'data-integration'
     uses: pleo-io/reusable-workflows/.github/workflows/update-image-tag.yaml@main
     with:
@@ -712,6 +692,7 @@ jobs:
     needs:
       - publish-docker-image
       - get-env-variables
+      - wiz-cli
     if: needs.get-env-variables.outputs.deploymentEnabled == 'true' && needs.get-env-variables.outputs.environmentTenant == 'data-integration'
     uses: pleo-io/reusable-workflows/.github/workflows/update-image-tag.yaml@main
     with:
