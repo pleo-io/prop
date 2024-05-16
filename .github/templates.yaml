@@ -17,4 +17,4 @@ values:
   sendOpsLevelVulnerabilityCheck: true
   deploymentEnabled: false
   runWizCliDepsScan: false
-  renovateCronjobSchedule: '25 6 * * 1-5' # At 06:25 on every day-of-week from Monday through Friday.
+  renovateCronjobSchedule: '25 6 * * 1-5' # This is UTC -> At 07:25 CET / 08:25 CEST on every day-of-week from Monday through Friday.
