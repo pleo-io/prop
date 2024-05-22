@@ -10,7 +10,7 @@ kotlinGuiceVersion = "3.0.0"
 kotlinVersion = "1.8.0"
 kotlinterGradleVersion = "3.16.0"
 logbackClassicVersion = "1.4.5"
-mockkVersion = "1.13.4"
+mockkVersion = "1.13.11"
 monetaVersion = "1.4.2"
 slf4jVersion = "2.0.6"
 
