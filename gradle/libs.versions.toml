@@ -11,7 +11,7 @@ kotlinVersion = "1.8.0"
 kotlinterGradleVersion = "3.16.0"
 logbackClassicVersion = "1.4.5"
 mockkVersion = "1.13.4"
-monetaVersion = "1.4.2"
+monetaVersion = "1.4.4"
 slf4jVersion = "2.0.6"
 
 [libraries]
