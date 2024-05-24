@@ -1,5 +1,4 @@
-version: v34.9.2
-
+version: v34.10.1
 files:
   - .autorc.json
   - .github/.kodiak.toml
@@ -8,7 +7,6 @@ files:
   - .github/workflows/pr-help.yaml
   - .github/workflows/release.yaml
   - .github/workflows/renovate_dependency_management.yaml
-
 values:
   autoRelease: true
   allowKodiakAutoMerge: true
