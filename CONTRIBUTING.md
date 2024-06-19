@@ -10,7 +10,7 @@ This document describes some processes and guidelines we follow as a team and wi
 
 When creating your PR, please add the following reviewers:
 
-- `@pleo-io/pegasus-backend` or individual members of your team
+- `@pleo-io/team-invoices` or individual members of your team
 
 Keep the number of reviewers small to make it obvious who is responsible for reviewing the PR.
 

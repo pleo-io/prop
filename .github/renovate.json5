@@ -2,6 +2,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "semanticCommitType": "fix",
   "extends": [
-    "local>pleo-io/renovate-config"
+    "github>pleo-io/renovate-config:default.json5"
   ]
 }
