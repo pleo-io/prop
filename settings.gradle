@@ -1,7 +1,0 @@
-rootProject.name = 'prop'
-
-include ':prop-core'
-include ':prop-commons-config'
-include ':prop-guice'
-include ':prop-jackson'
-include ':prop-all'
