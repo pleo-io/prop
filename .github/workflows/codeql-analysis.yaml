@@ -28,6 +28,7 @@ env:
   CONFIG_FILE: ""
   RUN_ON_DEFAULT_BRANCH: true
   GRADLE_SCRIPT_PATH: ./gradlew
+  RUN_WIZCLI_DEPS_SCAN: <<runWizCliDepsScan>>>
 
 jobs:
   preflight:
@@ -70,14 +71,20 @@ jobs:
         run: echo "WORKING_LANGUAGE=${{env[format('language_{0}', github.event.repository.language)]}}" >> "$GITHUB_OUTPUT"
 
   wiz-cli:
-    name: Scan Dependencies with Wiz CLI
+    name: Wiz-CLI
+    runs-on: ubuntu-latest
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'feature-deploy') && (github.ref != 'refs/heads/main' || github.event_name != 'push') }}
-    uses: pleo-io/reusable-workflows/.github/workflows/wiz-cli.yaml@main
-    with:
-      scan_deps: false
-      deps_scan_path: .
-      deps_policy: Pleo-Default-vulnerabilities-policy
-    secrets: inherit
+    steps:
+      - name: Scan Dependencies with Wiz-CLI
+        uses: pleo-io/reusable-actions/wizcli@main
+        if: ${{ env.RUN_WIZCLI_DEPS_SCAN == 'true' }}
+        with:
+          scan_deps: ${{ env.RUN_WIZCLI_DEPS_SCAN }}
+          deps_scan_path: .
+          deps_policy: Pleo-Default-vulnerabilities-policy
+          wiz_client_id: ${{ secrets.WIZ_CLIENT_ID }}
+          wiz_client_secret: ${{ secrets.WIZ_CLIENT_SECRET }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   analyze-code:
     name: Analyze code with CodeQL
@@ -92,7 +99,7 @@ jobs:
       security-events: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
       - name: Set Working Language
         run: echo "WORKING_LANGUAGE=${{needs.preflight.outputs.working_language}}" >> "$GITHUB_ENV"
       # Set up a JDK environment for building, testing and releasing.
@@ -120,7 +127,7 @@ jobs:
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@d39d31e687223d841ef683f52467bd88e9b21c14 # v3
+        uses: github/codeql-action/init@9fdb3e49720b44c48891d036bb502feb25684276 # v3
         with:
           languages: ${{ github.event.repository.language }}
           ram: 4096
@@ -137,6 +144,6 @@ jobs:
           JOB_RUNR_REPO_PASSWORD: ${{ secrets.JOB_RUNR_REPO_PASSWORD }}
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@d39d31e687223d841ef683f52467bd88e9b21c14 # v3
+        uses: github/codeql-action/analyze@9fdb3e49720b44c48891d036bb502feb25684276 # v3
         with:
           ram: 4096
