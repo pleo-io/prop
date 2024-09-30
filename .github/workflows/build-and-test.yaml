@@ -104,11 +104,10 @@ jobs:
 
       # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@db19848a5fa7950289d3668fb053140cf3028d43 # v3.3.2
+        uses: gradle/actions/setup-gradle@d156388eb19639ec20ade50009f3d199ce1e2808 # v4.1.0
         with:
-          gradle-version: wrapper
-          cache-read-only: ${{ github.event.repository.default_branch != github.ref_name }}
-          dependency-graph: ${{ github.event.repository.default_branch == github.ref_name && 'generate-and-submit' || 'disabled' }}
+          # Cache only updated on release.
+          cache-read-only: true
 
         # Check whether the project builds.
       - name: Gradle Build

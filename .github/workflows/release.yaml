@@ -45,9 +45,9 @@ jobs:
 
       # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@db19848a5fa7950289d3668fb053140cf3028d43 # v3.3.2
+        uses: gradle/actions/setup-gradle@d156388eb19639ec20ade50009f3d199ce1e2808 # v4.1.0
         with:
-          gradle-version: wrapper
+          # Cache only updated on release.
           cache-read-only: true
 
       # Allow caching the Auto executable to speed up CI/CD steps by not re-downloading Auto.
@@ -162,9 +162,9 @@ jobs:
 
       # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@db19848a5fa7950289d3668fb053140cf3028d43 # v3.3.2
+        uses: gradle/actions/setup-gradle@d156388eb19639ec20ade50009f3d199ce1e2808 # v4.1.0
         with:
-          gradle-version: wrapper
+          # Cache only updated on release.
           cache-read-only: true
 
       # Setup Node for TS/JS/Node client generation.
@@ -278,11 +278,14 @@ jobs:
 
       # Allow caching Gradle executions to further speed up CI/CD steps invoking Gradle.
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@db19848a5fa7950289d3668fb053140cf3028d43 # v3.3.2
+        uses: gradle/actions/setup-gradle@d156388eb19639ec20ade50009f3d199ce1e2808 # v4.1.0
         with:
-          gradle-version: wrapper
-          gradle-home-cache-cleanup: true
-          cache-read-only: true
+          # Clean the gradle user dir from unused entries before writing it back to the cache.
+          cache-cleanup: on-success
+          # Update the cache entry during the release when main is updated to be used by all other jobs.
+          cache-read-only: false
+          # Push new dependency graph for changes merged to main.
+          dependency-graph: ${{ github.event.repository.default_branch == github.ref_name && 'generate-and-submit' || 'disabled' }}
 
       # Setup a Node environment to allow publishing to the private GitHub NPM package repository.
       - name: Setup Node
