@@ -36,11 +36,24 @@
     }
   ],
   "plugins": [
-    ["git-tag"],
+    [
+      "git-tag"
+    ],
     [
       "omit-release-notes",
       {
-        "username": ["pleo-bot-renovate"]
+        "username": [
+          "pleo-bot-renovate",
+          "pleo-bot"
+        ]
+      }
+    ],
+    [
+      "omit-commits",
+      {
+        "email": [
+          "github-actions+update-image-tag@pleo.io"
+        ]
       }
     ]
   ]

@@ -15,10 +15,12 @@ import org.apache.commons.configuration2.event.EventType
 class CompositeConfigurationBuilder : ConfigurationBuilder<CompositeConfiguration> {
     sealed interface BuilderOrConfiguration {
         fun isEqual(item: ConfigurationBuilder<*>) = this is BuilderWrapper && builder === item
+
         fun isEqual(item: Configuration) = this is ConfigurationWrapper && configuration === item
     }
 
     private class BuilderWrapper(val builder: ConfigurationBuilder<*>) : BuilderOrConfiguration
+
     private class ConfigurationWrapper(val configuration: Configuration) : BuilderOrConfiguration
 
     private lateinit var result: CompositeConfiguration
@@ -27,19 +29,16 @@ class CompositeConfigurationBuilder : ConfigurationBuilder<CompositeConfiguratio
     private val eventListeners: EventListenerList = EventListenerList()
 
     private fun ConfigurationBuilder<*>.wrap() = BuilderWrapper(this)
+
     private fun Configuration.wrap() = ConfigurationWrapper(this)
 
-    private operator fun MutableList<BuilderOrConfiguration>.contains(item: ConfigurationBuilder<*>) =
-        any { it.isEqual(item) }
+    private operator fun MutableList<BuilderOrConfiguration>.contains(item: ConfigurationBuilder<*>) = any { it.isEqual(item) }
 
-    private operator fun MutableList<BuilderOrConfiguration>.contains(item: Configuration) =
-        any { it.isEqual(item) }
+    private operator fun MutableList<BuilderOrConfiguration>.contains(item: Configuration) = any { it.isEqual(item) }
 
-    private fun MutableList<BuilderOrConfiguration>.remove(item: ConfigurationBuilder<*>) =
-        removeIf { it.isEqual(item) }
+    private fun MutableList<BuilderOrConfiguration>.remove(item: ConfigurationBuilder<*>) = removeIf { it.isEqual(item) }
 
-    private fun MutableList<BuilderOrConfiguration>.remove(item: Configuration) =
-        removeIf { it.isEqual(item) }
+    private fun MutableList<BuilderOrConfiguration>.remove(item: Configuration) = removeIf { it.isEqual(item) }
 
     fun add(item: ConfigurationBuilder<*>): Boolean =
         synchronized(items) {
@@ -60,16 +59,23 @@ class CompositeConfigurationBuilder : ConfigurationBuilder<CompositeConfiguratio
         }
 
     fun remove(item: ConfigurationBuilder<*>): Boolean = synchronized(items) { items.remove(item) }
+
     fun remove(item: Configuration): Boolean = synchronized(items) { items.remove(item) }
 
-    override fun <T : Event> addEventListener(eventType: EventType<T>, listener: EventListener<in T>) {
+    override fun <T : Event> addEventListener(
+        eventType: EventType<T>,
+        listener: EventListener<in T>,
+    ) {
         eventListeners.addEventListener(eventType, listener)
         if (isResultInitialised) {
             result.addEventListener(eventType, listener)
         }
     }
 
-    override fun <T : Event?> removeEventListener(eventType: EventType<T>?, listener: EventListener<in T>?): Boolean {
+    override fun <T : Event?> removeEventListener(
+        eventType: EventType<T>?,
+        listener: EventListener<in T>?,
+    ): Boolean {
         if (isResultInitialised) {
             result.removeEventListener(eventType, listener)
         }
@@ -102,15 +108,15 @@ class CompositeConfigurationBuilder : ConfigurationBuilder<CompositeConfiguratio
                 ConfigurationBuilderResultCreatedEvent(
                     this,
                     ConfigurationBuilderResultCreatedEvent.RESULT_CREATED,
-                    compositeConfiguration
-                )
+                    compositeConfiguration,
+                ),
             )
         }
     }
 
     private fun <E : Event> registerListener(
         eventSource: EventSource,
-        registrationData: EventListenerRegistrationData<E>
+        registrationData: EventListenerRegistrationData<E>,
     ) {
         eventSource.addEventListener(registrationData.eventType, registrationData.listener)
     }

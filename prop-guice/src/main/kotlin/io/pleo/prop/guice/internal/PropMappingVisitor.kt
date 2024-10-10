@@ -20,7 +20,8 @@ import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.Optional.ofNullable
 import java.util.function.Predicate
-import javax.inject.Named
+import com.google.inject.name.Named as GoogleNamed
+import jakarta.inject.Named as JakartaNamed
 
 typealias PropResult = Result<Prop<*>>
 
@@ -31,7 +32,7 @@ typealias PropResult = Result<Prop<*>>
 class PropMappingVisitor(
     filter: Predicate<TypeLiteral<*>>,
     private val propFactory: PropFactory,
-    private val parserFactory: ParserFactory
+    private val parserFactory: ParserFactory,
 ) : DefaultElementVisitor<Map<Key<Prop<*>>, PropResult>>() {
     private val injectionPointExtractor: InjectionPointExtractor = InjectionPointExtractor(filter)
 
@@ -69,10 +70,11 @@ class PropMappingVisitor(
 
     private fun extractProps(injectionPoint: InjectionPoint?): Map<Key<Prop<*>>, PropResult> =
         buildMap {
-            val parameters = (injectionPoint?.member as? Executable)
-                ?.parameters
-                ?.toList()
-                ?: return@buildMap
+            val parameters =
+                (injectionPoint?.member as? Executable)
+                    ?.parameters
+                    ?.toList()
+                    ?: return@buildMap
 
             injectionPoint.dependencies
                 .filterIsPropDependency()
@@ -90,8 +92,10 @@ class PropMappingVisitor(
                 it.key.typeLiteral.type is ParameterizedType
         } as List<Dependency<Prop<*>>>
 
-    private fun <K, V> MutableMap<K, Result<V>>.buildAndSet(key: K, builder: () -> V) =
-        set(key, runCatching(builder))
+    private fun <K, V> MutableMap<K, Result<V>>.buildAndSet(
+        key: K,
+        builder: () -> V,
+    ) = set(key, runCatching(builder))
 
     private fun Parameter.toProp(key: Key<*>): Prop<*> {
         val propertyName: String = getNamedAnnotationValue(annotations.toList(), key)
@@ -99,16 +103,17 @@ class PropMappingVisitor(
 
         try {
             val annotation = getAnnotation(Default::class.java)
-            val defaultValue = ofNullable<Default>(annotation)
-                .map(Default::value)
-                .map(parser)
-                .orElse(null)
+            val defaultValue =
+                ofNullable<Default>(annotation)
+                    .map(Default::value)
+                    .map(parser)
+                    .orElse(null)
 
             @Suppress("UNCHECKED_CAST")
             return propFactory.createProp(
                 propertyName,
                 parser as Parser<Any>,
-                defaultValue
+                defaultValue,
             )
         } catch (ex: RuntimeException) {
             throw FailedToCreatePropException(propertyName, ex)
@@ -121,14 +126,17 @@ class PropMappingVisitor(
         return parserFactory.createParserForType(type)
     }
 
-    private fun getNamedAnnotationValue(annotations: List<Annotation>, key: Key<*>): String =
+    private fun getNamedAnnotationValue(
+        annotations: List<Annotation>,
+        key: Key<*>,
+    ): String =
         annotations.mapNotNull(::annotationValueIfNamed).lastOrNull()
             ?: throw RequiredNamedAnnotationException(key)
 
     private fun annotationValueIfNamed(annotation: Annotation): String? =
         when (annotation) {
-            is Named -> annotation.value
-            is com.google.inject.name.Named -> annotation.value
+            is JakartaNamed -> annotation.value
+            is GoogleNamed -> annotation.value
             else -> null
         }?.ifEmpty { null }
 }
