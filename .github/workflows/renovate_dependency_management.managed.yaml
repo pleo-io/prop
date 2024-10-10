@@ -21,7 +21,7 @@ concurrency: renovate
 
 jobs:
   call-workflow:
-    uses: pleo-io/renovate-config/.github/workflows/[custom]_reusable_run-renovate.yaml@main
+    uses: pleo-io/renovate-config/.github/workflows/run-renovate.reusable-external.yaml@main
     with:
       logLevel: ${{ inputs.logLevel || 'info' }}
     secrets: inherit
