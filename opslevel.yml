@@ -3,7 +3,7 @@ version: 1
 service:
   name: Prop
   lifecycle: generally_available
-  owner: team-invoices
+  owner: team-accounts-payable
   language: Kotlin
   description: |-
     Simple auto-discovered dynamic properties for your app!
