@@ -1,0 +1,40 @@
+---
+# (required) Owner must map to a valid automated-teams team name, which should be a child team of https://github.com/orgs/pleo-io/teams/automated-teams
+# The team name must not include the `pleo-io/` prefix
+steward: team-accounts-payable
+
+# Any tags relevant to your components and/or mandated by platform teams
+tags:
+
+  # Describes type of component the repository defines.
+  #
+  # Use:
+  #  - `type: service` for web services (moons)
+  #  - `type: application` for downloadable software (such as an iOS/Android app,
+  #     CLI tool, standalone executable). This also includes e.g. web apps.
+  #  - `type: library` for software used by other components
+  #  - `type: configuration` for repos that contain pure configuration (such as
+  #    setup of DangerJS or Renovate).
+  #  - `type: documentation` for repos that mostly contain documentation.
+  #  - `type: hiring-challenge` for our hiring challenges.
+  type: library
+  open-source: "true"
+
+# (optional) Relevant repositories which are relevant to this component excluding the repository hosting this file. The current repository will be linked by default in Port.
+# Example: Terraform folder which hosts the architecture definition for a backend service (moon)
+# related_repositories:
+#   - name: pleo-io/terraform
+#     path: /components/moons/potato
+#     provider: terraform
+#     display_name: potato @ terraform
+
+# (optional) Any internal or external tool linked to this application such as monitors, logs, documentation, third-party apps, etc.
+# tools:
+#   - name: "Datadog logs: product-dev"
+#     url: https://app.datadoghq.eu/logs?query=env%3Aproduct-dev&agg_m=count&agg_m_source=base&agg_t=count&messageDisplay=inline&storage=hot&stream_sort=desc&viz=streams
+
+# (optional) The notion page related to this application or owning team
+# notion: https://www.notion.so/pleo/
+
+# (optional) A linear view with issues relevant to this application or a link to the linear team for the owning team
+# linear: https://linear.app/pleo/
