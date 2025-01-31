@@ -3,6 +3,12 @@
 # The team name must not include the `pleo-io/` prefix
 steward: team-accounts-payable
 
+# (optional) Add your slack channel name in case it doesn't have the format "<<team-name>>-public" like for example "team-devx-public
+# slack_channel: dummy-channel
+
+# (optional) The description for this component will be picked up from the related GitHub repository. If you need to provide a different one, you can use this field
+# description: This is a description about your component
+
 # Any tags relevant to your components and/or mandated by platform teams
 tags:
 
