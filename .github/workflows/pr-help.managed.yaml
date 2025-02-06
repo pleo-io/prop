@@ -33,8 +33,8 @@ jobs:
           review-message: "This has been auto-approved by @pleo-bot-auto-approver. If your PR isn't being auto-merged as desired, make sure to add @pleo-bot-auto-approver to the CODEOWNERS file. More details how to use Renovate [here](https://www.notion.so/pleo/How-to-use-Renovate-781e4861200744c6b38d3efd8c6d525a?pvs=4)"
 
   automerge-pr:
-    # This job is used to to replace Kodiak which fails in repos that use Github's merge queue
-    # The main use case is to automerge PRs created by file-distirbutor
+    # This job is used to replace Kodiak which fails in repos that use GitHub's merge queue
+    # The main use case is to automerge PRs created by file-distributor
     name: Detecting Label "automerge"
     runs-on: ubuntu-latest
     if: ${{ github.event.label.name == 'automerge' }}
